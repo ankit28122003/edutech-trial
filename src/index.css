@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base layer only: resets & defaults that Tailwind's preflight doesn't cover.
+   All component/page styling is done with Tailwind utility classes — no custom CSS elsewhere. */
+@layer base {
+  html {
+    scroll-behavior: auto; /* Lenis takes over smooth scrolling */
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: #2541f0;
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2541f0;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
