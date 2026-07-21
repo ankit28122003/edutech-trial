@@ -33,7 +33,7 @@ export default function MobileMenu({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && (    
         <>
           <motion.div
             initial={{ opacity: 0 }}

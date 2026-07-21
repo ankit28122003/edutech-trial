@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, ChevronDown, GraduationCap } from 'lucide-react';
 import { NAV_LINKS } from '../../lib/constants';
@@ -12,6 +12,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMegaOpen, setIsMegaOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const closeTimeoutRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 12);
@@ -19,6 +20,30 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Clear any pending close timer on unmount so it never fires after the component is gone.
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
+
+  function openMegaMenu() {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsMegaOpen(true);
+  }
+
+  // Close only after a short delay — if the mouse re-enters the button or the
+  // panel within that window (e.g. while crossing the gap between them),
+  // openMegaMenu() cancels this timer and the menu stays open.
+  function scheduleMegaMenuClose() {
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsMegaOpen(false);
+    }, 300);
+  }
 
   return (
     <header
@@ -35,11 +60,12 @@ export default function Navbar() {
           <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setIsMegaOpen(false)}>
+        <nav className="hidden items-center gap-1 lg:flex">
           <button
             type="button"
-            onMouseEnter={() => setIsMegaOpen(true)}
-            onClick={() => setIsMegaOpen((v) => !v)}
+            onMouseEnter={openMegaMenu}
+            onMouseLeave={scheduleMegaMenuClose}
+            onClick={() => (isMegaOpen ? setIsMegaOpen(false) : openMegaMenu())}
             className={cn(
               'flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors',
               isMegaOpen ? 'bg-surface-alt text-ink' : 'text-ink-muted hover:bg-surface-alt hover:text-ink'
@@ -89,7 +115,12 @@ export default function Navbar() {
         </div>
       </div>
 
-      <MegaMenu isOpen={isMegaOpen} onClose={() => setIsMegaOpen(false)} />
+      <MegaMenu
+        isOpen={isMegaOpen}
+        onClose={() => setIsMegaOpen(false)}
+        onMouseEnter={openMegaMenu}
+        onMouseLeave={scheduleMegaMenuClose}
+      />
       <MobileMenu isOpen={isMobileOpen} onClose={() => setIsMobileOpen(false)} />
     </header>
   );

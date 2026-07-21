@@ -6,7 +6,7 @@ import { DOMAINS } from '../../data/domains';
 import { COURSES } from '../../data/courses';
 import { cn } from '../../lib/utils';
 
-export default function MegaMenu({ isOpen, onClose }) {
+export default function MegaMenu({ isOpen, onClose , onMouseEnter, onMouseLeave }) {
   const [activeDomain, setActiveDomain] = useState(DOMAINS[0].name);
   const activeCourses = COURSES.filter((c) => c.category === activeDomain).slice(0, 3);
 
@@ -18,7 +18,8 @@ export default function MegaMenu({ isOpen, onClose }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          onMouseLeave={onClose}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           className="absolute left-0 right-0 top-full z-40 border-b border-ink/[0.06] bg-white shadow-panel"
         >
           <div className="mx-auto grid max-w-7xl grid-cols-12 gap-8 px-6 py-8 lg:px-8">
