@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { NAV_LINKS } from '../../lib/constants';
@@ -7,6 +8,29 @@ import CurrencySwitcher from './CurrencySwitcher';
 import Button from '../ui/Button';
 
 export default function MobileMenu({ isOpen, onClose }) {
+  const location = useLocation();
+
+  // Belt-and-suspenders fix: whenever the route changes, force the menu closed,
+  // regardless of whether the click handler that triggered navigation also fired onClose.
+  useEffect(() => {
+    if (isOpen) onClose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  // Lock body scroll while the menu is open, and always allow Escape to close it.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    document.body.style.overflow = 'hidden';
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') onClose();
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -28,6 +52,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             <div className="flex items-center justify-between">
               <span className="font-display text-lg font-semibold">Menu</span>
               <button
+                type="button"
                 onClick={onClose}
                 aria-label="Close menu"
                 className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-surface-alt"
