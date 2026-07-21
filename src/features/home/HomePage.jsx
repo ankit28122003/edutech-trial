@@ -22,7 +22,7 @@ export default function HomePage() {
       <StatsBand />
       <CertifyingBodies />
       <DomainGrid />
-      <OutcomeCards />
+      {/* <OutcomeCards /> */}
       <FeaturedCourses />
       <HowItWorks />
       <Testimonials />
