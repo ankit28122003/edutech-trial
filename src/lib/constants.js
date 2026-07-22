@@ -2,8 +2,8 @@ export const SITE_NAME = 'Edutech Skills';
 
 export const NAV_LINKS = [
   { label: 'Home', to: '/' },
-  { label: 'AI Courses', to: '/courses?category=Artificial+Intelligence' },
-  { label: 'Blog', to: '/blog' },
+  // { label: 'AI Courses', to: '/courses?category=Artificial+Intelligence' },
+  // { label: 'Blog', to: '/blog' },
 ];
 
 export const CONTACT_INFO = {

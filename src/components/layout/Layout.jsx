@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import ScrollToTop from '../common/ScrollToTop';
 import WhatsAppButton from '../common/WhatsAppButton';
+import ContactPopupModal from '../common/ContactPopupModal';
 
 export default function Layout() {
   useLenis();
@@ -24,6 +25,7 @@ export default function Layout() {
       </main>
       <Footer />
       <WhatsAppButton />
+      <ContactPopupModal />
       <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
     </div>
   );

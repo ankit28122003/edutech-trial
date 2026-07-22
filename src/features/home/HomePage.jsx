@@ -26,6 +26,8 @@ export default function HomePage() {
       <FeaturedCourses />
       <HowItWorks />
       <Testimonials />
+
+      
       <LearnerStories />
       <CTASection />
     </>

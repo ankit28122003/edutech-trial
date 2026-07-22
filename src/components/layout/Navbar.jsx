@@ -54,14 +54,12 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white">
-            <GraduationCap size={18} />
-          </span>
-          <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span>
+          <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-10 w-auto" />
+          {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          <button
+          {/* <button
             type="button"
             onMouseEnter={openMegaMenu}
             onMouseLeave={scheduleMegaMenuClose}
@@ -73,7 +71,7 @@ export default function Navbar() {
           >
             All Courses
             <ChevronDown size={14} className={cn('transition-transform', isMegaOpen && 'rotate-180')} />
-          </button>
+          </button> */}
           {NAV_LINKS.filter((l) => l.label !== 'Home').map((link) => (
             <NavLink
               key={link.label}
@@ -88,9 +86,9 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          <span className="rounded-full px-4 py-2 text-sm font-medium text-ink-soft">
+          {/* <span className="rounded-full px-4 py-2 text-sm font-medium text-ink-soft">
             Practice Test <span className="ml-1 rounded-full bg-accent-50 px-2 py-0.5 text-[10px] font-semibold text-accent-600">Soon</span>
-          </span>
+          </span> */}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -101,9 +99,9 @@ export default function Navbar() {
           <Button to="/login" variant="outline" size="sm" className="hidden sm:inline-flex">
             Login
           </Button>
-          <Button to="/contact" variant="accent" size="sm" className="hidden md:inline-flex">
+          {/* <Button to="/contact" variant="accent" size="sm" className="hidden md:inline-flex">
             Enroll Now
-          </Button>
+          </Button> */}
           <button
             type="button"
             onClick={() => setIsMobileOpen(true)}

@@ -38,11 +38,9 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
           <div className="col-span-2 md:col-span-2">
-            <Link to="/" className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white">
-                <GraduationCap size={18} />
-              </span>
-              <span className="font-display text-lg font-semibold text-ink">Edutech Skills</span>
+            <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
+              <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-10 w-auto" />
+              {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
               Mentor-led certification programs in Agile, AI, Cloud, Cyber Security and DevOps — built to get you

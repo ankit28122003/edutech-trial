@@ -72,13 +72,13 @@ export default function MobileMenu({ isOpen, onClose }) {
                   {link.label}
                 </Link>
               ))}
-              <Link
+              {/* <Link
                 to="/courses"
                 onClick={onClose}
                 className="block rounded-lg px-3 py-3 text-base font-medium text-ink hover:bg-surface-alt"
               >
                 All Courses
-              </Link>
+              </Link> */}
             </nav>
 
             <div className="mt-6 border-t border-ink/10 pt-6">

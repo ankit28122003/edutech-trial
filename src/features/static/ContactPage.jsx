@@ -92,7 +92,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <Reveal>
+        <Reveal className="mt-10">
           <form onSubmit={handleSubmit} noValidate className="rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
             <h2 className="text-xl font-semibold text-ink">Send us a message</h2>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
