@@ -34,3 +34,17 @@ export function getFieldErrors(schema, values) {
   }
   return { errors, data: null };
 }
+
+export const advisorPopupSchema = z.object({
+  name: z.string().min(2, 'Enter your full name'),
+  email: z.string().min(1, 'Email is required').email('Enter a valid email address'),
+  countryCode: z.string().min(1, 'Select a code'),
+  phone: z
+    .string()
+    .min(7, 'Enter a valid phone number')
+    .regex(/^[0-9\s-]+$/, 'Digits only, please'),
+  purpose: z.string().min(1, 'Select a purpose'),
+  agree: z.literal(true, {
+    errorMap: () => ({ message: 'Please accept the Terms & Conditions to continue' }),
+  }),
+});

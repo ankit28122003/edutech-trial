@@ -6,6 +6,22 @@ export const NAV_LINKS = [
   // { label: 'Blog', to: '/blog' },
 ];
 
+export const ADVISOR_PURPOSES = [
+  'Course Enrollment',
+  'Corporate Training',
+  'Career Guidance',
+  'Become an Instructor',
+  'Partnership / Affiliate',
+  'Something Else',
+];
+
+export const COUNTRY_CODES = [
+  { code: '+91', label: '🇮🇳 +91' },
+  { code: '+1', label: '🇺🇸 +1' },
+  { code: '+44', label: '🇬🇧 +44' },
+];
+
+
 export const CONTACT_INFO = {
   whatsappUS: { label: 'WhatsApp (USA) +1 (609) 755-7491', href: 'https://wa.me/16097557491' },
   callUS: { label: 'Call (USA) +1-609-628-0221', href: 'tel:+16096280221' },
