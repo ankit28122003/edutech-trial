@@ -1,39 +1,57 @@
-import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { NAV_LINKS } from '../../lib/constants';
 import { DOMAINS } from '../../data/domains';
 import CurrencySwitcher from './CurrencySwitcher';
-import Button from '../ui/Button';
 
 export default function MobileMenu({ isOpen, onClose }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const prevPathRef = useRef(location.pathname);
 
-  // Belt-and-suspenders fix: whenever the route changes, force the menu closed,
-  // regardless of whether the click handler that triggered navigation also fired onClose.
-  useEffect(() => {
-    if (isOpen) onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  // Navigate and close the menu in one synchronous action.
+  function handleNavigate(to) {
+    onClose();
+    // Use setTimeout to let the close state propagate first, then navigate.
+    setTimeout(() => navigate(to), 50);
+  }
 
-  // Lock body scroll while the menu is open, and always allow Escape to close it.
+  // When the route changes externally (e.g. browser back/forward), close the menu.
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (prevPathRef.current !== location.pathname) {
+      prevPathRef.current = location.pathname;
+      onClose();
+    }
+    // Update ref on every render so the next comparison works.
+    prevPathRef.current = location.pathname;
+  });
+
+  // Stop Lenis / body scroll while menu is open, and allow Escape to close.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.dispatchEvent(new CustomEvent('lenis-stop'));
     document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+
     function handleKeyDown(e) {
       if (e.key === 'Escape') onClose();
     }
     window.addEventListener('keydown', handleKeyDown);
+
     return () => {
+      window.dispatchEvent(new CustomEvent('lenis-start'));
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
-      {isOpen && (    
+      {isOpen && (
         <>
           <motion.div
             initial={{ opacity: 0 }}
@@ -63,53 +81,55 @@ export default function MobileMenu({ isOpen, onClose }) {
 
             <nav className="mt-6 space-y-1">
               {NAV_LINKS.map((link) => (
-                <Link
+                <button
                   key={link.label}
-                  to={link.to}
-                  onClick={onClose}
-                  className="block rounded-lg px-3 py-3 text-base font-medium text-ink hover:bg-surface-alt"
+                  type="button"
+                  onClick={() => handleNavigate(link.to)}
+                  className="block w-full rounded-lg px-3 py-3 text-left text-base font-medium text-ink hover:bg-surface-alt"
                 >
                   {link.label}
-                </Link>
+                </button>
               ))}
-              {/* <Link
-                to="/courses"
-                onClick={onClose}
-                className="block rounded-lg px-3 py-3 text-base font-medium text-ink hover:bg-surface-alt"
-              >
-                All Courses
-              </Link> */}
             </nav>
 
             <div className="mt-6 border-t border-ink/10 pt-6">
               <p className="mb-3 font-mono text-xs uppercase tracking-wider text-ink-soft">Domains</p>
               <div className="grid grid-cols-2 gap-2">
                 {DOMAINS.map((domain) => (
-                  <Link
+                  <button
                     key={domain.id}
-                    to={`/courses?category=${encodeURIComponent(domain.name)}`}
-                    onClick={onClose}
-                    className="rounded-lg border border-ink/[0.06] px-3 py-2.5 text-sm text-ink-muted hover:border-primary-200 hover:text-ink"
+                    type="button"
+                    onClick={() => handleNavigate(`/courses?category=${encodeURIComponent(domain.name)}`)}
+                    className="rounded-lg border border-ink/[0.06] px-3 py-2.5 text-left text-sm text-ink-muted hover:border-primary-200 hover:text-ink"
                   >
                     {domain.icon} {domain.name}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
 
             <div className="mt-6 flex items-center justify-between border-t border-ink/10 pt-6">
               <CurrencySwitcher />
-              <Button to="/contact" size="sm" variant="outline" onClick={onClose}>
+              <button
+                type="button"
+                onClick={() => handleNavigate('/contact')}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink transition-all duration-200 hover:border-ink/30 hover:bg-surface-alt focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
                 Contact
-              </Button>
+              </button>
             </div>
 
-            <Button to="/login" onClick={onClose} className="mt-4 w-full">
+            <button
+              type="button"
+              onClick={() => handleNavigate('/login')}
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
               Login
-            </Button>
+            </button>
           </motion.div>
         </>
       )}
     </AnimatePresence>
   );
 }
+

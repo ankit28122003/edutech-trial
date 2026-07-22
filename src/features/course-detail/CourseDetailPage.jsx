@@ -12,6 +12,7 @@ import EmptyState from '../../components/ui/EmptyState';
 import Button from '../../components/ui/Button';
 import CourseCurriculum from './CourseCurriculum';
 import CoursePricingCard from './CoursePricingCard';
+import CourseContactForm from './CourseContactForm';
 import { getCourseBySlug } from '../../services/courseService';
 
 export default function CourseDetailPage() {
@@ -119,7 +120,7 @@ export default function CourseDetailPage() {
           </div>
 
           <div className="lg:sticky lg:top-24">
-            <CoursePricingCard course={course} />
+            <CourseContactForm courseTitle={course.title} />
           </div>
         </Container>
       </div>
@@ -166,8 +167,12 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
-        {/* Spacer column to keep the sticky pricing card's grid width consistent on desktop */}
-        <div className="hidden lg:block" aria-hidden="true" />
+        {/* Pricing card moved to this section */}
+        <div>
+          <div className="lg:sticky lg:top-24">
+            <CoursePricingCard course={course} />
+          </div>
+        </div>
       </Section>
     </>
   );
