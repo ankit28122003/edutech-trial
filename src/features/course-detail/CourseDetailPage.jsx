@@ -71,6 +71,7 @@ export default function CourseDetailPage() {
         canonicalPath={`/course/${course.slug}`}
       />
 
+      {/* Hero Section — Left: Info | Right: Leadership Image (replaces form) */}
       <div className="border-b border-ink/[0.06] bg-surface-alt">
         <Container className="grid grid-cols-1 gap-10 py-10 sm:py-14 lg:grid-cols-[1fr_380px] lg:items-start">
           <div>
@@ -119,61 +120,82 @@ export default function CourseDetailPage() {
             </Reveal>
           </div>
 
-          <div className="lg:sticky lg:top-24">
-            <CourseContactForm courseTitle={course.title} />
+          {/* Leadership Image replacing the form in hero */}
+          <div className="overflow-hidden rounded-2xl lg:sticky lg:top-24">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop"
+              alt="Professional leading a team"
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+            <div className="bg-gradient-to-t from-ink/80 via-ink/20 to-transparent p-6 -mt-20 relative z-10">
+              <p className="text-lg font-semibold text-white">Lead with Confidence</p>
+              <p className="text-sm text-white/80">Expert mentorship — real outcomes</p>
+            </div>
           </div>
         </Container>
       </div>
 
-      <Section className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
-        <div className="space-y-14">
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">What You'll Learn</h2>
-            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {course.whatYouWillLearn.map((point) => (
-                <li key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">Curriculum</h2>
-            <p className="mt-2 text-sm text-ink-muted">
-              {course.curriculum.length} modules • {course.duration} total
-            </p>
-            <div className="mt-5">
-              <CourseCurriculum curriculum={course.curriculum} />
+      {/* Section 2 — Content (Left) | Contact Form (Right, beside What You'll Learn) */}
+      <Section>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
+          {/* Left column: What You'll Learn → Curriculum → Mentor → Pricing Card */}
+          <div className="space-y-14">
+            {/* What You'll Learn */}
+            <div>
+              <h2 className="text-2xl font-semibold text-ink">What You'll Learn</h2>
+              <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {course.whatYouWillLearn.map((point) => (
+                  <li key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
+                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold text-ink">Your Mentor</h2>
-            <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-6 sm:flex-row sm:items-center">
-              <img
-                src={course.instructor.avatar}
-                alt=""
-                className="h-16 w-16 shrink-0 rounded-full object-cover"
-                loading="lazy"
-              />
-              <div>
-                <p className="font-semibold text-ink">{course.instructor.name}</p>
-                <p className="text-sm text-primary-600">{course.instructor.title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{course.instructor.bio}</p>
+            {/* Curriculum */}
+            <div>
+              <h2 className="text-2xl font-semibold text-ink">Curriculum</h2>
+              <p className="mt-2 text-sm text-ink-muted">
+                {course.curriculum.length} modules • {course.duration} total
+              </p>
+              <div className="mt-5">
+                <CourseCurriculum curriculum={course.curriculum} />
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Pricing card moved to this section */}
-        <div>
-          <div className="lg:sticky lg:top-24">
-            <CoursePricingCard course={course} />
+            {/* Mentor */}
+            <div>
+              <h2 className="text-2xl font-semibold text-ink">Your Mentor</h2>
+              <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-6 sm:flex-row sm:items-center">
+                <img
+                  src={course.instructor.avatar}
+                  alt=""
+                  className="h-16 w-16 shrink-0 rounded-full object-cover"
+                  loading="lazy"
+                />
+                <div>
+                  <p className="font-semibold text-ink">{course.instructor.name}</p>
+                  <p className="text-sm text-primary-600">{course.instructor.title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{course.instructor.bio}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing Card — stays in left column */}
+            <div>
+              <CoursePricingCard course={course} />
+            </div>
+          </div>
+
+          {/* Right column: Contact Form — sticky, directly beside What You'll Learn */}
+          <div className="lg:sticky lg:top-24 self-start">
+            <CourseContactForm courseTitle={course.title} />
           </div>
         </div>
       </Section>
     </>
   );
 }
+

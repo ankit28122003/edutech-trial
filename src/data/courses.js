@@ -41,6 +41,45 @@ export const COURSES = [
     },
   },
   {
+    id: 'c2-pmp',
+    slug: 'pmp-certification',
+    title: 'PMP® Project Management Professional',
+    category: 'Project Management',
+    format: 'Program',
+    duration: '35 Hours',
+    level: 'Advanced',
+    rating: 4.9,
+    reviewCount: 2147,
+    trending: true,
+    priceINR: 25999,
+    originalPriceINR: 51998,
+    logo: '💎',
+    heroImage:
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop',
+    shortDescription:
+      'The gold-standard certification for project managers — globally recognized across every industry.',
+    longDescription:
+      'The PMP certification is the most sought-after project management credential worldwide. This program covers the PMBOK Guide 7th Edition, agile and hybrid approaches, and prepares you to pass the PMP exam on your first attempt with confidence.',
+    whatYouWillLearn: [
+      'Lead and manage projects across predictive, agile, and hybrid approaches',
+      'Master people, process, and business environment domains',
+      'Navigate the full PMBOK Guide 7th Edition framework',
+      'Pass the PMP exam on your first attempt',
+    ],
+    curriculum: [
+      { module: 'People — Leading the Team', topics: ['Conflict management', 'Leadership styles', 'Empowering teams'] },
+      { module: 'Process — Managing Projects', topics: ['Scope & schedule', 'Budget & risk', 'Quality & procurement'] },
+      { module: 'Business Environment', topics: ['Compliance', 'Benefits realization', 'Organizational change'] },
+      { module: 'Exam Preparation', topics: ['180-question mock exams', 'ITTO review', 'Exam strategy'] },
+    ],
+    instructor: {
+      name: 'Michael Torres',
+      title: 'PMP®, PMI-ACP®, Project Management Coach',
+      bio: 'Michael has trained over 3,000 PMP candidates with a 96% first-attempt pass rate.',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&auto=format&fit=crop&crop=face',
+    },
+  },
+  {
     id: 'c2',
     slug: 'pmi-rmp-certification',
     title: 'PMI-RMP® Risk Management Professional',
@@ -346,3 +385,4 @@ export const COURSES = [
     },
   },
 ];
+

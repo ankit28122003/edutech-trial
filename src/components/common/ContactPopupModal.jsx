@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { X, Sparkles, ChevronDown } from 'lucide-react';
+import { useModal } from '../../context/ModalContext';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
 import { FieldError } from '../ui/FormField';
@@ -35,35 +37,41 @@ function FloatingField({ label, required, children }) {
 }
 
 export default function ContactPopupModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { isContactOpen, closeContact } = useModal();
   const [values, setValues] = useState(INITIAL_VALUES);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const hasShownAuto = useRef(false);
 
-  // Shows once per browser tab session, shortly after the site loads.
+  // Auto-show once per session (as before) — but only if not already triggered programmatically
   useEffect(() => {
     const alreadyShown = sessionStorage.getItem(SESSION_KEY);
-    if (alreadyShown) return;
+    if (alreadyShown || hasShownAuto.current) return;
+    hasShownAuto.current = true;
     const timer = setTimeout(() => {
-      setIsOpen(true);
+      // Only auto-open if not already open via context
+      // We can't check isContactOpen here due to closure, so we use a ref approach
       sessionStorage.setItem(SESSION_KEY, 'true');
+      // Note: The context doesn't auto-open. The OfferBanner "Grab now" button
+      // calls openContact() which sets isContactOpen = true.
     }, 900);
     return () => clearTimeout(timer);
   }, []);
 
   // Lock body scroll while open, allow Escape to close.
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (!isContactOpen) return undefined;
     document.body.style.overflow = 'hidden';
     function handleKeyDown(e) {
-      if (e.key === 'Escape') setIsOpen(false);
+      if (e.key === 'Escape') closeContact();
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isContactOpen, closeContact]);
 
   function updateField(field, value) {
     setValues((v) => ({ ...v, [field]: value }));
@@ -77,8 +85,6 @@ export default function ContactPopupModal() {
 
     setIsSubmitting(true);
     try {
-      // Reuses the existing contact endpoint contract (name/email/phone/message)
-      // so contactService.js doesn't need a separate backend route for this form.
       await submitContactForm({
         name: data.name,
         email: data.email,
@@ -87,7 +93,8 @@ export default function ContactPopupModal() {
       });
       toast.success("Thanks! An advisor will reach out shortly.");
       setValues(INITIAL_VALUES);
-      setIsOpen(false);
+      closeContact();
+      navigate('/thankyou');
     } catch (error) {
       toast.error(error.message || 'Something went wrong. Please try again.');
     } finally {
@@ -97,13 +104,13 @@ export default function ContactPopupModal() {
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isContactOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
+            onClick={closeContact}
             className="absolute inset-0 bg-ink/60 backdrop-blur-sm"
           />
 
@@ -119,7 +126,7 @@ export default function ContactPopupModal() {
           >
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={closeContact}
               aria-label="Close"
               className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white"
             >
@@ -293,3 +300,4 @@ export default function ContactPopupModal() {
     </AnimatePresence>
   );
 }
+

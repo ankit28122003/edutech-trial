@@ -54,7 +54,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
-          <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-10 w-auto" />
+          <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-16 w-auto" />
           {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
         </Link>
 

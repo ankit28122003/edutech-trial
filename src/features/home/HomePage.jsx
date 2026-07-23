@@ -1,6 +1,7 @@
 import SEO from '../../components/common/SEO';
 import Hero from './Hero';
 import StatsBand from './StatsBand';
+import TrustedBy from './TrustedBy';
 import CertifyingBodies from './CertifyingBodies';
 import DomainGrid from './DomainGrid';
 import OutcomeCards from './OutcomeCards';
@@ -20,6 +21,7 @@ export default function HomePage() {
       />
       <Hero />
       <StatsBand />
+      <TrustedBy />
       <CertifyingBodies />
       <DomainGrid />
       {/* <OutcomeCards /> */}

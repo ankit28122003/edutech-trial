@@ -23,6 +23,7 @@ const BecomeInstructor = lazy(() => import('./features/static/BecomeInstructorPa
 const Affiliate = lazy(() => import('./features/static/AffiliatePage'));
 const HelpCenter = lazy(() => import('./features/static/HelpCenterPage'));
 const NotFound = lazy(() => import('./features/static/NotFoundPage'));
+const Thankyou = lazy(() => import('./features/static/ThankyouPage'));
 
 const AdminDashboard = lazy(() => import('./features/admin/pages/DashboardPage'));
 const AdminCourses = lazy(() => import('./features/admin/pages/CoursesPage'));
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/become-an-instructor" element={<BecomeInstructor />} />
           <Route path="/affiliate" element={<Affiliate />} />
           <Route path="/support" element={<HelpCenter />} />
+          <Route path="/thankyou" element={<Thankyou />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 

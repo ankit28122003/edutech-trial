@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SlidersHorizontal, X } from 'lucide-react';
+import { SlidersHorizontal, X, Search } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 import Section from '../../components/ui/Section';
 import Container from '../../components/ui/Container';
-import { Select } from '../../components/ui/FormField';
+import { Input, Select } from '../../components/ui/FormField';
 import EmptyState from '../../components/ui/EmptyState';
 import StaggerGroup, { staggerItemVariants } from '../../components/common/StaggerGroup';
 import { motion, AnimatePresence } from 'framer-motion';
 import CourseCard from './CourseCard';
 import CourseFilters from './CourseFilters';
+import { DOMAINS } from '../../data/domains';
 import { getCourses } from '../../services/courseService';
+import { cn } from '../../lib/utils';
 
 function CourseCardSkeleton() {
   return (
@@ -67,45 +69,115 @@ export default function CourseListingPage() {
         canonicalPath="/courses"
       />
 
-      <div className="border-b border-ink/[0.06] bg-surface-alt py-10 sm:py-14">
+      {/* Hero Banner */}
+      <div className="border-b border-ink/[0.06] bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700 py-12 sm:py-16">
         <Container>
-          <span className="font-mono text-xs uppercase tracking-wider text-primary-600">Course Catalog</span>
-          <h1 className="mt-2 text-3xl font-semibold text-ink sm:text-4xl">
-            {filters.category || 'All Courses'}
-          </h1>
-          <p className="mt-2 max-w-xl text-sm text-ink-muted sm:text-base">
-            Mentor-led, project-first programs designed around real hiring signals.
-          </p>
+          <div className="max-w-3xl">
+            <span className="font-mono text-xs uppercase tracking-wider text-primary-200">
+              Course Catalog
+            </span>
+            <h1 className="mt-2 text-3xl font-semibold text-white sm:text-4xl">
+              {filters.category || 'Explore Our Programs'}
+            </h1>
+            <p className="mt-2 max-w-xl text-sm text-primary-100 sm:text-base">
+              Mentor-led, project-first programs designed around real hiring signals. 
+              {filters.category ? ` Showing courses in ${filters.category}.` : ''}
+            </p>
+
+            {/* Search bar in hero */}
+            <div className="relative mt-6 max-w-md">
+              <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft" />
+              <input
+                type="search"
+                placeholder="Search courses..."
+                value={filters.search}
+                onChange={(e) => updateFilters({ search: e.target.value })}
+                className="h-12 w-full rounded-xl border-0 bg-white/95 pl-11 pr-4 text-sm text-ink shadow-sm placeholder:text-ink-soft focus:outline-none focus:ring-2 focus:ring-white/50"
+              />
+              {filters.search && (
+                <button
+                  onClick={() => updateFilters({ search: '' })}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-soft hover:text-ink"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+          </div>
         </Container>
       </div>
 
-      <Section className="pt-10 sm:pt-12">
-        <div className="flex items-center justify-between gap-4 lg:hidden">
-          <button
-            onClick={() => setIsMobileFiltersOpen(true)}
-            className="flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink"
-          >
-            <SlidersHorizontal size={15} /> Filters
-          </button>
-          <Select
-            value={filters.sort}
-            onChange={(e) => updateFilters({ sort: e.target.value })}
-            className="w-auto"
-          >
-            <option value="">Most Relevant</option>
-            <option value="rating">Highest Rated</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-          </Select>
+      <Section className="pt-8 sm:pt-10">
+        {/* Horizontal filter bar - visible on all screen sizes */}
+        <div className="mb-8">
+          {/* Domain pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => updateFilters({ category: '' })}
+              className={cn(
+                'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                !filters.category
+                  ? 'border-primary-500 bg-primary-50 text-primary-700'
+                  : 'border-ink/15 text-ink-muted hover:border-ink/30 hover:text-ink'
+              )}
+            >
+              All Courses
+            </button>
+            {DOMAINS.map((domain) => (
+              <button
+                key={domain.id}
+                onClick={() => updateFilters({ category: domain.name })}
+                className={cn(
+                  'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                  filters.category === domain.name
+                    ? 'border-primary-500 bg-primary-50 text-primary-700'
+                    : 'border-ink/15 text-ink-muted hover:border-ink/30 hover:text-ink'
+                )}
+              >
+                {domain.icon} {domain.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Sort and mobile filter button */}
+          <div className="mt-4 flex items-center justify-between">
+            <p className="text-sm text-ink-muted">
+              {courses ? (
+                <>{courses.length} {courses.length === 1 ? 'program' : 'programs'} found</>
+              ) : (
+                <>Loading programs...</>
+              )}
+            </p>
+            <div className="flex items-center gap-3">
+              <Select
+                value={filters.sort}
+                onChange={(e) => updateFilters({ sort: e.target.value })}
+                className="w-auto text-sm"
+              >
+                <option value="">Sort: Most Relevant</option>
+                <option value="rating">Sort: Highest Rated</option>
+                <option value="price-asc">Sort: Price Low to High</option>
+                <option value="price-desc">Sort: Price High to Low</option>
+              </Select>
+              <button
+                onClick={() => setIsMobileFiltersOpen(true)}
+                className="flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink lg:hidden"
+              >
+                <SlidersHorizontal size={15} /> Filters
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-10 lg:mt-0 lg:grid-cols-[260px_1fr]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[260px_1fr]">
+          {/* Desktop sidebar */}
           <aside className="hidden lg:block">
             <div className="sticky top-24">
               <CourseFilters filters={filters} onChange={updateFilters} resultCount={courses?.length ?? 0} />
             </div>
           </aside>
 
+          {/* Mobile filter drawer */}
           <AnimatePresence>
             {isMobileFiltersOpen && (
               <>
@@ -141,6 +213,7 @@ export default function CourseListingPage() {
             )}
           </AnimatePresence>
 
+          {/* Course grid */}
           <div>
             {!courses ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -176,3 +249,4 @@ export default function CourseListingPage() {
     </>
   );
 }
+

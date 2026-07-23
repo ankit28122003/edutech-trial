@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import SEO from '../../components/common/SEO';
@@ -19,6 +20,7 @@ const CONTACT_CARDS = [
 ];
 
 export default function ContactPage() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({ name: '', email: '', phone: '', message: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,6 +40,7 @@ export default function ContactPage() {
       await submitContactForm(data);
       toast.success("Message sent! We'll get back to you within 1 business day.");
       setValues({ name: '', email: '', phone: '', message: '' });
+      navigate('/thankyou');
     } catch (error) {
       toast.error(error.message || 'Something went wrong. Please try again.');
     } finally {
@@ -151,3 +154,4 @@ export default function ContactPage() {
     </>
   );
 }
+

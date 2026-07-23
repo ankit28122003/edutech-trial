@@ -17,9 +17,9 @@ export default function FeaturedCoursesSidebar({ activeCategory, onSelect }) {
                 onClick={() => onSelect(domain.name)}
                 className={cn(
                   'flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-semibold transition-colors',
-                  isActive
-                    ? 'bg-orange-400 text-white shadow-card'
-                    : 'text-ink-muted hover:bg-surface-alt hover:text-ink'
+                    isActive
+                      ? 'bg-primary-600 text-white shadow-card'
+                      : 'text-ink-muted hover:bg-surface-alt hover:text-ink'
                 )}
               >
                 {domain.name}

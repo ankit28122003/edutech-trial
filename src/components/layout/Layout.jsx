@@ -1,7 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useLenis } from '../../hooks/useLenis';
+import { ModalProvider } from '../../context/ModalContext';
 import Navbar from './Navbar';
+import OfferBanner from './OfferBanner';
 import Footer from './Footer';
 import ScrollToTop from '../common/ScrollToTop';
 import WhatsAppButton from '../common/WhatsAppButton';
@@ -11,22 +13,26 @@ export default function Layout() {
   useLenis();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <ScrollToTop />
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
-      >
-        Skip to content
-      </a>
-      <Navbar />
-      <main id="main-content" className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-      <WhatsAppButton />
-      <ContactPopupModal />
-      <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
-    </div>
+    <ModalProvider>
+      <div className="flex min-h-screen flex-col">
+        <ScrollToTop />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+        >
+          Skip to content
+        </a>
+        <Navbar />
+        <OfferBanner />
+        <main id="main-content" className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+        <WhatsAppButton />
+        <ContactPopupModal />
+        <Toaster position="top-center" toastOptions={{ duration: 3500 }} />
+      </div>
+    </ModalProvider>
   );
 }
+
