@@ -127,7 +127,7 @@ export default function ContactPage() {
             </div>
 
             <div className="mt-4">
-              <Label htmlFor="phone">Phone (optional)</Label>
+              <Label htmlFor="phone" required>Phone</Label>
               <Input id="phone" type="tel" value={values.phone} onChange={(e) => updateField('phone', e.target.value)} />
             </div>
 

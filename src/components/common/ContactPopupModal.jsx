@@ -38,25 +38,16 @@ function FloatingField({ label, required, children }) {
 
 export default function ContactPopupModal() {
   const navigate = useNavigate();
-  const { isContactOpen, closeContact } = useModal();
+  const { isContactOpen, openContact, closeContact } = useModal();
   const [values, setValues] = useState(INITIAL_VALUES);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const hasShownAuto = useRef(false);
 
-  // Auto-show once per session (as before) — but only if not already triggered programmatically
+  // Auto-show once per session — handled by ModalContext initial state
   useEffect(() => {
-    const alreadyShown = sessionStorage.getItem(SESSION_KEY);
-    if (alreadyShown || hasShownAuto.current) return;
     hasShownAuto.current = true;
-    const timer = setTimeout(() => {
-      // Only auto-open if not already open via context
-      // We can't check isContactOpen here due to closure, so we use a ref approach
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      // Note: The context doesn't auto-open. The OfferBanner "Grab now" button
-      // calls openContact() which sets isContactOpen = true.
-    }, 900);
-    return () => clearTimeout(timer);
+    // No need to call openContact() here; context handles it on mount.
   }, []);
 
   // Lock body scroll while open, allow Escape to close.

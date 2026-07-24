@@ -9,9 +9,9 @@ export const NAV_LINKS = [
 export const ADVISOR_PURPOSES = [
   'Course Enrollment',
   'Corporate Training',
-  'Career Guidance',
-  'Become an Instructor',
-  'Partnership / Affiliate',
+  // 'Career Guidance',
+  // 'Become an Instructor',
+  // 'Partnership / Affiliate',
   'Something Else',
 ];
 
