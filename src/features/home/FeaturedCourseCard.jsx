@@ -14,7 +14,7 @@ export default function FeaturedCourseCard({ course }) {
     <div className="overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-card transition-shadow hover:shadow-card-hover">
       <Link
         to={`/course/${course.slug}`}
-        className="relative flex aspect-[16/10] flex-col items-center justify-center overflow-hidden bg-red-500 px-6 text-center"
+        className="relative flex aspect-[16/10] flex-col items-center justify-center overflow-hidden bg-primary-500 px-6 text-center"
       >
         <div
           aria-hidden="true"

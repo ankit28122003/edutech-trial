@@ -51,8 +51,8 @@ export const COURSES = [
     rating: 4.9,
     reviewCount: 2147,
     trending: true,
-    priceINR: 25999,
-    originalPriceINR: 51998,
+    priceINR: 29999,
+    originalPriceINR: 99999,
     logo: '💎',
     heroImage:
       'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop',

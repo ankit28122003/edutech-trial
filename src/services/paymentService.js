@@ -46,7 +46,7 @@ export async function startCourseCheckout({ courseId, currencyCode, user, onSucc
       description: 'Course enrollment',
       order_id: order.orderId,
       prefill: { name: user?.name, email: user?.email },
-      theme: { color: '#2541F0' },
+      theme: { color: '#004a7e' },
       handler: async (response) => {
         try {
           const { data } = await api.post('/payments/razorpay/verify', {

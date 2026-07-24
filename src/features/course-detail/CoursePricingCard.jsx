@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { ShieldCheck, Clock, BarChart3, Globe } from 'lucide-react';
+import { ShieldCheck, Clock, BarChart3, Globe, Tag, TrendingUp } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -42,12 +42,26 @@ export default function CoursePricingCard({ course }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-panel">
-      <img src={course.heroImage} alt="" className="h-44 w-full object-cover" loading="lazy" />
+      <div className="relative">
+        <img src={course.heroImage} alt="" className="h-44 w-full object-cover" loading="lazy" />
+        <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-accent-500 px-3 py-1.5 text-xs font-bold text-white shadow-card">
+          <Tag size={12} />
+          {discountPercent}% OFF
+        </div>
+      </div>
       <div className="p-6">
         <div className="flex items-baseline gap-2">
           <span className="font-mono text-3xl font-semibold text-ink">{breakdown.subtotalLabel}</span>
+          <span className="font-mono text-sm text-ink-soft line-through">
+            {isIndia
+              ? `₹${course.originalPriceINR.toLocaleString('en-IN')}`
+              : `$${(course.originalPriceINR / 83.5).toFixed(0)}`}
+          </span>
         </div>
-        <p className="mt-1 text-xs font-medium text-success-500">{discountPercent}% off — limited time</p>
+        <p className="mt-1 flex items-center gap-1 text-xs font-medium text-success-500">
+          <TrendingUp size={13} />
+          Save {isIndia ? `₹${(course.originalPriceINR - course.priceINR).toLocaleString('en-IN')}` : `$${((course.originalPriceINR - course.priceINR) / 83.5).toFixed(0)}`} — limited time offer
+        </p>
 
         {breakdown.taxLabel && (
           <div className="mt-4 space-y-1.5 rounded-lg bg-surface-alt p-3 text-sm">
