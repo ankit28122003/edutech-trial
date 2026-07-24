@@ -100,7 +100,7 @@ export default function CourseContactForm({ courseTitle }) {
             />
             <input
               type="tel"
-              placeholder="Phone (optional)"
+              placeholder="Phone"
               value={values.phone}
               onChange={(e) => updateField('phone', e.target.value)}
               className="h-11 w-full rounded-lg border border-ink/15 bg-white pl-9 pr-3.5 text-sm text-ink placeholder:text-ink-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
