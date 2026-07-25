@@ -16,6 +16,9 @@ import {
   Zap,
   ArrowRight,
   Quote,
+  GraduationCap,
+  Trophy,
+  Sparkles,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../../components/common/SEO';
@@ -35,7 +38,46 @@ import StaggerGroup, { staggerItemVariants } from '../../components/common/Stagg
 import { getCourseBySlug, getCourses } from '../../services/courseService';
 import { useCurrency } from '../../context/CurrencyContext';
 import { TESTIMONIALS } from '../../data/testimonials';
+import { useCountUp } from '../../hooks/useCountUp';
 import { cn } from '../../lib/utils';
+
+function StatsBand({ stats }) {
+  const studentsRef = useCountUp(2500, { duration: 1400 });
+  const passRef = useCountUp(95, { duration: 1200 });
+  const ratingRef = useCountUp(48, { duration: 1000 });
+
+  const items = [
+    { ref: studentsRef, icon: GraduationCap, label: 'Students Enrolled', suffix: '+' },
+    { ref: passRef, icon: Trophy, label: 'Pass Rate', suffix: '%' },
+    { ref: ratingRef, icon: Star, label: 'Average Rating', suffix: '' },
+  ];
+
+  // Dynamically map based on actual stats
+  const statValues = [
+    { value: stats.studentsEnrolled, label: 'Students Enrolled' },
+    { value: stats.passRate, label: 'Pass Rate' },
+    { value: stats.averageRating, label: 'Average Rating' },
+  ];
+
+  return (
+    <div className="grid grid-cols-3 gap-6 py-8">
+      {statValues.map((stat) => (
+        <motion.div
+          key={stat.label}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <span className="block font-mono text-2xl font-bold text-primary-600 sm:text-3xl">
+            {stat.value}
+          </span>
+          <span className="mt-1 block text-xs text-ink-muted sm:text-sm">{stat.label}</span>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export default function CourseDetailPage() {
   const { slug } = useParams();
@@ -109,7 +151,7 @@ export default function CourseDetailPage() {
         canonicalPath={`/course/${course.slug}`}
       />
 
-      {/* Hero Section — Left: Info | Right: Leadership Image (replaces form) */}
+      {/* Hero Section — Left: Info | Right: Pricing Card (replaces generic image) */}
       <div className="border-b border-ink/[0.06] bg-surface-alt">
         <Container className="grid grid-cols-1 gap-10 py-10 sm:py-14 lg:grid-cols-[1fr_380px] lg:items-start">
           <div>
@@ -158,31 +200,34 @@ export default function CourseDetailPage() {
             </Reveal>
           </div>
 
-          {/* Leadership Image replacing the form in hero */}
-          <div className="overflow-hidden rounded-2xl lg:sticky lg:top-24">
-            <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop"
-              alt="Professional leading a team"
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-            <div className="bg-gradient-to-t from-ink/80 via-ink/20 to-transparent p-6 -mt-20 relative z-10">
-              <p className="text-lg font-semibold text-white">Lead with Confidence</p>
-              <p className="text-sm text-white/80">Expert mentorship — real outcomes</p>
-            </div>
+          {/* Pricing Card in Hero (replaces generic image) */}
+          <div className="lg:sticky lg:top-24 self-start">
+            <CoursePricingCard course={course} />
           </div>
         </Container>
       </div>
 
-      {/* Section 2 — Content (Left) | Pricing Card (Right, sticky) */}
+      {/* Stats Band — animated counters */}
+      {course.stats && (
+        <div className="border-b border-ink/[0.06] bg-white">
+          <Container>
+            <StatsBand stats={course.stats} />
+          </Container>
+        </div>
+      )}
+
+      {/* Section 2 — What You'll Learn + Mentor in 2-column layout */}
       <Section>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_420px]">
-          {/* Left column: What You'll Learn → (Contact Form Commented) → Curriculum → Mentor */}
-          <div className="space-y-14">
-            {/* What You'll Learn */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          {/* What You'll Learn */}
+          <Reveal>
             <div>
-              <h2 className="text-2xl font-semibold text-ink">What You'll Learn</h2>
-              <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Badge tone="primary">Curriculum Overview</Badge>
+              <h2 className="mt-4 text-2xl font-semibold text-ink">What You'll Learn</h2>
+              <p className="mt-2 text-sm text-ink-muted">
+                Master the skills you need to succeed — from foundations to certification.
+              </p>
+              <ul className="mt-5 grid grid-cols-1 gap-3">
                 {course.whatYouWillLearn.map((point) => (
                   <li key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
                     <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
@@ -191,136 +236,129 @@ export default function CourseDetailPage() {
                 ))}
               </ul>
             </div>
+          </Reveal>
 
-            {/* Contact Form — COMMENTED OUT for future use */}
-            {/*
+          {/* Mentor */}
+          <Reveal delay={0.1}>
             <div>
-              <CourseContactForm courseTitle={course.title} />
-            </div>
-            */}
-
-            {/* Curriculum */}
-            <div>
-              <h2 className="text-2xl font-semibold text-ink">Curriculum</h2>
-              <p className="mt-2 text-sm text-ink-muted">
-                {course.curriculum.length} modules • {course.duration} total
-              </p>
-              <div className="mt-5">
-                <CourseCurriculum curriculum={course.curriculum} />
-              </div>
-            </div>
-
-            {/* Mentor */}
-            <div>
-              <h2 className="text-2xl font-semibold text-ink">Your Mentor</h2>
-              <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-6 sm:flex-row sm:items-center">
-                <img
-                  src={course.instructor.avatar}
-                  alt=""
-                  className="h-16 w-16 shrink-0 rounded-full object-cover"
-                  loading="lazy"
-                />
-                <div>
-                  <p className="font-semibold text-ink">{course.instructor.name}</p>
-                  <p className="text-sm text-primary-600">{course.instructor.title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{course.instructor.bio}</p>
+              <Badge tone="accent">Your Instructor</Badge>
+              <h2 className="mt-4 text-2xl font-semibold text-ink">Meet Your Mentor</h2>
+              <div className="mt-5 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <img
+                    src={course.instructor.avatar}
+                    alt=""
+                    className="h-20 w-20 shrink-0 rounded-full object-cover"
+                    loading="lazy"
+                  />
+                  <div>
+                    <p className="text-lg font-semibold text-ink">{course.instructor.name}</p>
+                    <p className="text-sm text-primary-600">{course.instructor.title}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-muted">{course.instructor.bio}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Right column: Pricing Card — sticky, persists throughout the section */}
-          <div className="lg:sticky lg:top-24 self-start">
-            <CoursePricingCard course={course} />
-          </div>
+          </Reveal>
         </div>
       </Section>
 
-      {/* Section 3 — Key Highlights / Exam Benefits Bar */}
-      <div className="bg-accent-50 border-y border-accent-200">
-        <Container>
-          <div className="grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
-            {[
-              { icon: Award, label: 'Exam Pass Guarantee', desc: '95% success rate' },
-              { icon: Clock, label: `${course.duration} Content`, desc: 'Structured curriculum' },
-              { icon: BookOpen, label: 'Instructor-Led', desc: 'Live + recorded sessions' },
-              { icon: ShieldCheck, label: '7-Day Refund', desc: 'Full money-back guarantee' },
-            ].map(({ icon: Icon, label, desc }) => (
-              <div key={label} className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-600">
-                  <Icon size={20} />
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-ink">{label}</p>
-                  <p className="text-xs text-ink-muted">{desc}</p>
-                </div>
-              </div>
-            ))}
+      {/* Section 3 — Curriculum */}
+      <Section className="bg-surface-alt">
+        <Container className="max-w-4xl">
+          <div className="text-center">
+            <Badge tone="primary">Course Curriculum</Badge>
+            <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+              Program Syllabus
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
+              {course.curriculum.length} comprehensive modules • {course.duration} of expert-led training
+            </p>
+          </div>
+          <div className="mt-10">
+            <CourseCurriculum curriculum={course.curriculum} />
           </div>
         </Container>
-      </div>
-
-      {/* Section 4 — About PMP Certification / Overview */}
-      <Section className="bg-surface-alt">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <Reveal>
-            <div>
-              <Badge tone="accent">About This Certification</Badge>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-                Why Get PMP® Certified?
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-ink-muted">
-                The Project Management Professional (PMP) certification is the gold standard in project management. 
-                Recognized across industries worldwide, it validates your ability to lead projects, manage teams, 
-                and deliver results in any methodology — predictive, agile, or hybrid.
-              </p>
-              <ul className="mt-6 space-y-3">
-                {[
-                  'Globally recognized across 200+ countries',
-                  '35+ contact hours of project management education',
-                  'Covers PMBOK Guide 7th Edition & Agile Practice Guide',
-                  '180-question exam with 230 minutes duration',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <div className="rounded-2xl border border-ink/[0.06] bg-white p-8 shadow-panel">
-              <h3 className="text-xl font-semibold text-ink">PMP Exam Details</h3>
-              <div className="mt-6 space-y-5">
-                {[
-                  { label: 'Exam Format', value: 'Multiple choice, multiple response, matching, hotspot, & limited fill-in-the-blank' },
-                  { label: 'Number of Questions', value: '180 Questions' },
-                  { label: 'Exam Duration', value: '230 Minutes' },
-                  { label: 'Eligibility', value: 'Secondary degree + 36 months of PM experience (or 60 months without degree)' },
-                  { label: 'Cost', value: '$405 for PMI members / $555 for non-members' },
-                ].map(({ label, value }) => (
-                  <div key={label} className="border-b border-ink/[0.06] pb-4 last:border-0 last:pb-0">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary-600">{label}</p>
-                    <p className="mt-1 text-sm text-ink-muted">{value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
       </Section>
 
-      {/* Section 5 — Why Choose Edutech for PMP */}
+      {/* Highlights Bar — moved to after Curriculum */}
+      {course.highlights && (
+        <div className="bg-accent-50 border-y border-accent-200">
+          <Container>
+            <div className="grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
+              {course.highlights.map(({ icon: Icon, label, desc }) => {
+                const IconComponent = {
+                  Award, Clock, BookOpen, ShieldCheck,
+                  GraduationCap, Trophy, Sparkles, Star,
+                  TrendingUp, Target, Zap, Users, Headphones,
+                }[Icon] || Star;
+                return (
+                  <div key={label} className="flex items-start gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-600">
+                      <IconComponent size={20} />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-ink">{label}</p>
+                      <p className="text-xs text-ink-muted">{desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Container>
+        </div>
+      )}
+
+      {/* Section 4 — About Certification (dynamic from course data) */}
+      {course.aboutContent && (
+        <Section className="bg-surface-alt">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
+            <Reveal>
+              <div>
+                <Badge tone="accent">About This Certification</Badge>
+                <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+                  {course.aboutContent.title}
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-ink-muted">
+                  {course.aboutContent.description}
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {course.aboutContent.highlights.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
+                      <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <div className="rounded-2xl border border-ink/[0.06] bg-white p-8 shadow-panel">
+                <h3 className="text-xl font-semibold text-ink">Certification Details</h3>
+                <div className="mt-6 space-y-5">
+                  {course.aboutContent.details.map(({ label, value }) => (
+                    <div key={label} className="border-b border-ink/[0.06] pb-4 last:border-0 last:pb-0">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-primary-600">{label}</p>
+                      <p className="mt-1 text-sm text-ink-muted">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </Section>
+      )}
+
+      {/* Section 5 — Why Choose Edutech (dynamic/course-agnostic) */}
       <Section>
         <div className="text-center">
           <Badge tone="primary">Why Edutech Skills</Badge>
           <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-            Why Professionals Choose Us for PMP
+            Why Professionals Choose Us
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-            We don't just teach the PMP exam — we build confident, certified project managers who lead with impact.
+            We don't just teach certification — we build confident, skilled professionals who lead with impact.
           </p>
         </div>
 
@@ -328,18 +366,18 @@ export default function CourseDetailPage() {
           {[
             {
               icon: Users,
-              title: 'Expert PMP Instructors',
-              desc: 'Learn from certified PMP professionals with 15+ years of real-world project management experience across industries.',
+              title: 'Expert Instructors',
+              desc: 'Learn from certified professionals with 15+ years of real-world experience across industries and domains.',
             },
             {
               icon: Target,
-              title: '96% Pass Rate',
-              desc: 'Our structured approach, mock exams, and personalized feedback ensure you pass the PMP exam on your first attempt.',
+              title: 'High Pass Rate',
+              desc: 'Our structured approach, mock exams, and personalized feedback ensure you succeed on your first attempt.',
             },
             {
               icon: BookOpen,
               title: 'Comprehensive Curriculum',
-              desc: 'Covers People, Process, and Business Environment domains with real-world case studies and exam-focused practice.',
+              desc: 'Covers all exam domains with real-world case studies, hands-on labs, and exam-focused practice.',
             },
             {
               icon: Zap,
@@ -354,7 +392,7 @@ export default function CourseDetailPage() {
             {
               icon: TrendingUp,
               title: 'Career Acceleration',
-              desc: 'PMP certification holders earn 33% higher salaries on average. We help you leverage your certification for career growth.',
+              desc: 'Certification holders earn significantly higher salaries on average. We help you leverage your certification for growth.',
             },
           ].map(({ icon: Icon, title, desc }) => (
             <motion.div
@@ -480,58 +518,25 @@ export default function CourseDetailPage() {
         </Section>
       )}
 
-      {/* Section 8 — Course-Specific FAQ */}
-      <Section className="bg-surface-alt">
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center">
-            <Badge tone="accent">Frequently Asked Questions</Badge>
-            <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-              Everything You Need to Know About PMP
-            </h2>
-          </div>
+      {/* Section 8 — Dynamic FAQ from course data */}
+      {course.faqs && course.faqs.length > 0 && (
+        <Section className="bg-surface-alt">
+          <div className="mx-auto max-w-3xl">
+            <div className="text-center">
+              <Badge tone="accent">Frequently Asked Questions</Badge>
+              <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+                Everything You Need to Know About {course.title.split(' ').slice(0, -2).join(' ') || 'This Program'}
+              </h2>
+            </div>
 
-          <div className="mt-10">
-            <Accordion
-              items={[
-                {
-                  question: 'What is the PMP certification and why is it valuable?',
-                  answer: 'The Project Management Professional (PMP) certification is the most globally recognized credential for project managers. It demonstrates your ability to lead projects across predictive, agile, and hybrid approaches. PMP-certified professionals earn 33% higher salaries on average and are preferred by employers across all industries.',
-                },
-                {
-                  question: 'Am I eligible for the PMP certification?',
-                  answer: 'You need a secondary degree (high school diploma, associate degree) with 60 months of project management experience, OR a four-year degree with 36 months of project management experience, OR a GAC-accredited bachelor\'s or master\'s degree with 24 months of experience. In all cases, you also need 35 hours of project management education (which our program covers).',
-                },
-                {
-                  question: 'What is included in this PMP training program?',
-                  answer: 'Our program includes 35+ hours of instructor-led training covering all three PMP domains (People, Process, Business Environment), PMBOK Guide 7th Edition materials, Agile Practice Guide, 5 full-length mock exams, 500+ practice questions, exam application assistance, and a dedicated mentor.',
-                },
-                {
-                  question: 'How is the training delivered — online or in-person?',
-                  answer: 'The program is delivered through a blend of self-paced online modules and live instructor-led weekend sessions. You get lifetime access to course materials, recorded session archives, and 24/7 doubt-clearing support.',
-                },
-                {
-                  question: 'What is the PMP exam format?',
-                  answer: 'The PMP exam consists of 180 questions to be completed in 230 minutes. Question types include multiple choice, multiple responses, matching, hotspot, and limited fill-in-the-blank. The exam covers People (42%), Process (50%), and Business Environment (8%) domains.',
-                },
-                {
-                  question: 'What happens if I don\'t pass the PMP exam on the first attempt?',
-                  answer: 'We offer comprehensive support including re-attempt strategy sessions, additional mock exams, and one-on-one mentoring to help you identify weak areas and improve. Our 96% first-attempt pass rate means the vast majority of our learners pass on their first try.',
-                },
-                {
-                  question: 'Does Edutech Skills provide PMP exam application assistance?',
-                  answer: 'Yes, our team provides step-by-step guidance through the PMI application process, including helping you document your project management experience, reviewing your application before submission, and answering any PMI audit-related questions.',
-                },
-                {
-                  question: 'Can I get a refund if I\'m not satisfied?',
-                  answer: 'Yes, we offer a 7-day full refund guarantee. If you\'ve completed less than 20% of the course content within 7 days of purchase, you can request a complete refund with no questions asked.',
-                },
-              ]}
-            />
+            <div className="mt-10">
+              <Accordion items={course.faqs} />
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      )}
 
-      {/* Section 9 — Final CTA Banner */}
+      {/* Section 9 — Final CTA Banner (dynamic) */}
       <Section className="py-12 sm:py-16">
         <div className="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center sm:px-16 sm:py-20">
           <div
@@ -543,13 +548,13 @@ export default function CourseDetailPage() {
               Limited Enrollment
             </Badge>
             <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl">
-              Ready to Become PMP Certified?
+              Ready to Get {course.title.split(' ').slice(0, 2).join(' ') || 'Certified'}?
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
-              Join thousands of professionals who have transformed their careers with our PMP certification training. 
-              Enroll today and take the first step toward becoming a globally recognized project management professional.
+              Join thousands of professionals who have transformed their careers with our expert-led training programs. 
+              Enroll today and take the first step toward becoming a globally recognized certified professional.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
@@ -564,6 +569,30 @@ export default function CourseDetailPage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* Mobile Sticky Bottom CTA Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink/[0.08] bg-white/95 backdrop-blur-md lg:hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-sm font-semibold text-ink">{course.title}</p>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-mono text-base font-bold text-accent-600">
+                {currencyCode === 'INR'
+                  ? `₹${course.priceINR.toLocaleString('en-IN')}`
+                  : `$${course.priceUSD.toLocaleString('en-US')}`}
+              </span>
+              <span className="font-mono text-xs text-ink-soft line-through">
+                {currencyCode === 'INR'
+                  ? `₹${course.originalPriceINR.toLocaleString('en-IN')}`
+                  : `$${course.originalPriceUSD.toLocaleString('en-US')}`}
+              </span>
+            </div>
+          </div>
+          <Button onClick={() => document.querySelector('[class*="Enroll"]')?.click()} variant="accent" size="md" className="shrink-0">
+            Enroll Now
+          </Button>
+        </div>
+      </div>
     </>
   );
 }
