@@ -22,6 +22,8 @@ const courseSchema = z.object({
   heroImage: z.string().url('Enter a valid image URL'),
   priceINR: z.coerce.number().positive('Price must be greater than 0'),
   originalPriceINR: z.coerce.number().positive('Original price must be greater than 0'),
+  priceUSD: z.coerce.number().int('Must be a whole number').nonnegative('Must be 0 or more').optional().default(0),
+  originalPriceUSD: z.coerce.number().int('Must be a whole number').nonnegative('Must be 0 or more').optional().default(0),
   shortDescription: z.string().min(10, 'Add a short description (10+ characters)'),
   longDescription: z.string().min(20, 'Add a longer description (20+ characters)'),
 });
@@ -36,6 +38,8 @@ const EMPTY_FORM = {
   heroImage: '',
   priceINR: '',
   originalPriceINR: '',
+  priceUSD: '',
+  originalPriceUSD: '',
   shortDescription: '',
   longDescription: '',
   trending: false,
@@ -229,9 +233,9 @@ export default function CourseFormPage() {
         </section>
 
         <section className="rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-soft">Pricing (INR)</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-soft">Pricing</h2>
           <p className="mt-1 text-xs text-ink-soft">
-            Stored in INR. USD/GBP prices are derived automatically on the storefront using live FX rates.
+            Prices stored in INR and USD. USD prices must be hardcoded (no decimal places).
           </p>
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
@@ -261,6 +265,36 @@ export default function CourseFormPage() {
                 error={errors.originalPriceINR}
               />
               <FieldError>{errors.originalPriceINR}</FieldError>
+            </div>
+            <div>
+              <Label htmlFor="priceUSD">
+                Sale price ($) — whole numbers only
+              </Label>
+              <Input
+                id="priceUSD"
+                type="number"
+                min="0"
+                step="1"
+                value={values.priceUSD}
+                onChange={(e) => updateField('priceUSD', e.target.value)}
+                error={errors.priceUSD}
+              />
+              <FieldError>{errors.priceUSD}</FieldError>
+            </div>
+            <div>
+              <Label htmlFor="originalPriceUSD">
+                Original price ($) — whole numbers only
+              </Label>
+              <Input
+                id="originalPriceUSD"
+                type="number"
+                min="0"
+                step="1"
+                value={values.originalPriceUSD}
+                onChange={(e) => updateField('originalPriceUSD', e.target.value)}
+                error={errors.originalPriceUSD}
+              />
+              <FieldError>{errors.originalPriceUSD}</FieldError>
             </div>
           </div>
         </section>

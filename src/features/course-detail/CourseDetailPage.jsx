@@ -33,11 +33,13 @@ import CoursePricingCard from './CoursePricingCard';
 import CourseContactForm from './CourseContactForm';
 import StaggerGroup, { staggerItemVariants } from '../../components/common/StaggerGroup';
 import { getCourseBySlug, getCourses } from '../../services/courseService';
+import { useCurrency } from '../../context/CurrencyContext';
 import { TESTIMONIALS } from '../../data/testimonials';
 import { cn } from '../../lib/utils';
 
 export default function CourseDetailPage() {
   const { slug } = useParams();
+  const { format, currencyCode } = useCurrency();
   const [course, setCourse] = useState(null);
   const [relatedCourses, setRelatedCourses] = useState([]);
   const [status, setStatus] = useState('loading');
@@ -454,9 +456,7 @@ export default function CourseDetailPage() {
                       <div>
                         <p className="text-xs text-ink-soft">From</p>
                         <p className="font-mono text-lg font-semibold text-ink">
-                          {course.priceINR > 40000
-                            ? `₹${(related.priceINR / 1000).toFixed(0)}K`
-                            : `₹${related.priceINR.toLocaleString('en-IN')}`}
+                          {format(related.priceINR, related.priceUSD)}
                         </p>
                       </div>
                       <Link

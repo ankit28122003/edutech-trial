@@ -51,8 +51,8 @@ export default function CourseCard({ course }) {
           <div>
             <p className="text-[11px] font-medium text-success-500">Sale ends soon! 50% OFF</p>
             <div className="flex items-baseline gap-2">
-              <span className="font-mono text-lg font-semibold text-ink">{format(course.priceINR)}</span>
-              <span className="font-mono text-xs text-ink-soft line-through">{format(course.originalPriceINR)}</span>
+          <span className="font-mono text-lg font-semibold text-ink">{format(course.priceINR, course.priceUSD)}</span>
+              <span className="font-mono text-xs text-ink-soft line-through">{format(course.originalPriceINR, course.originalPriceUSD)}</span>
             </div>
           </div>
           <Link

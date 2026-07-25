@@ -50,9 +50,9 @@ export default function FeaturedCourseCard({ course }) {
         <div className="mt-4 flex items-center justify-between border-t border-ink/[0.06] pt-4">
           <div>
             <p className="text-xs text-ink-soft">
-              From <span className="line-through">{format(course.originalPriceINR)}</span>
+              From <span className="line-through">{format(course.originalPriceINR, course.originalPriceUSD)}</span>
             </p>
-            <p className="font-mono text-xl font-semibold text-ink">{format(course.priceINR)}</p>
+            <p className="font-mono text-xl font-semibold text-ink">{format(course.priceINR, course.priceUSD)}</p>
           </div>
           <Button to={`/course/${course.slug}`} variant="outline" size="sm">
             Explore Now

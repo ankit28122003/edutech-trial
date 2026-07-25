@@ -22,8 +22,9 @@ export function CurrencyProvider({ children }) {
       setCurrencyCode,
       isIndia,
       currency: CURRENCIES[currencyCode],
-      format: (amountInINR) => formatMoney(amountInINR, currencyCode),
-      getCheckoutBreakdown: (priceInINR) => getCheckoutBreakdown(priceInINR, { isIndia }),
+      format: (amountInINR, usdAmount) => formatMoney(amountInINR, currencyCode, usdAmount),
+      getCheckoutBreakdown: (priceInINR, options) =>
+        getCheckoutBreakdown(priceInINR, { isIndia, ...options }),
     }),
     [currencyCode, isIndia]
   );

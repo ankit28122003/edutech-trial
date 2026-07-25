@@ -23,12 +23,30 @@ export function convertFromINR(amountInINR, currencyCode) {
   return amountInINR * currency.rateFromINR;
 }
 
-export function formatMoney(amountInINR, currencyCode) {
+/**
+ * Format a price for display.
+ *
+ * @param {number}  amountInINR   Source price in INR.
+ * @param {string}  currencyCode  'INR', 'USD', 'GBP', etc.
+ * @param {number}  [usdAmount]   Optional hardcoded USD amount.
+ *                                When provided (and currencyCode === 'USD'),
+ *                                this is used directly instead of converting.
+ * @returns {string} Formatted price string with currency symbol.
+ */
+export function formatMoney(amountInINR, currencyCode, usdAmount) {
   const currency = CURRENCIES[currencyCode] ?? CURRENCIES.INR;
-  const converted = convertFromINR(amountInINR, currencyCode);
-  const rounded = currencyCode === 'INR' ? Math.round(converted) : Math.round(converted * 100) / 100;
+  let rounded;
+
+  if (currencyCode === 'USD' && usdAmount != null) {
+    // Use hardcoded USD amount – floor to nearest integer (already floored in data)
+    rounded = Math.floor(usdAmount);
+  } else {
+    const converted = convertFromINR(amountInINR, currencyCode);
+    rounded = currencyCode === 'INR' ? Math.round(converted) : Math.round(converted * 100) / 100;
+  }
+
   return `${currency.symbol}${rounded.toLocaleString(currency.locale, {
-    maximumFractionDigits: currencyCode === 'INR' ? 0 : 2,
+    maximumFractionDigits: currencyCode === 'INR' ? 0 : 0,
     minimumFractionDigits: 0,
   })}`;
 }
@@ -37,9 +55,21 @@ export function formatMoney(amountInINR, currencyCode) {
  * Checkout-time pricing rule (requirement):
  * - Learners billed in India pay in INR, inclusive of 18% GST shown as a separate line.
  * - Learners billed outside India pay in USD, no GST (Indian GST does not apply abroad).
+ *
+ * @param {number}  priceInINR   Course price in INR.
+ * @param {object}  opts
+ * @param {boolean} opts.isIndia Whether the learner is in India.
+ * @param {number}  [opts.priceUSD] Optional hardcoded USD price. When provided
+ *                                   for non-India checkout, used directly.
+ * @param {string}  [opts.currencyCode] Selected currency code (e.g. from switcher).
+ *                                      When set to 'USD', GST is not applied regardless of isIndia.
+ * @returns {object} Breakdown with formatted labels.
  */
-export function getCheckoutBreakdown(priceInINR, { isIndia }) {
-  if (isIndia) {
+export function getCheckoutBreakdown(priceInINR, { isIndia, priceUSD, currencyCode: selectedCurrency }) {
+  // If the user manually switched to USD (or any non-INR currency), skip GST
+  const applyGST = isIndia && (!selectedCurrency || selectedCurrency === 'INR');
+
+  if (applyGST) {
     const gstAmount = Math.round(priceInINR * GST_RATE);
     return {
       currencyCode: 'INR',
@@ -51,13 +81,14 @@ export function getCheckoutBreakdown(priceInINR, { isIndia }) {
     };
   }
 
-  const usdAmount = convertFromINR(priceInINR, 'USD');
+  // Show USD (no GST) when outside India OR user manually switched currency to USD
+  const usdAmount = priceUSD ?? Math.floor(convertFromINR(priceInINR, 'USD'));
   return {
     currencyCode: 'USD',
-    subtotalLabel: formatMoney(priceInINR, 'USD'),
+    subtotalLabel: formatMoney(priceInINR, 'USD', usdAmount),
     taxLabel: null,
     taxRateLabel: null,
-    totalLabel: formatMoney(priceInINR, 'USD'),
+    totalLabel: formatMoney(priceInINR, 'USD', usdAmount),
     totalMinor: Math.round(usdAmount * 100), // cents, for Razorpay international
   };
 }

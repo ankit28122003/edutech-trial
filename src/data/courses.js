@@ -14,6 +14,8 @@ export const COURSES = [
     trending: true,
     priceINR: 45999,
     originalPriceINR: 91998,
+    priceUSD: 550,
+    originalPriceUSD: 1100,
     logo: '🧩',
     heroImage:
       'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1200&auto=format&fit=crop',
@@ -53,6 +55,8 @@ export const COURSES = [
     trending: true,
     priceINR: 29999,
     originalPriceINR: 99999,
+    priceUSD: 350,
+    originalPriceUSD: 1200,
     logo: '💎',
     heroImage:
       'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop',
@@ -92,6 +96,8 @@ export const COURSES = [
     trending: true,
     priceINR: 35999,
     originalPriceINR: 71998,
+    priceUSD: 430,
+    originalPriceUSD: 860,
     logo: '📊',
     heroImage:
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop',
@@ -131,6 +137,8 @@ export const COURSES = [
     trending: true,
     priceINR: 45999,
     originalPriceINR: 91998,
+    priceUSD: 550,
+    originalPriceUSD: 1100,
     logo: '🤖',
     heroImage:
       'https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=1200&auto=format&fit=crop',
@@ -169,6 +177,8 @@ export const COURSES = [
     trending: true,
     priceINR: 25999,
     originalPriceINR: 51998,
+    priceUSD: 310,
+    originalPriceUSD: 620,
     logo: '☁️',
     heroImage:
       'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
@@ -207,6 +217,8 @@ export const COURSES = [
     trending: true,
     priceINR: 35999,
     originalPriceINR: 71998,
+    priceUSD: 430,
+    originalPriceUSD: 860,
     logo: '🛠️',
     heroImage:
       'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
@@ -245,6 +257,8 @@ export const COURSES = [
     trending: true,
     priceINR: 58999,
     originalPriceINR: 117998,
+    priceUSD: 700,
+    originalPriceUSD: 1410,
     logo: '🛡️',
     heroImage:
       'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
@@ -283,6 +297,8 @@ export const COURSES = [
     trending: true,
     priceINR: 25999,
     originalPriceINR: 51998,
+    priceUSD: 310,
+    originalPriceUSD: 620,
     logo: '⚙️',
     heroImage:
       'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?q=80&w=1200&auto=format&fit=crop',
@@ -321,6 +337,8 @@ export const COURSES = [
     trending: true,
     priceINR: 25999,
     originalPriceINR: 51998,
+    priceUSD: 310,
+    originalPriceUSD: 620,
     logo: '📈',
     heroImage:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
@@ -359,6 +377,8 @@ export const COURSES = [
     trending: true,
     priceINR: 35999,
     originalPriceINR: 71998,
+    priceUSD: 430,
+    originalPriceUSD: 860,
     logo: '🧠',
     heroImage:
       'https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop',

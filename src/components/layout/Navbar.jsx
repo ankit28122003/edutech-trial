@@ -52,9 +52,9 @@ export default function Navbar() {
         isScrolled || isMegaOpen ? 'border-ink/[0.06] bg-white/90 backdrop-blur-md' : 'border-transparent bg-white'
       )}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 py-2 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
-          <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-16 w-auto" />
+          <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-auto w-40 py-1" />
           {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
         </Link>
 

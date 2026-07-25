@@ -8,11 +8,11 @@ import { useAuth } from '../../context/AuthContext';
 import { startCourseCheckout } from '../../services/paymentService';
 
 export default function CoursePricingCard({ course }) {
-  const { isIndia, getCheckoutBreakdown } = useCurrency();
+  const { isIndia, currencyCode, getCheckoutBreakdown } = useCurrency();
   const { user, isAuthenticated } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const breakdown = getCheckoutBreakdown(course.priceINR);
+  const breakdown = getCheckoutBreakdown(course.priceINR, { priceUSD: course.priceUSD, currencyCode });
   const discountPercent = Math.round(
     ((course.originalPriceINR - course.priceINR) / course.originalPriceINR) * 100
   );
@@ -53,14 +53,14 @@ export default function CoursePricingCard({ course }) {
         <div className="flex items-baseline gap-2">
           <span className="font-mono text-3xl font-semibold text-ink">{breakdown.subtotalLabel}</span>
           <span className="font-mono text-sm text-ink-soft line-through">
-            {isIndia
+            {currencyCode === 'INR'
               ? `₹${course.originalPriceINR.toLocaleString('en-IN')}`
-              : `$${(course.originalPriceINR / 83.5).toFixed(0)}`}
+              : `$${course.originalPriceUSD.toLocaleString('en-US')}`}
           </span>
         </div>
         <p className="mt-1 flex items-center gap-1 text-xs font-medium text-success-500">
           <TrendingUp size={13} />
-          Save {isIndia ? `₹${(course.originalPriceINR - course.priceINR).toLocaleString('en-IN')}` : `$${((course.originalPriceINR - course.priceINR) / 83.5).toFixed(0)}`} — limited time offer
+          Save {currencyCode === 'INR' ? `₹${(course.originalPriceINR - course.priceINR).toLocaleString('en-IN')}` : `$${(course.originalPriceUSD - course.priceUSD).toLocaleString('en-US')}`} — limited time offer
         </p>
 
         {breakdown.taxLabel && (
@@ -82,7 +82,7 @@ export default function CoursePricingCard({ course }) {
 
         <p className="mt-3 flex items-center gap-1.5 text-xs text-ink-soft">
           <Globe size={13} />
-          {isIndia ? 'Billed in India — 18% GST applies.' : 'Billed outside India — prices shown in USD, no GST.'}
+          {currencyCode === 'INR' ? 'Billed in India — 18% GST applies.' : 'Billed outside India — prices shown in USD, no GST.'}
         </p>
 
         <Button onClick={handleEnroll} disabled={isProcessing} className="mt-5 w-full" size="lg" variant="accent">
