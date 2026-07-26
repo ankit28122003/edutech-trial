@@ -94,7 +94,7 @@ export const COURSES = [
     originalPriceUSD: 1200,
     logo: '💎',
     heroImage:
-      '../public/PMP.png',
+      '/PMP.png',
     shortDescription:
       'The gold-standard certification for project managers — globally recognized across every industry.',
     longDescription:
