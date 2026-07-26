@@ -26,7 +26,7 @@ export const CONTACT_INFO = {
   whatsappUS: { label: 'WhatsApp (USA) +1 (609) 755-7491', href: 'https://wa.me/16097557491' },
   callUS: { label: 'Call (USA) +1-609-628-0221', href: 'tel:+16096280221' },
   whatsappIndia: { label: 'WhatsApp & Call (India) +91 88825 71026', href: 'tel:+918882571026' },
-  email: { label: 'info@edutechskills.example', href: 'mailto:info@edutechskills.example' },
+  email: { label: 'info@edutechskills.com', href: 'mailto:info@edutechskills.com' },
   addresses: [
     {
       country: 'India',

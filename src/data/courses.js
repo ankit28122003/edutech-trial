@@ -88,13 +88,13 @@ export const COURSES = [
     rating: 4.9,
     reviewCount: 2147,
     trending: true,
-    priceINR: 29999,
+    priceINR: 16999,
     originalPriceINR: 99999,
-    priceUSD: 350,
+    priceUSD: 899,
     originalPriceUSD: 1200,
     logo: '💎',
     heroImage:
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop',
+      '../public/PMP.png',
     shortDescription:
       'The gold-standard certification for project managers — globally recognized across every industry.',
     longDescription:

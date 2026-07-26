@@ -9,9 +9,9 @@ export default function Testimonials() {
   return (
     <Section className="bg-surface-alt">
       <SectionHeading
-        eyebrow="Expert Faculty"
-        title="Mentors and Operators Behind the Curriculum"
-        description="Practitioners who design programs, review capstones, and guide learners through real-world delivery."
+        eyebrow="Testimonials"
+        title="Real proof from people who finished the course."
+        description="Highlights the real value of the learning path."
       />
 
       <StaggerGroup className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
