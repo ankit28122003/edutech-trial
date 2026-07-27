@@ -43,7 +43,7 @@ export default function CoursePricingCard({ course }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-panel">
       <div className="relative">
-        <img src={course.heroImage} alt="" className="h-44 w-full object-cover" loading="lazy" />
+        <img src={course.heroImage} alt="" className="h-30 w-full object-cover" loading="lazy" />
         <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-accent-500 px-3 py-1.5 text-xs font-bold text-white shadow-card">
           <Tag size={12} />
           {discountPercent}% OFF
