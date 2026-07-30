@@ -59,7 +59,7 @@ export default function SuccessStatsSection() {
                                         key={index}
                                         className="rounded-3xl bg-white/10 backdrop-blur-md p-4 border border-white/10 transition duration-300 hover:-translate-y-1 hover:bg-white/15"
                                     >
-                                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/15 text-orange-300">
+                                        <div className="flex h-11 w-14 items-center justify-center rounded-xl bg-white/15 text-orange-300">
                                             <Icon size={28} />
                                         </div>
 
@@ -105,7 +105,7 @@ export default function SuccessStatsSection() {
 
                                 <input
                                     type="text"
-                                    className="h-8 w-full rounded-xl border border-slate-300 px-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                                    className="h-11 w-full rounded-xl border border-slate-300 px-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                                     placeholder="Enter your full name"
                                 />
                             </div>
@@ -119,7 +119,7 @@ export default function SuccessStatsSection() {
 
                                 <input
                                     type="email"
-                                    className="h-8 w-full rounded-xl border border-slate-300 px-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                                    className="h-11 w-full rounded-xl border border-slate-300 px-4 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                                     placeholder="Enter your email"
                                 />
                             </div>
@@ -131,7 +131,7 @@ export default function SuccessStatsSection() {
                                     Phone Number
                                 </label>
 
-                                <div className="flex h-8 rounded-xl border border-slate-300 overflow-hidden">
+                                <div className="flex h-11 rounded-xl border border-slate-300 overflow-hidden">
 
                                     <div className="flex items-center gap-2 border-r px-4 bg-slate-50">
                                         🇮🇳 +91
@@ -153,7 +153,7 @@ export default function SuccessStatsSection() {
 
                                 <div className="relative">
                                     <select
-                                        className="h-8 w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 pr-10 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                                        className="h-11 w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 pr-10 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                                         defaultValue=""
                                     >
                                         <option value="">Select a Course</option>
@@ -180,7 +180,7 @@ export default function SuccessStatsSection() {
 
                                 <div className="relative">
                                     <select
-                                        className="h-8 w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 pr-10 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                                        className="h-11 w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 pr-10 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                                         defaultValue=""
                                     >
                                         <option value="">Select Purpose</option>
@@ -229,7 +229,7 @@ export default function SuccessStatsSection() {
 
                             <button
                                 type="submit"
-                                className="flex h-8 w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-orange-500 to-blue-600 text-lg font-semibold text-white shadow-xl transition duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                                className="flex h-11 w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-orange-500 to-blue-600 text-lg font-semibold text-white shadow-xl transition duration-300 hover:scale-[1.02] hover:shadow-2xl"
                             >
                                 Submit
                                 <ArrowRight size={20} />
