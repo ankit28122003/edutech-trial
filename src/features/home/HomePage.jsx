@@ -1,6 +1,5 @@
 import SEO from '../../components/common/SEO';
 import Hero from './Hero';
-import StatsBand from './StatsBand';
 import TrustedBy from './TrustedBy';
 import CertifyingBodies from './CertifyingBodies';
 import DomainGrid from './DomainGrid';
@@ -10,6 +9,8 @@ import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import LearnerStories from './LearnerStories';
 import CTASection from './CTASection';
+// import TalkToUsBanner from './TalkToUsBanner';
+import DistinctionsAwards from './DistinctionsAwards';
 
 export default function HomePage() {
   return (
@@ -20,17 +21,17 @@ export default function HomePage() {
         canonicalPath="/"
       />
       <Hero />
-      <StatsBand />
       <TrustedBy />
       <CertifyingBodies />
       <DomainGrid />
+      {/* <TalkToUsBanner /> */}
+      {/* <HighDemandCategories /> */}
       {/* <OutcomeCards /> */}
       <FeaturedCourses />
       <HowItWorks />
       <Testimonials />
-
-      
       <LearnerStories />
+      <DistinctionsAwards />
       <CTASection />
     </>
   );

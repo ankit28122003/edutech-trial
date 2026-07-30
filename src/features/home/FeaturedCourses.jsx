@@ -68,9 +68,9 @@ export default function FeaturedCourses() {
             />
           ) : (
             <StaggerGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {courses.map((course) => (
+          {courses.map((course, i) => (
                 <motion.div key={course.id} variants={staggerItemVariants}>
-                  <FeaturedCourseCard course={course} />
+                  <FeaturedCourseCard course={course} index={i} />
                 </motion.div>
               ))}
             </StaggerGroup>
