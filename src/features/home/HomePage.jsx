@@ -12,7 +12,7 @@ import CTASection from './CTASection';
 import TalkToUsBanner from './TalkToUsBanner';
 import DistinctionsAwards from './DistinctionsAwards';
 import EnterpriseSolutions from './EnterpriseSolutions';
-import  Served  from './Served'
+import  Served  from './served'
 
 export default function HomePage() {
   return (
