@@ -9,8 +9,10 @@ import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import LearnerStories from './LearnerStories';
 import CTASection from './CTASection';
-// import TalkToUsBanner from './TalkToUsBanner';
+import TalkToUsBanner from './TalkToUsBanner';
 import DistinctionsAwards from './DistinctionsAwards';
+import EnterpriseSolutions from './EnterpriseSolutions';
+import  Served  from './Served'
 
 export default function HomePage() {
   return (
@@ -23,15 +25,18 @@ export default function HomePage() {
       <Hero />
       <TrustedBy />
       <CertifyingBodies />
+      <FeaturedCourses />
       <DomainGrid />
-      {/* <TalkToUsBanner /> */}
+      <TalkToUsBanner />
+      <Testimonials />
+
       {/* <HighDemandCategories /> */}
       {/* <OutcomeCards /> */}
-      <FeaturedCourses />
       <HowItWorks />
-      <Testimonials />
       <LearnerStories />
+      <EnterpriseSolutions />
       <DistinctionsAwards />
+      <Served />
       <CTASection />
     </>
   );

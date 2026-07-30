@@ -7,11 +7,11 @@ import { getEnrolledCount, getNextScheduleDate } from '../../lib/utils';
 
 const COURSE_BG_GRADIENTS = [
   'from-blue-600 to-indigo-700',
-  'from-emerald-600 to-teal-700',
-  'from-violet-600 to-purple-700',
-  'from-amber-600 to-orange-700',
-  'from-rose-600 to-pink-700',
-  'from-cyan-600 to-blue-700',
+  // 'from-emerald-600 to-teal-700',
+  // 'from-violet-600 to-purple-700',
+  // 'from-amber-600 to-orange-700',
+  // 'from-rose-600 to-pink-700',
+  // 'from-cyan-600 to-blue-700',
 ];
 
 export default function FeaturedCourseCard({ course, index = 0 }) {

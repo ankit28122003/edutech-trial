@@ -5,9 +5,21 @@ import SectionHeading from '../../components/ui/SectionHeading';
 import { cn } from '../../lib/utils';
 
 const AWARDS = [
-  { title: 'Best Skill Learning Institute of the Year', issuer: 'The Education Excellence Award by Brands Impact' },
-  { title: 'Edutech Company of the Year', issuer: 'The Education Awards by The Corporate Titan' },
-  { title: 'Institute with the Best Placement', issuer: 'The Education Awards by Mantra' },
+  {
+    title: 'Best Skill Learning Institute of the Year',
+    issuer: 'The Education Excellence Award by Brands Impact',
+    badge: '/badges/badge1.jpeg',
+  },
+  {
+    title: 'Edutech Company of the Year',
+    issuer: 'The Education Awards by The Corporate Titan',
+    badge: '/badges/badge2.jpeg',
+  },
+  {
+    title: 'Institute with the Best Placement',
+    issuer: 'The Education Awards by Mantra',
+    badge: '/badges/badge3.jpeg',
+  },
 ];
 
 export default function DistinctionsAwards() {
@@ -32,9 +44,14 @@ export default function DistinctionsAwards() {
               index === activeIndex ? 'border-primary-200 shadow-card-hover' : 'border-ink/[0.06]'
             )}
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-              <Award size={24} />
-            </span>
+            <div className="flex h-16 w-16 items-center justify-center">
+              <img
+                src={award.badge}
+                alt={award.title}
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </div>
             <p className="mt-4 text-sm font-semibold text-ink">{award.title}</p>
             <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">{award.issuer}</p>
           </div>
