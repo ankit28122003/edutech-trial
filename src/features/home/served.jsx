@@ -134,7 +134,7 @@ export default function SuccessStatsSection() {
                                 <div className="flex h-11 rounded-xl border border-slate-300 overflow-hidden">
 
                                     <div className="flex items-center gap-2 border-r px-4 bg-slate-50">
-                                        🇮🇳 +91
+                                        +91
                                         <ChevronDown size={16} />
                                     </div>
 

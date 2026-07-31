@@ -268,10 +268,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.28 }}
             className="mt-6"
           >
-            <Button to="/courses" variant="primary" size="lg">
-              Explore Courses
-              <ArrowRight size={18} />
-            </Button>
+
           </motion.div>
 
           {/* Main Poster Image */}
@@ -326,6 +323,10 @@ export default function Hero() {
               <StatCard key={stat.label} value={stat.value} label={stat.label} />
             ))}
           </motion.div>
+          <Button to="/courses" variant="primary" size="lg" className = "mt-10">
+            Explore Courses
+            <ArrowRight size={18} />
+          </Button>
         </div>
       </Container>
     </section>

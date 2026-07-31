@@ -111,9 +111,8 @@ const CERT_BODY_LOGOS = [
 
 const LogoCard = ({ logo, variant = 'alt' }) => (
   <div
-    className={`flex h-14 min-w-[9rem] items-center justify-center rounded-xl border border-gray-600 px-5 shadow-card ${
-      variant === 'white' ? 'bg-white' : 'bg-surface-alt'
-    }`}
+    className={`flex h-14 min-w-[9rem] items-center justify-center rounded-xl border border-gray-600 px-5 shadow-card ${variant === 'white' ? 'bg-white' : 'bg-surface-alt'
+      }`}
   >
     <img
       src={logo.src}
@@ -128,7 +127,7 @@ export default function CertifyingBodies() {
   const logos = [...CERT_BODY_LOGOS, ...CERT_BODY_LOGOS, ...CERT_BODY_LOGOS];
 
   return (
-    <section className="overflow-hidden bg-white py-14 sm:py-16">
+    <section className="overflow-hidden  py-14 sm:py-16">
       <div className="mx-auto mb-10 max-w-7xl px-5 sm:px-6 lg:px-8">
         <SectionHeading
           align="center"
@@ -140,14 +139,14 @@ export default function CertifyingBodies() {
 
       {/* Row 1 */}
       <div className="relative mb-6 overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 " />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 " />
 
         <motion.div
           className="flex w-max items-center gap-8"
           animate={{ x: ['0%', '-50%'] }}
           transition={{
-            duration: 40,
+            duration: 50,
             repeat: Infinity,
             ease: 'linear',
           }}
@@ -164,14 +163,14 @@ export default function CertifyingBodies() {
 
       {/* Row 2 */}
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-transparent to-white" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 " />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 " />
 
         <motion.div
           className="flex w-max items-center gap-8"
           animate={{ x: ['-50%', '0%'] }}
           transition={{
-            duration: 40,
+            duration: 50,
             repeat: Infinity,
             ease: 'linear',
           }}
