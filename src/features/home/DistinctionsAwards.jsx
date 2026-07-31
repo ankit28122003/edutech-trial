@@ -40,7 +40,7 @@ export default function DistinctionsAwards() {
           <div
             key={award.title}
             className={cn(
-              'flex flex-col items-center rounded-2xl border bg-white p-6 text-center shadow-card transition-shadow',
+              'flex flex-col items-center rounded-2xl border bg-primary-700 p-6 text-center shadow-card transition-shadow',
               index === activeIndex ? 'border-primary-200 shadow-card-hover' : 'border-ink/[0.06]'
             )}
           >
@@ -52,7 +52,7 @@ export default function DistinctionsAwards() {
                 loading="lazy"
               />
             </div>
-            <p className="mt-4 text-sm font-semibold text-ink">{award.title}</p>
+            <p className="mt-4 text-sm font-semibold text-white">{award.title}</p>
             <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">{award.issuer}</p>
           </div>
         ))}

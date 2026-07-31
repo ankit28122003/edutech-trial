@@ -51,13 +51,13 @@ export default function CourseCard({ course }) {
           <div>
             <p className="text-[11px] font-medium text-success-500">Sale ends soon! 50% OFF</p>
             <div className="flex items-baseline gap-2">
-          <span className="font-mono text-lg font-semibold text-ink">{format(course.priceINR, course.priceUSD)}</span>
+              <span className="font-mono text-lg font-semibold text-ink">{format(course.priceINR, course.priceUSD)}</span>
               <span className="font-mono text-xs text-ink-soft line-through">{format(course.originalPriceINR, course.originalPriceUSD)}</span>
             </div>
           </div>
           <Link
             to={`/course/${course.slug}`}
-            className="rounded-full border border-ink/15 px-4 py-2 text-xs font-semibold text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"
+            className="rounded-full border border-primary-200 px-4 py-2 text-xs font-semibold text-primary-700 transition-all duration-200 hover:border-transparent hover:bg-gradient-to-b hover:from-primary-500 hover:to-primary-600 hover:text-white hover:shadow-glow-primary"
           >
             View
           </Link>

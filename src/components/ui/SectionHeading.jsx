@@ -14,7 +14,8 @@ export default function SectionHeading({
     <div className={cn('max-w-2xl', isCenter && 'mx-auto text-center', className)}>
       {eyebrow && (
         <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-3 py-1 font-mono text-xs font-medium uppercase tracking-wider text-primary-700">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary-100 bg-gradient-to-r from-primary-50 to-accent-50 px-3.5 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-primary-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true" />
             {eyebrow}
           </span>
         </Reveal>

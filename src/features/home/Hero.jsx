@@ -189,6 +189,17 @@ function StatCard({ value, label, className }) {
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white pt-14 pb-8 sm:pt-20 sm:pb-12">
+      {/* Grid pattern background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(to right, transparent, transparent 39px, rgba(5,150,105,0.15) 39px, rgba(5,150,105,0.15) 40px),
+            repeating-linear-gradient(to bottom, transparent, transparent 39px, rgba(5,150,105,0.15) 39px, rgba(5,150,105,0.15) 40px)
+          `,
+        }}
+      />
       <Container className="relative">
         <div className="flex flex-col items-center text-center">
           {/* Trusted badge */}
@@ -320,3 +331,4 @@ export default function Hero() {
     </section>
   );
 }
+

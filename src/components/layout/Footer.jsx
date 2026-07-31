@@ -18,11 +18,11 @@ const SOCIAL_ICONS = [
 function FooterColumn({ title, links }) {
   return (
     <div>
-      <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft">{title}</h3>
+      <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-white">{title}</h3>
       <ul className="mt-4 space-y-2.5">
         {links.map((link) => (
           <li key={link.label}>
-            <Link to={link.to} className="text-sm text-ink-muted transition-colors hover:text-ink">
+            <Link to={link.to} className="text-sm text-white transition-colors hover:text-white">
               {link.label}
             </Link>
           </li>
@@ -34,7 +34,7 @@ function FooterColumn({ title, links }) {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink/[0.06] bg-surface-alt">
+<footer className="bg-primary-700">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
           <div className="col-span-2 md:col-span-2">
@@ -42,7 +42,7 @@ export default function Footer() {
               <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-10 w-auto" />
               {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white">
               Mentor-led certification programs in Agile, AI, Cloud, Cyber Security and DevOps — built to get you
               hired, not just certified.
             </p>
@@ -54,7 +54,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-muted transition-colors hover:border-primary-300 hover:text-primary-600"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-white transition-colors hover:border-primary-300 hover:text-primary-600"
                 >
                   <Icon size={16} />
                 </a>
@@ -69,18 +69,18 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t border-ink/10 pt-8">
-          <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft">Offerings</h3>
+          <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-white">Offerings</h3>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
             {DOMAINS.map((domain) => (
               <Link
                 key={domain.id}
                 to={`/courses?category=${encodeURIComponent(domain.name)}`}
-                className="text-sm text-ink-muted transition-colors hover:text-ink"
+                className="text-sm text-white transition-colors hover:text-ink"
               >
                 {domain.name}
               </Link>
             ))}
-            <Link to="/courses" className="text-sm font-semibold text-primary-600 hover:text-primary-700">
+            <Link to="/courses" className="text-sm font-semibold text-white hover:text-primary-700">
               View All Courses
             </Link>
           </div>
@@ -88,22 +88,22 @@ export default function Footer() {
 
         <div className="mt-12 grid grid-cols-1 gap-8 border-t border-ink/10 pt-8 md:grid-cols-3">
           <div>
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft">Contact Us</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-ink-muted">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-white">Contact Us</h3>
+            <ul className="mt-4 space-y-2.5 text-sm text-white">
               <li className="flex items-center gap-2">
-                <MessageCircle size={15} className="shrink-0 text-primary-500" />
+                <MessageCircle size={15} className="shrink-0 text-white" />
                 <a href={CONTACT_INFO.whatsappUS.href} className="hover:text-ink">
                   {CONTACT_INFO.whatsappUS.label}
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={15} className="shrink-0 text-primary-500" />
+                <Phone size={15} className="shrink-0 text-white" />
                 <a href={CONTACT_INFO.callUS.href} className="hover:text-ink">
                   {CONTACT_INFO.callUS.label}
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={15} className="shrink-0 text-primary-500" />
+                <Phone size={15} className="shrink-0 text-white" />
                 <a href={CONTACT_INFO.whatsappIndia.href} className="hover:text-ink">
                   {CONTACT_INFO.whatsappIndia.label}
                 </a>
@@ -119,10 +119,10 @@ export default function Footer() {
 
           {CONTACT_INFO.addresses.map((address) => (
             <div key={address.country}>
-              <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-white">
                 {address.country}
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-ink-muted">
+              <p className="mt-4 text-sm leading-relaxed text-white">
                 {address.lines.map((line) => (
                   <span key={line} className="block">
                     {line}

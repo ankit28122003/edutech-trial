@@ -7,7 +7,7 @@ import { TESTIMONIALS } from '../../data/testimonials';
 
 export default function Testimonials() {
   return (
-    <Section className="bg-surface-alt">
+    <Section className="bg-white">
       <SectionHeading
         eyebrow="Testimonials"
         title="Real proof from people who finished the course."
@@ -19,10 +19,10 @@ export default function Testimonials() {
           <motion.figure
             key={testimonial.name}
             variants={staggerItemVariants}
-            className="flex h-full flex-col rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card"
+            className="flex h-full flex-col rounded-2xl border border-ink/[0.06] bg-primary-700 p-6 shadow-card"
           >
-            <Quote size={22} className="text-primary-200" fill="currentColor" strokeWidth={0} />
-            <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">
+            <Quote size={22} className="text-white" fill="currentColor" strokeWidth={0} />
+            <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-white">
               &ldquo;{testimonial.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/[0.06] pt-4">
@@ -33,8 +33,8 @@ export default function Testimonials() {
                 className="h-10 w-10 rounded-full object-cover"
               />
               <div>
-                <p className="text-sm font-semibold text-ink">{testimonial.name}</p>
-                <p className="text-xs text-ink-muted">{testimonial.role}</p>
+                <p className="text-sm font-semibold text-white">{testimonial.name}</p>
+                <p className="text-xs text-white">{testimonial.role}</p>
               </div>
             </figcaption>
           </motion.figure>

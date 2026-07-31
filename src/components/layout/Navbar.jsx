@@ -59,7 +59,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {/* <button
+          <button
             type="button"
             onMouseEnter={openMegaMenu}
             onMouseLeave={scheduleMegaMenuClose}
@@ -71,7 +71,7 @@ export default function Navbar() {
           >
             All Courses
             <ChevronDown size={14} className={cn('transition-transform', isMegaOpen && 'rotate-180')} />
-          </button> */}
+          </button>
           {NAV_LINKS.filter((l) => l.label !== 'Home').map((link) => (
             <NavLink
               key={link.label}
