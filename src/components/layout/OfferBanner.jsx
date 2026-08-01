@@ -12,13 +12,13 @@ export default function OfferBanner() {
   return (
     <div
       className={cn(
-        'relative flex items-center justify-center gap-3 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700 px-5 py-2.5 text-sm text-white transition-all duration-300'
+        'relative flex items-center justify-center gap-3 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700 px-10 py-2.5 text-sm text-white transition-all duration-300'
       )}
     >
-      <Gift size={16} className="shrink-0 text-yellow-300" />
-      <p className="text-center text-xs font-medium sm:text-sm">
-        <span className="font-semibold">🎉 Limited Time Offer:</span> Enroll in any program and get{' '}
-        <span className="font-bold text-yellow-300">up to 50% OFF</span> — Offer ends soon!
+      {/* <Gift size={16} className="shrink-0 text-yellow-300" /> */}
+      <p className=" text-xs font-medium sm:text-sm text-start">
+        <span className="font-semibold">Unlock Growth - Lock Savings! Offer ends Soon{' '}
+        </span>
       </p>
       <button
         type="button"
@@ -27,14 +27,14 @@ export default function OfferBanner() {
       >
         Grab Now
       </button>
-      <button
+      {/* <button
         type="button"
         onClick={() => setIsVisible(false)}
         aria-label="Dismiss offer"
         className="shrink-0 rounded-full p-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
       >
         <X size={14} />
-      </button>
+      </button> */}
     </div>
   );
 }

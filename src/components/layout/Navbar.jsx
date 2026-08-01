@@ -106,9 +106,9 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsMobileOpen(true)}
             aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-alt lg:hidden"
+            // className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-alt lg:hidden"
           >
-            <Menu size={20} />
+            {/* <Menu size={20} /> */}
           </button>
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function Navbar() {
         onMouseEnter={openMegaMenu}
         onMouseLeave={scheduleMegaMenuClose}
       />
-      <MobileMenu isOpen={isMobileOpen} onClose={() => setIsMobileOpen(false)} />
+      {/* <MobileMenu isOpen={isMobileOpen} onClose={() => setIsMobileOpen(false)} /> - Mobile menu click disable */}
     </header>
   );
 }

@@ -207,7 +207,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-sm font-semibold text-emerald-700"
+            className=" mt-0 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-sm font-semibold text-emerald-700"
           >
             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
@@ -220,7 +220,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08 }}
-            className="mt-6 text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-5xl"
+            className="mt-4 text-2xl font-bold leading-tight text-ink sm:text-lg lg:text-5xl"
           >
             Shape your Tomorrow by Building a Skill Today
           </motion.h1>
@@ -276,7 +276,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mt-8 w-full max-w-2xl"
+            className="relative mt-2 w-full max-w-2xl"
           >
             <img
               src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop"
@@ -317,13 +317,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-6 grid w-full grid-cols-2 gap-3 md:hidden"
+            className="mt-2 grid w-full grid-cols-2 gap-3 md:hidden"
           >
             {HERO_STATS.map((stat) => (
               <StatCard key={stat.label} value={stat.value} label={stat.label} />
             ))}
           </motion.div>
-          <Button to="/courses" variant="primary" size="lg" className = "mt-10">
+          <Button to="/courses" variant="primary" size="lg" className = "mt-4 shadow-lg shadow-blue-400 ">
             Explore Courses
             <ArrowRight size={18} />
           </Button>

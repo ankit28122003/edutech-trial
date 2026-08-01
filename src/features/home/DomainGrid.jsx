@@ -223,9 +223,9 @@ function MarqueeRow({ reverse = false }) {
 
 export default function DomainGrid() {
   return (
-    <section className="overflow-hidden rounded-[42px] bg-[#eef5ff] py-24">
+    <section className="overflow-hidden rounded-[42px] bg-[#eef5ff] py-10">
 
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-2">
 
         <div className="mx-auto max-w-4xl text-center">
 
@@ -233,7 +233,7 @@ export default function DomainGrid() {
             High-Impact Skills For The Future Of Work
           </p>
 
-          <h2 className="mt-5 text-5xl font-extrabold text-slate-900 lg:text-6xl">
+          <h2 className="mt-1 text-3xl font-extrabold text-slate-900 lg:text-6xl">
             Choose From 25+ In-Demand Domains
           </h2>
 
