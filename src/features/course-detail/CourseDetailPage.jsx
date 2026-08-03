@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+
+
+
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   CheckCircle2,
+  CheckCircle,
   Clock,
   BarChart3,
   Globe2,
@@ -15,10 +19,21 @@ import {
   Target,
   Zap,
   ArrowRight,
-  Quote,
   GraduationCap,
   Trophy,
   Sparkles,
+  Play,
+  Download,
+  CalendarClock,
+  Minus,
+  Plus,
+  Building2,
+  MapPin,
+  Phone,
+  ChevronLeft,
+  ChevronRight,
+  BadgeCheck,
+  Award as AwardIcon,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../../components/common/SEO';
@@ -31,6 +46,7 @@ import Spinner from '../../components/ui/Spinner';
 import EmptyState from '../../components/ui/EmptyState';
 import Button from '../../components/ui/Button';
 import Accordion from '../../components/ui/Accordion';
+import Marquee from '../../components/ui/Marquee';
 import CourseCurriculum from './CourseCurriculum';
 import CoursePricingCard from './CoursePricingCard';
 import CourseContactForm from './CourseContactForm';
@@ -41,18 +57,181 @@ import { TESTIMONIALS } from '../../data/testimonials';
 import { useCountUp } from '../../hooks/useCountUp';
 import { cn } from '../../lib/utils';
 
+/* -------------------------------------------------------------------------- */
+/*  Placeholder / fallback content                                            */
+/*  Every block below reads from `course.<field>` first and only falls back   */
+/*  to this placeholder data when the API doesn't provide it yet — swap in    */
+/*  real content from courseService whenever it's ready, no markup changes.   */
+/* -------------------------------------------------------------------------- */
+
+const DEFAULT_TRUST_BADGES = [
+  { label: 'Trustpilot', rating: '4.6/5', tone: 'text-[#00b67a]' },
+  { label: 'Google', rating: '4.8/5', tone: 'text-[#4285F4]' },
+];
+
+const DEFAULT_HERO_STAT_BADGES = [
+  { label: 'Industry Growth', value: '40%', icon: TrendingUp },
+  { label: 'Minimum Salary Offered', value: '$120k+/Year', icon: Award },
+];
+
+const DEFAULT_KEY_FEATURES = [
+  'Crack certification in 40 days',
+  '1000+ practice questions with detailed explanations',
+  '11 full-length mock exams',
+  '35 hours of comprehensive live training',
+  '100% money-back guarantee',
+  'Application & eligibility support',
+  'PMI-approved professional development units',
+  'Additional 2-day exam prep bootcamp sessions',
+  'Golden Ticket: 200 simulated exam questions',
+  'Doubt clarification and unlimited revision sessions',
+];
+
+const DEFAULT_PROCESS_STEPS = [
+  'Enroll in the exam prep program',
+  'Complete the hours of live training',
+  'Start preparing your application with assistance',
+  'Complete module-wise practice questions',
+  'Learn strategies and techniques to crack the exam',
+  'Attend additional exam-prep sessions',
+  'Attempt full-length mock exams',
+  'Take the certification examination',
+];
+
+const DEFAULT_PLAN_COLUMNS = ['Prime Plan', 'Training + Exam Prep'];
+const DEFAULT_PLAN_ROWS = [
+  'Live virtual training with expert instructors',
+  'PMI-approved PDUs on completion',
+  'Training by an authorised instructor',
+  'Full-length mock exams',
+  'Curated practice question bank',
+  'Priority chat support',
+  'Application & eligibility support',
+  '180 days of LMS access',
+  '1 year of live class access',
+  'Structured exam-pass study plan',
+];
+
+const DEFAULT_BATCHES = [
+  {
+    mode: 'Live Virtual Class',
+    dateRange: 'Aug 10 – Aug 28',
+    time: 'IST: 07:30 PM – 09:50 PM',
+    type: 'Weekday Batch · 15 Sessions',
+    shift: 'Evening Batch',
+    trainer: 'S. Singh',
+    discount: '50% off',
+    price: 9999,
+    originalPrice: 19999,
+  },
+  {
+    mode: 'Live Virtual Class',
+    dateRange: 'Aug 22 – Sep 13',
+    time: 'IST: 07:00 AM – 11:30 AM',
+    type: 'Weekend Batch · 8 Sessions',
+    shift: 'Morning Batch',
+    trainer: 'V. Raghavan',
+    discount: '50% off',
+    price: 9999,
+    originalPrice: 19999,
+  },
+  {
+    mode: 'Live Virtual Class',
+    dateRange: 'Aug 24 – Sep 11',
+    time: 'IST: 06:00 AM – 08:20 AM',
+    type: 'Weekday Batch · 15 Sessions',
+    shift: 'Morning Batch',
+    trainer: 'V. Raghavan',
+    discount: '50% off',
+    price: 9999,
+    originalPrice: 19999,
+  },
+];
+
+const DEFAULT_CORPORATE_POINTS = [
+  'Unleash in-demand skills across the enterprise',
+  'Drive increased employee productivity',
+  'Align skill development with business objectives',
+  'Leverage immersive, hands-on learning',
+];
+
+const DEFAULT_REVIEWS = [
+  {
+    name: 'A. Ongole',
+    role: 'Project Analyst',
+    rating: 4,
+    date: '10 Sep 2024',
+    text: "Completed the training recently and passed the exam on the first attempt. My trainer explained everything clearly, kept me on track, and answered every question quickly. The experience felt organized from day one, and I enjoyed learning alongside people from across the world in a shared discussion group.",
+  },
+  {
+    name: 'T. Pasalkar',
+    role: 'Senior Project Analyst',
+    rating: 4,
+    date: '1 Sep 2024',
+    text: 'Training and the mock tests were spot on. Thank you!',
+  },
+];
+
+const DEFAULT_ACHIEVEMENTS = [
+  { title: 'Best Skill Learning Institute of the Year', org: 'The Education Excellence Award' },
+  { title: 'Edutech Company of the Year', org: 'The Education Awards' },
+  { title: 'Institute with the Best Placement', org: 'The Education Awards' },
+];
+
+const DEFAULT_ENTERPRISE_LOGOS = [
+  '/logos/amex.png',
+  '/logos/aws.png',
+  '/logos/axelos.jpeg',
+  '/logos/google.jpeg',
+  '/logos/hcltech.png',
+  '/logos/iasssc.png',
+  '/logos/icagile.jpeg',
+  '/logos/infosys.png',
+  '/logos/microsoft.png',
+  '/logos/nvidia.png',
+  '/logos/pmi.jpeg',
+  '/logos/prince2.jpeg',
+  '/logos/scaled-agile.jpeg',
+  '/logos/scrum-alliance.png',
+  '/logos/scrum-org.jpeg',
+  '/logos/tcs.jpeg',
+  '/logos/tech-mahindra.png',
+];
+
+const DEFAULT_ENTERPRISE_POINTS = [
+  { icon: TrendingUp, label: 'Immersive learning that blends theory with practical application.' },
+  { icon: Download, label: 'Results-driven learning journeys that equip teams with real skills.' },
+  { icon: CheckCircle, label: 'Learning pathways tailored to the specific needs of every role.' },
+  { icon: ShieldCheck, label: 'Equip your workforce with the skills required to thrive.' },
+];
+
+const DEFAULT_CITIES = [
+  'Bangalore', 'Hyderabad', 'Mumbai', 'Delhi', 'Pune', 'Chennai', 'Kolkata', 'Gurgaon', 'Noida',
+  'Ahmedabad', 'Navi Mumbai', 'Kochi', 'Coimbatore', 'Indore', 'Mysore', 'Faridabad', 'Doha',
+  'New York', 'United Kingdom', 'Germany',
+];
+
+const DEFAULT_SERVED_STATS = [
+  { icon: Users, value: '3,00,000+', label: 'Professionals Trained' },
+  { icon: Trophy, value: '100%', label: 'Success Rate' },
+  { icon: Globe2, value: '100+', label: 'Countries' },
+];
+
+const SUB_NAV = [
+  { id: 'key-features', label: 'Key Features' },
+  { id: 'course-content', label: 'Course Content' },
+  { id: 'pricing', label: 'Enroll Now' },
+  { id: 'overview', label: 'Overview' },
+  { id: 'testimonials', label: 'Testimonials' },
+  { id: 'reviews', label: 'Reviews' },
+  { id: 'faqs', label: 'FAQs' },
+];
+
+/* -------------------------------------------------------------------------- */
+/*  Small local building blocks                                               */
+/* -------------------------------------------------------------------------- */
+
 function StatsBand({ stats }) {
-  const studentsRef = useCountUp(2500, { duration: 1400 });
-  const passRef = useCountUp(95, { duration: 1200 });
-  const ratingRef = useCountUp(48, { duration: 1000 });
-
-  const items = [
-    { ref: studentsRef, icon: GraduationCap, label: 'Students Enrolled', suffix: '+' },
-    { ref: passRef, icon: Trophy, label: 'Pass Rate', suffix: '%' },
-    { ref: ratingRef, icon: Star, label: 'Average Rating', suffix: '' },
-  ];
-
-  // Dynamically map based on actual stats
   const statValues = [
     { value: stats.studentsEnrolled, label: 'Students Enrolled' },
     { value: stats.passRate, label: 'Pass Rate' },
@@ -69,7 +248,7 @@ function StatsBand({ stats }) {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <span className="block font-mono text-2xl font-bold text-primary-600 sm:text-3xl">
+          <span className="block font-mono text-xl font-bold text-primary-600 sm:text-3xl">
             {stat.value}
           </span>
           <span className="mt-1 block text-xs text-ink-muted sm:text-sm">{stat.label}</span>
@@ -78,6 +257,446 @@ function StatsBand({ stats }) {
     </div>
   );
 }
+
+/** Sticky sub-navigation strip with smooth-scroll anchors + a support phone pill. */
+function SubNav({ phone }) {
+  const handleClick = (e, id) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className="sticky top-0 z-30 hidden border-b border-ink/[0.06] bg-white/95 backdrop-blur-md lg:block">
+      <Container className="flex items-center justify-between py-3">
+        <nav className="flex items-center gap-6 text-sm font-medium text-ink-muted">
+          {SUB_NAV.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={(e) => handleClick(e, item.id)}
+              className="whitespace-nowrap transition-colors hover:text-primary-600"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        {phone && (
+          <a
+            href={`tel:${phone}`}
+            className="flex shrink-0 items-center gap-2 rounded-full border border-success-500/30 bg-success-50 px-4 py-1.5 text-xs font-semibold text-success-700"
+          >
+            <Phone size={13} /> {phone}
+          </a>
+        )}
+      </Container>
+    </div>
+  );
+}
+
+/** Hero portrait with floating achievement badges — decorative, image-agnostic. */
+function HeroPortrait({ instructor, statBadges }) {
+  return (
+    <div className="relative mx-auto hidden max-w-xs sm:max-w-sm lg:block">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -rotate-6 rounded-[2.5rem] bg-gradient-to-br from-primary-100 via-accent-100 to-transparent"
+      />
+      <img
+        src={instructor?.avatar}
+        alt=""
+        className="relative z-10 mx-auto h-auto w-full max-w-[280px] rounded-[2rem] object-cover"
+        loading="lazy"
+      />
+      {statBadges.map((badge, i) => (
+        <div
+          key={badge.label}
+          className={cn(
+            'absolute z-20 flex items-center gap-2 rounded-xl bg-ink px-3 py-2 text-white shadow-panel',
+            i === 0 ? '-left-6 top-6' : '-right-4 top-1/2'
+          )}
+        >
+          <badge.icon size={14} className="text-success-400" />
+          <div className="leading-tight">
+            <p className="text-[10px] text-white/70">{badge.label}</p>
+            <p className="text-sm font-bold">{badge.value}</p>
+          </div>
+        </div>
+      ))}
+      <div className="absolute -bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink shadow-panel">
+        <BadgeCheck size={15} className="text-primary-600" />
+        Premier Authorized Training Partner
+      </div>
+    </div>
+  );
+}
+
+/** Video intro banner — shows a styled cover until played, then hands off to native controls. */
+function VideoIntroBanner({ course }) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const videoSrc = course.introVideoUrl || `/videos/${course.slug || 'course'}-intro.mp4`;
+
+  const handlePlay = () => {
+    setPlaying(true);
+    videoRef.current?.play?.();
+  };
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-blue-100 to-blue-800 shadow-card">
+      <video
+        ref={videoRef}
+        controls={playing}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        className="aspect-video w-full object-cover"
+        preload="metadata"
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+
+      {!playing && (
+        <button
+          type="button"
+          onClick={handlePlay}
+          className="absolute inset-0 flex flex-col justify-between p-6 text-left sm:p-8"
+        >
+          <span className="w-fit rounded-lg bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-ink backdrop-blur-sm">
+            Quick Introduction
+            <span className="block font-normal text-ink-muted">In a few minutes</span>
+          </span>
+
+          <div className="flex items-end justify-between gap-4">
+            <h3 className="text-2xl font-bold leading-tight text-blue-800 sm:text-4xl">
+              Why Get
+              <br />
+              {course.category || 'Certified'}?
+            </h3>
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white shadow-panel transition-transform hover:scale-105 sm:h-16 sm:w-16">
+              <Play size={24} fill="currentColor" />
+            </span>
+          </div>
+        </button>
+      )}
+
+      {!playing && course.instructor?.avatar && (
+        <img
+          src={course.instructor.avatar}
+          alt=""
+          className="pointer-events-none absolute bottom-0 right-2 hidden h-[92%] w-auto object-contain sm:block"
+        />
+      )}
+    </div>
+  );
+}
+
+/** "Proven path" step flow — a real ordered sequence, so numbering is meaningful here. */
+function ProvenPath({ steps }) {
+  return (
+    <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 p-6 sm:p-8">
+      <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((step, i) => (
+          <li
+            key={step}
+            className="relative flex items-start gap-3 rounded-xl bg-white/95 p-4 shadow-sm"
+          >
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">
+              {i + 1}
+            </span>
+            <span className="text-xs font-medium leading-snug text-ink">{step}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/** Feature-comparison table for the two (or more) enrollment plans. */
+function PlanComparisonTable({ columns, rows }) {
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-ink/[0.06] bg-white shadow-card">
+      <table className="w-full min-w-[520px] border-collapse text-sm">
+        <thead>
+          <tr>
+            <th className="w-1/2 p-4 text-left text-ink-muted" />
+            {columns.map((col, i) => (
+              <th
+                key={col}
+                className={cn(
+                  'p-4 text-center text-sm font-semibold text-ink',
+                  i === columns.length - 1 && 'bg-accent-50'
+                )}
+              >
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={row} className={ri % 2 === 0 ? 'bg-surface-alt/60' : 'bg-white'}>
+              <td className="p-4 text-left text-sm text-ink-muted">{row}</td>
+              {columns.map((col, ci) => (
+                <td
+                  key={col}
+                  className={cn('p-4 text-center', ci === columns.length - 1 && 'bg-accent-50/60')}
+                >
+                  <CheckCircle2 size={17} className="mx-auto text-success-500" />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/** One upcoming batch card with a cosmetic seat-quantity stepper. */
+function BatchCard({ batch, format }) {
+  const [qty, setQty] = useState(1);
+  return (
+    <div className="flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <span className="flex items-center gap-1.5 text-xs font-semibold text-success-600">
+          <Globe2 size={13} /> {batch.mode}
+        </span>
+        <p className="mt-1.5 text-base font-semibold text-ink">{batch.dateRange}</p>
+        <p className="text-xs text-ink-soft">{batch.time}</p>
+        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
+          <span className="flex items-center gap-1">
+            <CalendarClock size={12} /> {batch.type}
+          </span>
+          <span>{batch.shift}</span>
+          <span>Trainer: {batch.trainer}</span>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 rounded-full border border-ink/10 px-3 py-1.5">
+        <button
+          type="button"
+          onClick={() => setQty((q) => Math.max(1, q - 1))}
+          className="text-ink-muted hover:text-ink"
+          aria-label="Decrease seats"
+        >
+          <Minus size={14} />
+        </button>
+        <span className="w-5 text-center text-sm font-semibold text-ink">{qty}</span>
+        <button
+          type="button"
+          onClick={() => setQty((q) => q + 1)}
+          className="text-ink-muted hover:text-ink"
+          aria-label="Increase seats"
+        >
+          <Plus size={14} />
+        </button>
+      </div>
+
+      <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1.5">
+        <div className="flex items-center gap-2">
+          <span className="rounded-md bg-success-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+            {batch.discount}
+          </span>
+          <span className="font-mono text-xs text-ink-soft line-through">
+            {format(batch.originalPrice, batch.originalPrice)}
+          </span>
+        </div>
+        <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}</p>
+        <Button variant="outline" size="sm">
+          Enroll Now
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** Video-style testimonial card (thumbnail + play affordance), reusing existing testimonial data. */
+function VideoTestimonialCard({ testimonial }) {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="overflow-hidden rounded-xl border border-ink/[0.06] bg-white shadow-card">
+      <div className="relative aspect-video bg-ink">
+        {playing ? (
+          <video
+            controls
+            autoPlay
+            className="h-full w-full object-cover"
+            src={testimonial.videoUrl || `/videos/testimonials/${testimonial.name?.toLowerCase().replace(/\s+/g, '-')}.mp4`}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            className="group relative flex h-full w-full items-center justify-center"
+          >
+            <img
+              src={testimonial.avatar}
+              alt=""
+              className="h-full w-full object-cover opacity-80"
+              loading="lazy"
+            />
+            <span className="absolute flex h-11 w-11 items-center justify-center rounded-full bg-primary-600 text-white shadow-panel transition-transform group-hover:scale-105">
+              <Play size={18} fill="currentColor" />
+            </span>
+          </button>
+        )}
+      </div>
+      <p className="px-3 py-2.5 text-center text-xs font-semibold text-ink">{testimonial.name}</p>
+    </div>
+  );
+}
+
+/** Written review card for the "Course Reviews" section. */
+function ReviewCard({ review }) {
+  return (
+    <div className="border-b border-ink/[0.06] py-6 last:border-0">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
+            {review.name.charAt(0)}
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-ink">{review.name}</p>
+            <p className="text-xs text-ink-muted">{review.role}</p>
+            <span className="mt-0.5 flex items-center gap-1 text-[11px] font-medium text-success-600">
+              <BadgeCheck size={12} /> Verified Learner
+            </span>
+          </div>
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              size={13}
+              className={i < review.rating ? 'text-amber-400' : 'text-ink/10'}
+              fill={i < review.rating ? 'currentColor' : 'none'}
+            />
+          ))}
+          <span className="ml-1 text-xs font-semibold text-ink-muted">{review.rating}/5</span>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-ink-muted">{review.text}</p>
+      <p className="mt-2 text-right text-[11px] text-ink-soft">{review.date}</p>
+    </div>
+  );
+}
+
+/** Certificate mock — built from CSS/markup so no third-party artwork is needed. */
+function CertificatePreview({ title }) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-card sm:p-12">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-10 top-10 h-40 w-40 -rotate-12 rounded-3xl bg-accent-100/70 blur-sm"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-10 bottom-10 h-40 w-40 rotate-12 rounded-3xl bg-primary-100/70 blur-sm"
+      />
+      <div className="relative mx-auto max-w-md rounded-xl border-4 border-primary-500 bg-white p-6 text-center shadow-panel sm:p-10">
+        <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+          <AwardIcon size={20} />
+        </div>
+        <p className="text-[10px] uppercase tracking-[0.2em] text-ink-soft">This is to certify that</p>
+        <p className="mt-2 font-serif text-2xl text-ink sm:text-3xl">Your Name</p>
+        <p className="mx-auto mt-3 max-w-xs text-[10px] leading-relaxed text-ink-soft">
+          has been formally evaluated for demonstrated experience, knowledge, and performance and is
+          hereby awarded the credential
+        </p>
+        <p className="mt-3 text-sm font-semibold text-ink">{title}</p>
+        <div className="mx-auto mt-6 flex max-w-xs items-center justify-between text-[9px] text-ink-soft">
+          <span>Certificate No. ——</span>
+          <ShieldCheck size={22} className="text-primary-500" />
+          <span>Issue Date ——</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Rotating achievement badge for the Distinctions & Achievements strip. */
+function AchievementBadge({ achievement }) {
+  return (
+    <div className="rounded-2xl border border-ink/[0.06] bg-white p-6 text-center shadow-card">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-200 to-amber-400 text-white shadow-sm">
+        <Trophy size={26} />
+      </div>
+      <p className="mt-4 text-sm font-semibold text-ink">{achievement.title}</p>
+      <p className="mt-1 text-xs text-ink-muted">{achievement.org}</p>
+    </div>
+  );
+}
+
+/** "Drop a query" lead-capture card — falls back to a self-contained form if
+ *  CourseContactForm expects different props than assumed here. */
+function LeadForm({ course, compact = false }) {
+  const [submitted, setSubmitted] = useState(false);
+
+  if (submitted) {
+    return (
+      <div className="flex h-full min-h-[220px] flex-col items-center justify-center rounded-2xl bg-white p-6 text-center">
+        <CheckCircle2 size={32} className="text-success-500" />
+        <p className="mt-3 text-sm font-semibold text-ink">Thanks! We've got your details.</p>
+        <p className="mt-1 text-xs text-ink-muted">Our team will reach out shortly.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn('rounded-2xl bg-white p-5', compact ? 'shadow-card' : 'shadow-panel sm:p-6')}>
+      {typeof CourseContactForm === 'function' ? (
+        <CourseContactForm course={course} onSuccess={() => setSubmitted(true)} />
+      ) : (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSubmitted(true);
+          }}
+          className="space-y-3"
+        >
+          <input
+            type="text"
+            required
+            placeholder="Full Name*"
+            className="w-full rounded-lg border border-ink/10 px-3.5 py-2.5 text-sm outline-none focus:border-primary-400"
+          />
+          <input
+            type="email"
+            required
+            placeholder="Email Id*"
+            className="w-full rounded-lg border border-ink/10 px-3.5 py-2.5 text-sm outline-none focus:border-primary-400"
+          />
+          <input
+            type="tel"
+            required
+            placeholder="Phone*"
+            className="w-full rounded-lg border border-ink/10 px-3.5 py-2.5 text-sm outline-none focus:border-primary-400"
+          />
+          <select className="w-full rounded-lg border border-ink/10 px-3.5 py-2.5 text-sm text-ink-muted outline-none focus:border-primary-400">
+            <option>Select a purpose</option>
+            <option>Individual Training</option>
+            <option>Corporate Training</option>
+            <option>General Enquiry</option>
+          </select>
+          <label className="flex items-start gap-2 text-[11px] leading-snug text-ink-muted">
+            <input type="checkbox" required className="mt-0.5" />I agree to the Terms & Conditions and
+            Privacy Policy.
+          </label>
+          <Button type="submit" variant="primary" className="w-full justify-center">
+            Submit <ArrowRight size={15} />
+          </Button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Page                                                                      */
+/* -------------------------------------------------------------------------- */
 
 export default function CourseDetailPage() {
   const { slug } = useParams();
@@ -104,7 +723,6 @@ export default function CourseDetailPage() {
     };
   }, [slug]);
 
-  // Load related courses (same category, exclude current course)
   useEffect(() => {
     if (!course) return;
     let isMounted = true;
@@ -142,6 +760,19 @@ export default function CourseDetailPage() {
     );
   }
 
+  const keyFeatures = course.keyFeatures?.length ? course.keyFeatures : DEFAULT_KEY_FEATURES;
+  const processSteps = course.provenPath?.length ? course.provenPath : DEFAULT_PROCESS_STEPS;
+  const planColumns = course.plans?.columns?.length ? course.plans.columns : DEFAULT_PLAN_COLUMNS;
+  const planRows = course.plans?.rows?.length ? course.plans.rows : DEFAULT_PLAN_ROWS;
+  const batches = course.batches?.length ? course.batches : DEFAULT_BATCHES;
+  const reviews = course.reviews?.length ? course.reviews : DEFAULT_REVIEWS;
+  const achievements = course.achievements?.length ? course.achievements : DEFAULT_ACHIEVEMENTS;
+  const enterpriseLogos = course.enterpriseLogos?.length ? course.enterpriseLogos : DEFAULT_ENTERPRISE_LOGOS;
+  const cities = course.citiesOffered?.length ? course.citiesOffered : DEFAULT_CITIES;
+  const servedStats = course.servedStats?.length ? course.servedStats : DEFAULT_SERVED_STATS;
+  const heroStatBadges = course.heroStatBadges?.length ? course.heroStatBadges : DEFAULT_HERO_STAT_BADGES;
+  const shortName = course.title?.split(' ').slice(0, 2).join(' ') || course.title;
+
   return (
     <>
       <SEO
@@ -151,9 +782,11 @@ export default function CourseDetailPage() {
         canonicalPath={`/course/${course.slug}`}
       />
 
-      {/* Hero Section — Left: Info | Right: Pricing Card (replaces generic image) */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Hero                                                              */}
+      {/* ---------------------------------------------------------------- */}
       <div className="border-b border-ink/[0.06] bg-surface-alt">
-        <Container className="grid grid-cols-1 gap-10 py-10 sm:py-14 lg:grid-cols-[1fr_380px] lg:items-start">
+        <Container className="grid grid-cols-1 gap-10 py-8 sm:py-12 lg:grid-cols-[1fr_360px] lg:items-start">
           <div>
             <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-xs text-ink-soft">
               <Link to="/courses" className="hover:text-ink">
@@ -164,12 +797,35 @@ export default function CourseDetailPage() {
             </nav>
 
             <Reveal>
-              <Badge tone="primary">{course.category}</Badge>
-              <h1 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">{course.title}</h1>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">{course.longDescription}</p>
+              <h1 className="text-3xl font-bold leading-tight text-ink sm:text-4xl">{course.title}</h1>
+
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                {course.moneyBackGuarantee !== false && (
+                  <span className="flex items-center gap-1.5 rounded-full bg-success-50 px-3 py-1 text-xs font-semibold text-success-700">
+                    <ShieldCheck size={13} /> 100% Money Back Guarantee
+                  </span>
+                )}
+                {course.reviewCount && (
+                  <span className="flex items-center gap-1.5 text-xs font-medium text-ink-muted">
+                    <Users size={13} className="text-primary-500" />
+                    {(course.stats?.studentsEnrolled || '300K+')} Learners
+                  </span>
+                )}
+              </div>
             </Reveal>
 
-            <Reveal delay={0.1}>
+            <Reveal delay={0.08}>
+              <ul className="mt-5 space-y-2">
+                {keyFeatures.slice(0, 6).map((point) => (
+                  <li key={point} className="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
+                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={0.12}>
               <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Rating value={course.rating} reviewCount={course.reviewCount} />
                 <span className="flex items-center gap-1.5 font-mono text-xs text-ink-muted">
@@ -185,6 +841,38 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.16}>
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                {DEFAULT_TRUST_BADGES.map((badge) => (
+                  <span
+                    key={badge.label}
+                    className="flex items-center gap-2 rounded-lg border border-ink/[0.06] bg-white px-3 py-1.5 text-xs"
+                  >
+                    <Star size={13} className={cn(badge.tone)} fill="currentColor" />
+                    <span className="font-medium text-ink-muted">{badge.label}</span>
+                    <span className="font-semibold text-ink">{badge.rating}</span>
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <div className="mt-6 w-full flex flex-wrap flex-col items-center gap-3">
+                <Button as="a" href="#pricing" variant="primary" size="md" className="w-full">
+                  <Download size={12} /> Download Brochure
+                </Button>
+                <Button as="a" href="#course-content" variant="outline" size="md" className="w-full">
+                  View Schedules
+                </Button>
+              </div>
+              <p className="mt-3 text-xs text-ink-muted">
+                Looking for corporate training?{' '}
+                <a href="#corporate" className="font-semibold text-success-600 underline underline-offset-2">
+                  Get a Quote
+                </a>
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.22}>
               <div className="mt-6 flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-white p-4">
                 <img
                   src={course.instructor.avatar}
@@ -200,267 +888,460 @@ export default function CourseDetailPage() {
             </Reveal>
           </div>
 
-          {/* Pricing Card in Hero (replaces generic image) */}
-          <div className="lg:sticky lg:top-24 self-start">
-            <CoursePricingCard course={course} />
-          </div>
+          {/* Right column: portrait on desktop, lead-capture card */}
+          {/* <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
+            <HeroPortrait instructor={course.instructor} statBadges={heroStatBadges} />
+            <div className="rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-panel">
+              <p className="mb-3 flex items-start gap-2 text-sm font-semibold text-ink">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                  <Sparkles size={13} />
+                </span>
+                Are you confused? Let us assist you.
+              </p>
+              <LeadForm course={course} compact />
+            </div>
+          </div> */}
         </Container>
       </div>
 
-      {/* Stats Band — animated counters */}
-      {course.stats && (
-        <div className="border-b border-ink/[0.06] bg-white">
-          <Container>
-            <StatsBand stats={course.stats} />
-          </Container>
+      <SubNav phone={course.supportPhone} />
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Highlighted Course Features                                       */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="key-features">
+        <Reveal>
+          <Badge tone="primary">Highlighted Course Features</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+            Everything included in your training
+          </h2>
+        </Reveal>
+        <div className="mt-8 grid grid-cols-1 gap-3 rounded-2xl border border-ink/[0.06] bg-surface-alt p-6 sm:grid-cols-2 sm:p-8">
+          {keyFeatures.map((point) => (
+            <div key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
+              <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+              {point}
+            </div>
+          ))}
         </div>
-      )}
-
-      {/* Section 2 — What You'll Learn + Mentor in 2-column layout */}
-      <Section>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* What You'll Learn */}
-          <Reveal>
-            <div>
-              <Badge tone="primary">Curriculum Overview</Badge>
-              <h2 className="mt-4 text-2xl font-semibold text-ink">What You'll Learn</h2>
-              <p className="mt-2 text-sm text-ink-muted">
-                Master the skills you need to succeed — from foundations to certification.
-              </p>
-              <ul className="mt-5 grid grid-cols-1 gap-3">
-                {course.whatYouWillLearn.map((point) => (
-                  <li key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-
-          {/* Mentor */}
-          <Reveal delay={0.1}>
-            <div>
-              <Badge tone="accent">Your Instructor</Badge>
-              <h2 className="mt-4 text-2xl font-semibold text-ink">Meet Your Mentor</h2>
-              <div className="mt-5 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <img
-                    src={course.instructor.avatar}
-                    alt=""
-                    className="h-20 w-20 shrink-0 rounded-full object-cover"
-                    loading="lazy"
-                  />
-                  <div>
-                    <p className="text-lg font-semibold text-ink">{course.instructor.name}</p>
-                    <p className="text-sm text-primary-600">{course.instructor.title}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-ink-muted">{course.instructor.bio}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+        <div className="mt-4 text-center">
+          <Button as="a" href="#pricing" variant="primary" size="md">
+            Get Started <ArrowRight size={12} />
+          </Button>
         </div>
       </Section>
 
-      {/* Section 3 — Curriculum */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Video intro + Proven path                                        */}
+      {/* ---------------------------------------------------------------- */}
       <Section className="bg-surface-alt">
-        <Container className="max-w-4xl">
-          <div className="text-center">
-            <Badge tone="primary">Course Curriculum</Badge>
-            <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-              Program Syllabus
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-              {course.curriculum.length} comprehensive modules • {course.duration} of expert-led training
-            </p>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
+          <Reveal>
+            <VideoIntroBanner course={course} />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-ink/[0.06] bg-white p-6 text-center shadow-card">
+              <p className="text-sm font-semibold text-ink">Explore the Complete Course Brochure</p>
+              <Button variant="outline" size="md" className="mt-4">
+                Download Brochure <Download size={15} />
+              </Button>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="mt-10">
+          <Badge tone="accent">Your Learning Journey</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+            The Proven Path to {shortName} Success
+          </h2>
+          <div className="mt-6">
+            <ProvenPath steps={processSteps} />
           </div>
-          <div className="mt-10">
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Curriculum                                                        */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="course-content">
+        <Container className="max-w-4xl px-0">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <Badge tone="primary">Course Curriculum</Badge>
+              <h2 className="mt-4 text-xl font-semibold text-ink sm:text-3xl">{course.title} Course Content</h2>
+              <p className="mt-2 text-sm text-ink-muted">
+                {course.curriculum.length} comprehensive modules • {course.duration} of expert-led training
+              </p>
+            </div>
+            <Button variant="primary" size="md">
+              Download Syllabus <Download size={15} />
+            </Button>
+          </div>
+          <div className="mt-8">
             <CourseCurriculum curriculum={course.curriculum} />
           </div>
         </Container>
       </Section>
 
-      {/* Highlights Bar — moved to after Curriculum */}
-      {course.highlights && (
-        <div className="bg-accent-50 border-y border-accent-200">
-          <Container>
-            <div className="grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
-              {course.highlights.map(({ icon: Icon, label, desc }) => {
-                const IconComponent = {
-                  Award, Clock, BookOpen, ShieldCheck,
-                  GraduationCap, Trophy, Sparkles, Star,
-                  TrendingUp, Target, Zap, Users, Headphones,
-                }[Icon] || Star;
-                return (
-                  <div key={label} className="flex items-start gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-600">
-                      <IconComponent size={20} />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-ink">{label}</p>
-                      <p className="text-xs text-ink-muted">{desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </Container>
-        </div>
-      )}
-
-      {/* Section 4 — About Certification (dynamic from course data) */}
-      {course.aboutContent && (
-        <Section className="bg-surface-alt">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <Reveal>
-              <div>
-                <Badge tone="accent">About This Certification</Badge>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-                  {course.aboutContent.title}
-                </h2>
-                <p className="mt-4 text-base leading-relaxed text-ink-muted">
-                  {course.aboutContent.description}
-                </p>
-                <ul className="mt-6 space-y-3">
-                  {course.aboutContent.highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-                      <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <div className="rounded-2xl border border-ink/[0.06] bg-white p-8 shadow-panel">
-                <h3 className="text-xl font-semibold text-ink">Certification Details</h3>
-                <div className="mt-6 space-y-5">
-                  {course.aboutContent.details.map(({ label, value }) => (
-                    <div key={label} className="border-b border-ink/[0.06] pb-4 last:border-0 last:pb-0">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-primary-600">{label}</p>
-                      <p className="mt-1 text-sm text-ink-muted">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
+      {/* ---------------------------------------------------------------- */}
+      {/* Pricing plans + pricing card                                      */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="pricing" className="bg-surface-alt">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <Badge tone="accent">Enroll Now</Badge>
+            <h2 className=" text-xl font-semibold text-ink sm:text-3xl">Choose the plan that fits you best!</h2>
           </div>
-        </Section>
-      )}
-
-      {/* Section 5 — Why Choose Edutech (dynamic/course-agnostic) */}
-      <Section>
-        <div className="text-center">
-          <Badge tone="primary">Why Edutech Skills</Badge>
-          <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-            Why Professionals Choose Us
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-            We don't just teach certification — we build confident, skilled professionals who lead with impact.
-          </p>
+          <span className="flex items-center gap-1 rounded-sm bg-success-600 px-2 py-1 text-xs font-semibold text-white">
+            <ShieldCheck size={13} /> 100% Money Back
+          </span>
         </div>
 
-        <StaggerGroup className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              icon: Users,
-              title: 'Expert Instructors',
-              desc: 'Learn from certified professionals with 15+ years of real-world experience across industries and domains.',
-            },
-            {
-              icon: Target,
-              title: 'High Pass Rate',
-              desc: 'Our structured approach, mock exams, and personalized feedback ensure you succeed on your first attempt.',
-            },
-            {
-              icon: BookOpen,
-              title: 'Comprehensive Curriculum',
-              desc: 'Covers all exam domains with real-world case studies, hands-on labs, and exam-focused practice.',
-            },
-            {
-              icon: Zap,
-              title: 'Flexible Learning',
-              desc: 'Self-paced modules combined with live weekend sessions — learn at your own rhythm without disrupting your work.',
-            },
-            {
-              icon: Headphones,
-              title: 'Dedicated Support',
-              desc: 'Get your questions answered within 24 hours by our expert instructors and support team throughout the program.',
-            },
-            {
-              icon: TrendingUp,
-              title: 'Career Acceleration',
-              desc: 'Certification holders earn significantly higher salaries on average. We help you leverage your certification for growth.',
-            },
-          ].map(({ icon: Icon, title, desc }) => (
-            <motion.div
-              key={title}
-              variants={staggerItemVariants}
-              className="rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card transition-shadow hover:shadow-card-hover"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
-                <Icon size={20} />
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] lg:items-start">
+          <PlanComparisonTable columns={planColumns} rows={planRows} />
+          <CoursePricingCard course={course} />
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Upcoming batches                                                  */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="flex items-center gap-1.5 text-xs font-medium text-ink-muted">
+            <Star size={13} className="text-[#4285F4]" fill="currentColor" /> 4.8/5 · 10,550 Reviews
+          </span>
+          <span className="flex items-center gap-1.5 text-xs font-medium text-ink-muted">
+            <Star size={13} className="text-amber-400" fill="currentColor" /> 4.6/5 · 2,305 Reviews
+          </span>
+        </div>
+        <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+          Upcoming {course.title} Training Batches
+        </h2>
+
+        <div className="mt-8 space-y-4">
+          {batches.slice(0, 2).map((batch, i) => (
+            <BatchCard key={i} batch={batch} format={format} />
+          ))}
+
+          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 p-6 text-center sm:flex-row sm:text-left">
+            <p className="text-base font-semibold text-white">
+              Do you want to customize
+              <br className="hidden sm:block" /> your batch request?
+            </p>
+            <Button as="a" href="#pricing" variant="primary" size="md">
+              Request a Batch
+            </Button>
+          </div>
+
+          {batches.slice(2).map((batch, i) => (
+            <BatchCard key={`extra-${i}`} batch={batch} format={format} />
+          ))}
+        </div>
+
+        <div className="mt-6 text-center">
+          <Button variant="outline" size="md">
+            View All Batches
+          </Button>
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Corporate training                                                */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="corporate" className="pt-0">
+        <div className="rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-success-50 text-success-600">
+                <Building2 size={22} />
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">{desc}</p>
+              <div>
+                <p className="text-base font-semibold text-ink">Corporate Training</p>
+                <p className="text-sm text-ink-muted">Your workforce is your asset — up-skill it with our programs.</p>
+              </div>
+            </div>
+            <Button variant="outline" size="md">
+              Contact Us <ArrowRight size={15} />
+            </Button>
+          </div>
+          <div className="mt-6 grid grid-cols-1 gap-3 rounded-xl bg-surface-alt p-5 sm:grid-cols-2">
+            {DEFAULT_CORPORATE_POINTS.map((point) => (
+              <div key={point} className="flex items-start gap-2.5 text-sm text-ink-muted">
+                <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                {point}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Course overview                                                   */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="overview" className="bg-surface-alt">
+        <Container className="max-w-4xl px-0">
+          <Badge tone="primary">Course Overview</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.title} Course Overview</h2>
+          <div className="mt-6 max-h-72 overflow-y-auto rounded-2xl border border-ink/[0.06] bg-white p-6 text-sm leading-relaxed text-ink-muted sm:p-8">
+            <p>{course.longDescription}</p>
+            {course.aboutContent?.description && <p className="mt-4">{course.aboutContent.description}</p>}
+          </div>
+        </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Certificate                                                       */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
+        <Container className="max-w-3xl px-0">
+          <Badge tone="accent">Your Achievement</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.title.split(' ').slice(0, -2).join(' ') || course.title} Certificate</h2>
+          <div className="mt-8">
+            <CertificatePreview title={course.title} />
+          </div>
+        </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Video testimonials                                                */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="testimonials" className="bg-surface-alt">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <Badge tone="primary">Testimonials</Badge>
+            <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+              Hear It From Our Certified Professionals
+            </h2>
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-muted hover:text-ink"
+              aria-label="Previous"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-muted hover:text-ink"
+              aria-label="Next"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+
+        <StaggerGroup className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {TESTIMONIALS.map((testimonial) => (
+            <motion.div key={testimonial.name} variants={staggerItemVariants}>
+              <VideoTestimonialCard testimonial={testimonial} />
             </motion.div>
           ))}
         </StaggerGroup>
       </Section>
 
-      {/* Section 6 — Testimonials */}
-      <Section className="bg-surface-alt">
+      {/* ---------------------------------------------------------------- */}
+      {/* Written course reviews                                           */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="reviews">
+        <Container className="max-w-3xl px-0">
+          <Badge tone="accent">Course Reviews</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">What Learners Are Saying</h2>
+          <div className="mt-8 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
+            {reviews.map((review) => (
+              <ReviewCard key={review.name} review={review} />
+            ))}
+          </div>
+          <div className="mt-6 text-center">
+            <Button variant="outline" size="md">
+              View All Reviews
+            </Button>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* FAQs — three themed groups, matching the reference layout         */}
+      {/* ---------------------------------------------------------------- */}
+      {course.faqs && course.faqs.length > 0 && (
+        <Section id="faqs" className="bg-surface-alt">
+          <Container className="max-w-3xl px-0">
+            <div>
+              <Badge tone="primary">Frequently Asked Questions</Badge>
+              <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+                {course.title} Training and Certification FAQ's
+              </h2>
+            </div>
+            <div className="mt-8">
+              <Accordion items={course.faqs.slice(0, Math.ceil(course.faqs.length / 3))} />
+            </div>
+            <div className="mt-6 text-center">
+              <Button variant="outline" size="md">
+                View All
+              </Button>
+            </div>
+
+            {course.faqs.length > 3 && (
+              <>
+                <h3 className="mt-14 text-xl font-semibold text-ink">
+                  {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Training:
+                  Eligibility, Prerequisites & Exam FAQs
+                </h3>
+                <div className="mt-6">
+                  <Accordion
+                    items={course.faqs.slice(
+                      Math.ceil(course.faqs.length / 3),
+                      Math.ceil((course.faqs.length * 2) / 3)
+                    )}
+                  />
+                </div>
+                <div className="mt-6 text-center">
+                  <Button variant="outline" size="md">
+                    View All
+                  </Button>
+                </div>
+
+                <h3 className="mt-14 text-xl font-semibold text-ink">
+                  {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Course
+                  Additional FAQs
+                </h3>
+                <div className="mt-6">
+                  <Accordion items={course.faqs.slice(Math.ceil((course.faqs.length * 2) / 3))} />
+                </div>
+              </>
+            )}
+          </Container>
+        </Section>
+      )}
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Distinctions & Achievements                                       */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
         <div className="text-center">
-          <Badge tone="accent">What Our Learners Say</Badge>
-          <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-            Trusted by Thousands of Certified Professionals
+          <Badge tone="accent">Distinctions and Achievements</Badge>
+          <h2 className="mx-auto mt-4 max-w-xl text-2xl font-semibold leading-tight text-ink sm:text-3xl">
+            Explore the milestones of our journey!
           </h2>
         </div>
-
-        <StaggerGroup className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((testimonial) => (
-            <motion.figure
-              key={testimonial.name}
-              variants={staggerItemVariants}
-              className="flex h-full flex-col rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card"
-            >
-              <Quote size={22} className="text-primary-200" fill="currentColor" strokeWidth={0} />
-              <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">
-                &ldquo;{testimonial.quote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/[0.06] pt-4">
-                <img
-                  src={testimonial.avatar}
-                  alt=""
-                  loading="lazy"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-                <div>
-                  <p className="text-sm font-semibold text-ink">{testimonial.name}</p>
-                  <p className="text-xs text-ink-muted">{testimonial.role}</p>
-                </div>
-              </figcaption>
-            </motion.figure>
+        <StaggerGroup className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+          {achievements.map((achievement) => (
+            <motion.div key={achievement.title} variants={staggerItemVariants}>
+              <AchievementBadge achievement={achievement} />
+            </motion.div>
           ))}
         </StaggerGroup>
       </Section>
 
-      {/* Section 7 — Related Courses */}
-      {relatedCourses.length > 0 && (
-        <Section>
-          <div className="text-center">
-            <Badge tone="primary">Related Programs</Badge>
-            <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-              Explore More {course.category} Courses
+      {/* ---------------------------------------------------------------- */}
+      {/* About / benefits (reuses course.aboutContent if present)          */}
+      {/* ---------------------------------------------------------------- */}
+      {course.aboutContent && (
+        <Section className="bg-surface-alt">
+          <Badge tone="primary">About This Certification</Badge>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.aboutContent.title} - Benefits</h2>
+          <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
+            <div className="max-h-80 overflow-y-auto rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
+              <p className="text-sm leading-relaxed text-ink-muted">{course.aboutContent.description}</p>
+              <ul className="mt-5 space-y-3">
+                {course.aboutContent.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
+                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-ink/[0.06] bg-white p-8 shadow-panel">
+              <h3 className="text-xl font-semibold text-ink">Certification Details</h3>
+              <div className="mt-6 space-y-5">
+                {course.aboutContent.details.map(({ label, value }) => (
+                  <div key={label} className="border-b border-ink/[0.06] pb-4 last:border-0 last:pb-0">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-primary-600">{label}</p>
+                    <p className="mt-1 text-sm text-ink-muted">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Section>
+      )}
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Enterprise training strip                                         */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
+        <div className="flex flex-wrap items-center justify-between gap-4 w-full">
+          <div className="max-w-xl">
+            <Badge tone="accent">For Teams</Badge>
+            <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+              Comprehensive Training Solutions for Enterprises
             </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-              Continue your learning journey with these related programs in the same domain.
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+              Tailored programs to empower enterprises with the skills needed for growth and innovation,
+              built to boost productivity and improve workforce capabilities.
             </p>
           </div>
+          <Button variant="primary" size="md" className="w-full">
+            Skill Up Your Team <ArrowRight size={16} />
+          </Button>
+        </div>
 
-          <StaggerGroup className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 space-y-6 border-y border-ink/[0.06] py-6">
+          <Marquee
+            items={enterpriseLogos}
+            renderItem={(logo) => (
+              <img
+                src={logo}
+                alt="Enterprise partner logo"
+                className="h-7 w-auto max-w-[110px] object-contain"
+                loading="lazy"
+              />
+            )}
+          />
+          <Marquee
+            reverse
+            items={enterpriseLogos}
+            renderItem={(logo) => (
+              <img
+                src={logo}
+                alt="Enterprise partner logo"
+                className="h-7 w-auto max-w-[110px] object-contain"
+                loading="lazy"
+              />
+            )}
+          />
+        </div>
+
+        <p className="mt-8 text-center text-xs font-semibold uppercase tracking-widest text-ink-soft">
+          Curriculum Designed to Fit Your Organization
+        </p>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {DEFAULT_ENTERPRISE_POINTS.map(({ icon: Icon, label }) => (
+            <div key={label} className="rounded-xl border border-ink/[0.06] bg-white p-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-success-600">
+                <Icon size={17} />
+              </span>
+              <p className="mt-3 text-xs leading-relaxed text-ink-muted">{label}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Related courses                                                   */}
+      {/* ---------------------------------------------------------------- */}
+      {relatedCourses.length > 0 && (
+        <Section className="bg-surface-alt">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <Badge tone="primary">Related Programs</Badge>
+              <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">People Also Viewed Courses Like</h2>
+            </div>
+          </div>
+
+          <StaggerGroup className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedCourses.map((related) => (
               <motion.div key={related.id} variants={staggerItemVariants}>
                 <div className="group overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-card transition-shadow hover:shadow-card-hover">
@@ -501,7 +1382,7 @@ export default function CourseDetailPage() {
                         to={`/course/${related.slug}`}
                         className="rounded-full border border-ink/15 px-4 py-2 text-xs font-semibold text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"
                       >
-                        View Program
+                        Explore Now
                       </Link>
                     </div>
                   </div>
@@ -509,69 +1390,56 @@ export default function CourseDetailPage() {
               </motion.div>
             ))}
           </StaggerGroup>
-
-          <Reveal className="mt-10 text-center">
-            <Button to="/courses" variant="outline" size="lg">
-              Browse All Courses <ArrowRight size={17} />
-            </Button>
-          </Reveal>
         </Section>
       )}
 
-      {/* Section 8 — Dynamic FAQ from course data */}
-      {course.faqs && course.faqs.length > 0 && (
-        <Section className="bg-surface-alt">
-          <div className="mx-auto max-w-3xl">
-            <div className="text-center">
-              <Badge tone="accent">Frequently Asked Questions</Badge>
-              <h2 className="mx-auto mt-4 max-w-xl text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-                Everything You Need to Know About {course.title.split(' ').slice(0, -2).join(' ') || 'This Program'}
-              </h2>
-            </div>
+      {/* ---------------------------------------------------------------- */}
+      {/* Cities                                                            */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
+        <Badge tone="accent">Also Available Near You</Badge>
+        <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.title.split(' ').slice(0, -2).join(' ') || course.title} Training in Other Cities</h2>
+        <div className="mt-6 flex flex-wrap gap-2.5">
+          {cities.map((city) => (
+            <span
+              key={city}
+              className="flex items-center gap-1.5 rounded-full border border-ink/[0.08] bg-surface-alt px-4 py-1.5 text-xs font-medium text-ink-muted"
+            >
+              <MapPin size={11} className="text-primary-500" /> {city}
+            </span>
+          ))}
+        </div>
+      </Section>
 
-            <div className="mt-10">
-              <Accordion items={course.faqs} />
+      {/* ---------------------------------------------------------------- */}
+      {/* Stats + Drop a Query                                              */}
+      {/* ---------------------------------------------------------------- */}
+      <Section className="pb-12 sm:pb-16">
+        <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 shadow-panel lg:grid-cols-[1fr_420px]">
+          <div className="p-8 sm:p-12 flex flex-col items-center">
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">This course has served</h2>
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {servedStats.map(({ icon: Icon, value, label }) => (
+                <div key={label}>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white">
+                    <Icon size={18} />
+                  </span>
+                  <p className="mt-3 text-2xl font-bold text-white">{value}</p>
+                  <p className="text-xs text-white/70">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </Section>
-      )}
 
-      {/* Section 9 — Final CTA Banner (dynamic) */}
-      <Section className="py-12 sm:py-16">
-        <div className="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center sm:px-16 sm:py-20">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary-500/30 blur-3xl"
-          />
-          <Reveal>
-            <Badge tone="accent" className="border-accent-500/30 bg-accent-500/10 text-accent-300">
-              Limited Enrollment
-            </Badge>
-            <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl">
-              Ready to Get {course.title.split(' ').slice(0, 2).join(' ') || 'Certified'}?
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
-              Join thousands of professionals who have transformed their careers with our expert-led training programs. 
-              Enroll today and take the first step toward becoming a globally recognized certified professional.
-            </p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Button as="a" href="#pricing" variant="white" size="lg">
-                Enroll Now <ArrowRight size={17} />
-              </Button>
-              <Button to="/contact" variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
-                Talk to an Advisor
-              </Button>
-            </div>
-          </Reveal>
+        </div>
+        <div className="bg-white p-8 ">
+          <p className="mb-4 text-lg font-semibold text-ink">Drop a Query</p>
+          <LeadForm course={course} />
         </div>
       </Section>
 
       {/* Mobile Sticky Bottom CTA Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink/[0.08] bg-white/95 backdrop-blur-md lg:hidden">
+      {/* <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink/[0.08] bg-white/95 backdrop-blur-md lg:hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <div className="flex-1 min-w-0">
             <p className="truncate text-sm font-semibold text-ink">{course.title}</p>
@@ -592,8 +1460,7 @@ export default function CourseDetailPage() {
             Enroll Now
           </Button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
-

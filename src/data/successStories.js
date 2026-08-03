@@ -16,7 +16,7 @@ export const SUCCESS_STORIES = [
     toRole: null,
     company: 'Microsoft',
     metric: '150% Salary Hike',
-    accent: 'bg-emerald-100',
+    accent: 'bg-blue-100',
   },
   {
     id: 's3',
@@ -25,7 +25,7 @@ export const SUCCESS_STORIES = [
     toRole: 'To Data Engineer',
     company: 'Walmart',
     metric: null,
-    accent: 'bg-emerald-100',
+    accent: 'bg-blue-100',
   },
   {
     id: 's4',
