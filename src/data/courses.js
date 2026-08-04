@@ -88,7 +88,7 @@ export const COURSES = [
     rating: 4.9,
     reviewCount: 2147,
     trending: true,
-    priceINR: 16999,
+    priceINR: 24999,
     originalPriceINR: 99999,
     priceUSD: 899,
     originalPriceUSD: 1200,

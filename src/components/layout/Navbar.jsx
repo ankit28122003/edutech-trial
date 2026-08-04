@@ -53,7 +53,7 @@ export default function Navbar() {
       )}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 py-2 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
+        <Link to="https://www.edutechskills.com/" className="flex items-center gap-2 shrink-0" aria-label="Edutech Skills home">
           <img src="/edutech-logo-redesign (1).svg" alt="Edutech Skills" className="h-auto w-40 py-1" />
           {/* <span className="font-display text-lg font-semibold tracking-tight text-ink">Edutech Skills</span> */}
         </Link>
@@ -92,13 +92,13 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CurrencySwitcher className="hidden sm:block" />
+          {/* <CurrencySwitcher className="hidden sm:block" />
           <Button to="/contact" variant="ghost" size="sm" className="hidden lg:inline-flex">
             Contact
           </Button>
           <Button to="/login" variant="outline" size="sm" className="hidden sm:inline-flex">
             Login
-          </Button>
+          </Button> */}
           {/* <Button to="/contact" variant="accent" size="sm" className="hidden md:inline-flex">
             Enroll Now
           </Button> */}

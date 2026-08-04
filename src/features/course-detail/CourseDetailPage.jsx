@@ -888,19 +888,17 @@ export default function CourseDetailPage() {
             </Reveal>
           </div>
 
-          {/* Right column: portrait on desktop, lead-capture card */}
-          {/* <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
-            <HeroPortrait instructor={course.instructor} statBadges={heroStatBadges} />
-            <div className="rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-panel">
-              <p className="mb-3 flex items-start gap-2 text-sm font-semibold text-ink">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                  <Sparkles size={13} />
-                </span>
-                Are you confused? Let us assist you.
-              </p>
-              <LeadForm course={course} compact />
+          {/* Right column: course intro poster */}
+          <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
+            <div className="relative overflow-hidden rounded-xl border border-ink/[0.06] bg-white">
+              <img
+                src="/sa-web-intro-poster-pmp-02.webp"
+                alt={`${course.title} course intro poster`}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
             </div>
-          </div> */}
+          </div>
         </Container>
       </div>
 
