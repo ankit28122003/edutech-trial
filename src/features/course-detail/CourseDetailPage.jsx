@@ -33,7 +33,6 @@ import {
   ChevronLeft,
   ChevronRight,
   BadgeCheck,
-  Award as AwardIcon,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../../components/common/SEO';
@@ -53,6 +52,7 @@ import CourseContactForm from './CourseContactForm';
 import StaggerGroup, { staggerItemVariants } from '../../components/common/StaggerGroup';
 import { getCourseBySlug, getCourses } from '../../services/courseService';
 import { useCurrency } from '../../context/CurrencyContext';
+import { useModal } from '../../context/ModalContext';
 import { TESTIMONIALS } from '../../data/testimonials';
 import { useCountUp } from '../../hooks/useCountUp';
 import { cn } from '../../lib/utils';
@@ -444,7 +444,7 @@ function PlanComparisonTable({ columns, rows }) {
                   key={col}
                   className={cn('p-4 text-center', ci === columns.length - 1 && 'bg-accent-50/60')}
                 >
-                  <CheckCircle2 size={17} className="mx-auto text-success-500" />
+                  <CheckCircle2 size={17} className="mx-auto text-green-600" />
                 </td>
               ))}
             </tr>
@@ -459,9 +459,9 @@ function PlanComparisonTable({ columns, rows }) {
 function BatchCard({ batch, format }) {
   const [qty, setQty] = useState(1);
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-blue-500 shadow-[0_8px_30px_-6px_rgba(59,130,246,0.5)] transition-shadow duration-300 hover:shadow-orange-500 hover:shadow-[0_8px_30px_-6px_rgba(249,115,22,0.5)] sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <span className="flex items-center gap-1.5 text-xs font-semibold text-success-600">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-300 px-2.5 py-1 text-xs font-semibold text-green-600">
           <Globe2 size={13} /> {batch.mode}
         </span>
         <p className="mt-1.5 text-base font-semibold text-ink">{batch.dateRange}</p>
@@ -497,7 +497,7 @@ function BatchCard({ batch, format }) {
 
       <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1.5">
         <div className="flex items-center gap-2">
-          <span className="rounded-md bg-success-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+          <span className="rounded-md bg-orange-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
             {batch.discount}
           </span>
           <span className="font-mono text-xs text-ink-soft line-through">
@@ -505,9 +505,11 @@ function BatchCard({ batch, format }) {
           </span>
         </div>
         <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}</p>
-        <Button variant="outline" size="sm">
-          Enroll Now
-        </Button>
+        <a href="https://edutechskills.com/contact">
+          <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600">
+            Enroll Now
+          </Button>
+        </a>
       </div>
     </div>
   );
@@ -578,13 +580,13 @@ function ReviewCard({ review }) {
           <span className="ml-1 text-xs font-semibold text-ink-muted">{review.rating}/5</span>
         </div>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-ink-muted">{review.text}</p>
-      <p className="mt-2 text-right text-[11px] text-ink-soft">{review.date}</p>
+      <p className="mt-1 text-sm leading-relaxed text-ink-muted">{review.text}</p>
+      <p className="mt-1 text-right text-[11px] text-ink-soft">{review.date}</p>
     </div>
   );
 }
 
-/** Certificate mock — built from CSS/markup so no third-party artwork is needed. */
+/** Certificate preview — displays the actual certificate image. */
 function CertificatePreview({ title }) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-card sm:p-12">
@@ -596,22 +598,13 @@ function CertificatePreview({ title }) {
         aria-hidden="true"
         className="pointer-events-none absolute -right-10 bottom-10 h-40 w-40 rotate-12 rounded-3xl bg-primary-100/70 blur-sm"
       />
-      <div className="relative mx-auto max-w-md rounded-xl border-4 border-primary-500 bg-white p-6 text-center shadow-panel sm:p-10">
-        <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-          <AwardIcon size={20} />
-        </div>
-        <p className="text-[10px] uppercase tracking-[0.2em] text-ink-soft">This is to certify that</p>
-        <p className="mt-2 font-serif text-2xl text-ink sm:text-3xl">Your Name</p>
-        <p className="mx-auto mt-3 max-w-xs text-[10px] leading-relaxed text-ink-soft">
-          has been formally evaluated for demonstrated experience, knowledge, and performance and is
-          hereby awarded the credential
-        </p>
-        <p className="mt-3 text-sm font-semibold text-ink">{title}</p>
-        <div className="mx-auto mt-6 flex max-w-xs items-center justify-between text-[9px] text-ink-soft">
-          <span>Certificate No. ——</span>
-          <ShieldCheck size={22} className="text-primary-500" />
-          <span>Issue Date ——</span>
-        </div>
+      <div className="relative mx-auto max-w-2xl">
+        <img
+          src="/certificate_1727593944.webp"
+          alt={`${title} certificate`}
+          className="h-auto w-full rounded-xl border border-ink/[0.06] object-contain shadow-panel"
+          loading="lazy"
+        />
       </div>
     </div>
   );
@@ -621,10 +614,10 @@ function CertificatePreview({ title }) {
 function AchievementBadge({ achievement }) {
   return (
     <div className="rounded-2xl border border-ink/[0.06] bg-white p-6 text-center shadow-card">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-200 to-amber-400 text-white shadow-sm">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-300 to-orange-500 text-white shadow-sm">
         <Trophy size={26} />
       </div>
-      <p className="mt-4 text-sm font-semibold text-ink">{achievement.title}</p>
+      <p className="mt-2 text-sm font-semibold text-ink">{achievement.title}</p>
       <p className="mt-1 text-xs text-ink-muted">{achievement.org}</p>
     </div>
   );
@@ -638,7 +631,7 @@ function LeadForm({ course, compact = false }) {
   if (submitted) {
     return (
       <div className="flex h-full min-h-[220px] flex-col items-center justify-center rounded-2xl bg-white p-6 text-center">
-        <CheckCircle2 size={32} className="text-success-500" />
+        <CheckCircle2 size={32} className="text-green-600" />
         <p className="mt-3 text-sm font-semibold text-ink">Thanks! We've got your details.</p>
         <p className="mt-1 text-xs text-ink-muted">Our team will reach out shortly.</p>
       </div>
@@ -701,6 +694,7 @@ function LeadForm({ course, compact = false }) {
 export default function CourseDetailPage() {
   const { slug } = useParams();
   const { format, currencyCode } = useCurrency();
+  const { openContact } = useModal();
   const [course, setCourse] = useState(null);
   const [relatedCourses, setRelatedCourses] = useState([]);
   const [status, setStatus] = useState('loading');
@@ -797,7 +791,7 @@ export default function CourseDetailPage() {
             </nav>
 
             <Reveal>
-              <h1 className="text-3xl font-bold leading-tight text-ink sm:text-4xl">{course.title}</h1>
+              <h1 className="text-xl font-extrabold leading-tight text-ink sm:text-5xl lg:text-5xl">{course.title}</h1>
 
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 {course.moneyBackGuarantee !== false && (
@@ -815,10 +809,10 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <ul className="mt-5 space-y-2">
+              <ul className="mt-2 space-y-2">
                 {keyFeatures.slice(0, 6).map((point) => (
                   <li key={point} className="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
-                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-600" />
                     {point}
                   </li>
                 ))}
@@ -826,7 +820,7 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.12}>
-              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <div className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Rating value={course.rating} reviewCount={course.reviewCount} />
                 <span className="flex items-center gap-1.5 font-mono text-xs text-ink-muted">
                   <Clock size={14} className="text-primary-500" /> {course.duration}
@@ -841,13 +835,13 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.16}>
-              <div className="mt-5 flex flex-wrap items-center gap-3">
+              <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-2 border-blue-600 p-4 rounded-lg hover:borer-2 hover:border-orange-600">
                 {DEFAULT_TRUST_BADGES.map((badge) => (
                   <span
                     key={badge.label}
-                    className="flex items-center gap-2 rounded-lg border border-ink/[0.06] bg-white px-3 py-1.5 text-xs"
+                    className="flex items-center gap-2 rounded-lg border border-ink/[0.06] bg-white px-3 py-3 text-md"
                   >
-                    <Star size={13} className={cn(badge.tone)} fill="currentColor" />
+                    <Star size={20} className={cn(badge.tone)} fill="currentColor" />
                     <span className="font-medium text-ink-muted">{badge.label}</span>
                     <span className="font-semibold text-ink">{badge.rating}</span>
                   </span>
@@ -856,8 +850,8 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="mt-6 w-full flex flex-wrap flex-col items-center gap-3">
-                <Button as="a" href="#pricing" variant="primary" size="md" className="w-full">
+              <div className="mt-3 w-full flex flex-wrap flex-col items-center gap-3">
+                <Button variant="primary" size="md" className="w-full  shadow-[0_0_20px_0px] shadow-orange-400" onClick={openContact}>
                   <Download size={12} /> Download Brochure
                 </Button>
                 <Button as="a" href="#course-content" variant="outline" size="md" className="w-full">
@@ -866,14 +860,14 @@ export default function CourseDetailPage() {
               </div>
               <p className="mt-3 text-xs text-ink-muted">
                 Looking for corporate training?{' '}
-                <a href="#corporate" className="font-semibold text-success-600 underline underline-offset-2">
+                <a href="https://edutechskills.com/checkout/course/pmp-certification-training" className="font-semibold text-success-600 underline underline-offset-2" onClick={openContact}>
                   Get a Quote
                 </a>
               </p>
             </Reveal>
 
             <Reveal delay={0.22}>
-              <div className="mt-6 flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-white p-4">
+              <div className="mt-2 flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-white p-4">
                 <img
                   src={course.instructor.avatar}
                   alt=""
@@ -892,7 +886,7 @@ export default function CourseDetailPage() {
           <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
             <div className="relative overflow-hidden rounded-xl border border-ink/[0.06] bg-white">
               <img
-                src="/sa-web-intro-poster-pmp-02.webp"
+                src="/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM%20(1).jpeg"
                 alt={`${course.title} course intro poster`}
                 className="h-auto w-full object-cover"
                 loading="lazy"
@@ -910,22 +904,24 @@ export default function CourseDetailPage() {
       <Section id="key-features">
         <Reveal>
           <Badge tone="primary">Highlighted Course Features</Badge>
-          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
             Everything included in your training
           </h2>
         </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-3 rounded-2xl border border-ink/[0.06] bg-surface-alt p-6 sm:grid-cols-2 sm:p-8">
+        <div className="mt-3 grid grid-cols-1 gap-3 rounded-2xl border border-ink/[0.06] bg-surface-alt p-6 sm:grid-cols-2 sm:p-8">
           {keyFeatures.map((point) => (
             <div key={point} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-              <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+              <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-600" />
               {point}
             </div>
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Button as="a" href="#pricing" variant="primary" size="md">
-            Get Started <ArrowRight size={12} />
-          </Button>
+        <div className="mt-2 text-center">
+          <a href="https://edutechskills.com/checkout/course/pmp-certification-training">
+            <Button as="a" href="https://edutechskills.com/checkout/course/pmp-certification-training" variant="primary" size="md">
+              Get Started <ArrowRight size={12} />
+            </Button>
+          </a>
         </div>
       </Section>
 
@@ -940,20 +936,25 @@ export default function CourseDetailPage() {
           <Reveal delay={0.08}>
             <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-ink/[0.06] bg-white p-6 text-center shadow-card">
               <p className="text-sm font-semibold text-ink">Explore the Complete Course Brochure</p>
-              <Button variant="outline" size="md" className="mt-4">
+              <Button variant="outline" size="md" className="mt-2" onClick={openContact}>
                 Download Brochure <Download size={15} />
               </Button>
             </div>
           </Reveal>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-4">
           <Badge tone="accent">Your Learning Journey</Badge>
-          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
             The Proven Path to {shortName} Success
           </h2>
-          <div className="mt-6">
-            <ProvenPath steps={processSteps} />
+          <div className="mt-3 overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-card">
+            <img
+              src="/WhatsApp%20Image%202026-08-05%20at%202.32.05%20PM.jpeg"
+              alt="Proven Path to PMP Project Success"
+              className="h-auto w-full object-cover"
+              loading="lazy"
+            />
           </div>
         </div>
       </Section>
@@ -975,7 +976,7 @@ export default function CourseDetailPage() {
               Download Syllabus <Download size={15} />
             </Button>
           </div>
-          <div className="mt-8">
+          <div className="mt-4">
             <CourseCurriculum curriculum={course.curriculum} />
           </div>
         </Container>
@@ -987,7 +988,9 @@ export default function CourseDetailPage() {
       <Section id="pricing" className="bg-surface-alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Badge tone="accent">Enroll Now</Badge>
+            <a href="https://edutechskills.com/contact">
+              <Badge tone="accent">Enroll Now</Badge>
+            </a>
             <h2 className=" text-xl font-semibold text-ink sm:text-3xl">Choose the plan that fits you best!</h2>
           </div>
           <span className="flex items-center gap-1 rounded-sm bg-success-600 px-2 py-1 text-xs font-semibold text-white">
@@ -995,7 +998,7 @@ export default function CourseDetailPage() {
           </span>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] lg:items-start">
+        <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] lg:items-start">
           <PlanComparisonTable columns={planColumns} rows={planRows} />
           <CoursePricingCard course={course} />
         </div>
@@ -1013,11 +1016,11 @@ export default function CourseDetailPage() {
             <Star size={13} className="text-amber-400" fill="currentColor" /> 4.6/5 · 2,305 Reviews
           </span>
         </div>
-        <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">
           Upcoming {course.title} Training Batches
         </h2>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-4 space-y-4">
           {batches.slice(0, 2).map((batch, i) => (
             <BatchCard key={i} batch={batch} format={format} />
           ))}
@@ -1038,7 +1041,7 @@ export default function CourseDetailPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <Button variant="outline" size="md">
+          <Button variant="outline" size="md" className = "bg-orange-400">
             View All Batches
           </Button>
         </div>
@@ -1063,10 +1066,10 @@ export default function CourseDetailPage() {
               Contact Us <ArrowRight size={15} />
             </Button>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-3 rounded-xl bg-surface-alt p-5 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-3 rounded-xl bg-surface-alt p-5 sm:grid-cols-2">
             {DEFAULT_CORPORATE_POINTS.map((point) => (
               <div key={point} className="flex items-start gap-2.5 text-sm text-ink-muted">
-                <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-600" />
                 {point}
               </div>
             ))}
@@ -1095,7 +1098,7 @@ export default function CourseDetailPage() {
         <Container className="max-w-3xl px-0">
           <Badge tone="accent">Your Achievement</Badge>
           <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.title.split(' ').slice(0, -2).join(' ') || course.title} Certificate</h2>
-          <div className="mt-8">
+          <div className="mt-4">
             <CertificatePreview title={course.title} />
           </div>
         </Container>
@@ -1130,7 +1133,7 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
-        <StaggerGroup className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <StaggerGroup className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {TESTIMONIALS.map((testimonial) => (
             <motion.div key={testimonial.name} variants={staggerItemVariants}>
               <VideoTestimonialCard testimonial={testimonial} />
@@ -1146,12 +1149,12 @@ export default function CourseDetailPage() {
         <Container className="max-w-3xl px-0">
           <Badge tone="accent">Course Reviews</Badge>
           <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">What Learners Are Saying</h2>
-          <div className="mt-8 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
+          <div className="mt-5 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
             {reviews.map((review) => (
               <ReviewCard key={review.name} review={review} />
             ))}
           </div>
-          <div className="mt-6 text-center">
+          <div className="mt-3 text-center">
             <Button variant="outline" size="md">
               View All Reviews
             </Button>
@@ -1171,10 +1174,10 @@ export default function CourseDetailPage() {
                 {course.title} Training and Certification FAQ's
               </h2>
             </div>
-            <div className="mt-8">
+            <div className="mt-5">
               <Accordion items={course.faqs.slice(0, Math.ceil(course.faqs.length / 3))} />
             </div>
-            <div className="mt-6 text-center">
+            <div className="mt-3 text-center">
               <Button variant="outline" size="md">
                 View All
               </Button>
@@ -1182,11 +1185,11 @@ export default function CourseDetailPage() {
 
             {course.faqs.length > 3 && (
               <>
-                <h3 className="mt-14 text-xl font-semibold text-ink">
+                <h3 className="mt-7 text-xl font-semibold text-ink">
                   {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Training:
                   Eligibility, Prerequisites & Exam FAQs
                 </h3>
-                <div className="mt-6">
+                <div className="mt-4">
                   <Accordion
                     items={course.faqs.slice(
                       Math.ceil(course.faqs.length / 3),
@@ -1194,17 +1197,17 @@ export default function CourseDetailPage() {
                     )}
                   />
                 </div>
-                <div className="mt-6 text-center">
+                <div className="mt-3 text-center">
                   <Button variant="outline" size="md">
                     View All
                   </Button>
                 </div>
 
-                <h3 className="mt-14 text-xl font-semibold text-ink">
+                <h3 className="mt-8 text-xl font-semibold text-ink">
                   {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Course
                   Additional FAQs
                 </h3>
-                <div className="mt-6">
+                <div className="mt-3">
                   <Accordion items={course.faqs.slice(Math.ceil((course.faqs.length * 2) / 3))} />
                 </div>
               </>
@@ -1223,7 +1226,7 @@ export default function CourseDetailPage() {
             Explore the milestones of our journey!
           </h2>
         </div>
-        <StaggerGroup className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+        <StaggerGroup className="mx-auto mt-5 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
           {achievements.map((achievement) => (
             <motion.div key={achievement.title} variants={staggerItemVariants}>
               <AchievementBadge achievement={achievement} />
@@ -1239,13 +1242,13 @@ export default function CourseDetailPage() {
         <Section className="bg-surface-alt">
           <Badge tone="primary">About This Certification</Badge>
           <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.aboutContent.title} - Benefits</h2>
-          <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
+          <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
             <div className="max-h-80 overflow-y-auto rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
               <p className="text-sm leading-relaxed text-ink-muted">{course.aboutContent.description}</p>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-3 space-y-3">
                 {course.aboutContent.highlights.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink-muted">
-                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success-500" />
+                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-600" />
                     {item}
                   </li>
                 ))}
@@ -1253,7 +1256,7 @@ export default function CourseDetailPage() {
             </div>
             <div className="rounded-2xl border border-ink/[0.06] bg-white p-8 shadow-panel">
               <h3 className="text-xl font-semibold text-ink">Certification Details</h3>
-              <div className="mt-6 space-y-5">
+              <div className="mt-4 space-y-5">
                 {course.aboutContent.details.map(({ label, value }) => (
                   <div key={label} className="border-b border-ink/[0.06] pb-4 last:border-0 last:pb-0">
                     <p className="text-xs font-semibold uppercase tracking-wider text-primary-600">{label}</p>
@@ -1286,7 +1289,7 @@ export default function CourseDetailPage() {
           </Button>
         </div>
 
-        <div className="mt-8 space-y-6 border-y border-ink/[0.06] py-6">
+        <div className="mt-4 space-y-6 border-y border-ink/[0.06] py-6">
           <Marquee
             items={enterpriseLogos}
             renderItem={(logo) => (
@@ -1312,13 +1315,13 @@ export default function CourseDetailPage() {
           />
         </div>
 
-        <p className="mt-8 text-center text-xs font-semibold uppercase tracking-widest text-ink-soft">
+        <p className="mt-5 text-center text-xs font-semibold uppercase tracking-widest text-ink-soft">
           Curriculum Designed to Fit Your Organization
         </p>
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {DEFAULT_ENTERPRISE_POINTS.map(({ icon: Icon, label }) => (
             <div key={label} className="rounded-xl border border-ink/[0.06] bg-white p-5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-success-600">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-green-600">
                 <Icon size={17} />
               </span>
               <p className="mt-3 text-xs leading-relaxed text-ink-muted">{label}</p>
@@ -1339,7 +1342,7 @@ export default function CourseDetailPage() {
             </div>
           </div>
 
-          <StaggerGroup className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGroup className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedCourses.map((related) => (
               <motion.div key={related.id} variants={staggerItemVariants}>
                 <div className="group overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-card transition-shadow hover:shadow-card-hover">
@@ -1397,7 +1400,7 @@ export default function CourseDetailPage() {
       <Section>
         <Badge tone="accent">Also Available Near You</Badge>
         <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">{course.title.split(' ').slice(0, -2).join(' ') || course.title} Training in Other Cities</h2>
-        <div className="mt-6 flex flex-wrap gap-2.5">
+        <div className="mt-4 flex flex-wrap gap-2.5">
           {cities.map((city) => (
             <span
               key={city}
@@ -1416,7 +1419,7 @@ export default function CourseDetailPage() {
         <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 shadow-panel lg:grid-cols-[1fr_420px]">
           <div className="p-8 sm:p-12 flex flex-col items-center">
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">This course has served</h2>
-            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {servedStats.map(({ icon: Icon, value, label }) => (
                 <div key={label}>
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white">

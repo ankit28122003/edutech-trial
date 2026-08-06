@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { X, Sparkles, ChevronDown } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 import { useModal } from '../../context/ModalContext';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
@@ -38,17 +38,40 @@ function FloatingField({ label, required, children }) {
 
 export default function ContactPopupModal() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isContactOpen, openContact, closeContact } = useModal();
   const [values, setValues] = useState(INITIAL_VALUES);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const hasShownAuto = useRef(false);
 
-  // Auto-show once per session — handled by ModalContext initial state
+// Use the PMP-specific image when the popup is shown on the PMP course page,
+  // otherwise fall back to the default contact popup image.
+  const isPmpPage = location.pathname.includes('pmp-certification');
+  const popupImage = isPmpPage
+    ? '/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM.jpeg'
+    : '/WhatsApp%20Image%202026-08-05%20at%202.32.06%20PM%20(1).jpeg';
+
+// Auto-show once per session — handled by ModalContext initial state
   useEffect(() => {
     hasShownAuto.current = true;
     // No need to call openContact() here; context handles it on mount.
   }, []);
+
+  // Always show the popup when the user is on the PMP course page so the
+  // PMP-specific image is displayed. Uses a ref to avoid re-triggering on
+  // every render while the modal is already open.
+  const pmpAutoShown = useRef(false);
+  useEffect(() => {
+    if (!isPmpPage) {
+      pmpAutoShown.current = false;
+      return;
+    }
+    if (!pmpAutoShown.current) {
+      pmpAutoShown.current = true;
+      openContact();
+    }
+  }, [isPmpPage, openContact]);
 
   // Lock body scroll while open, allow Escape to close.
   useEffect(() => {
@@ -95,7 +118,7 @@ export default function ContactPopupModal() {
 
   return (
     <AnimatePresence>
-      {isContactOpen && (
+{isContactOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -113,7 +136,7 @@ export default function ContactPopupModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-[101] grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-2xl bg-white shadow-panel md:grid-cols-[42%_1fr]"
+            className="relative z-[101] grid max-h-[90vh] w-full max-w-4xl grid-cols-1 overflow-y-auto rounded-2xl bg-white shadow-panel md:grid-cols-[42%_1fr]"
           >
             <button
               type="button"
@@ -124,41 +147,14 @@ export default function ContactPopupModal() {
               <X size={18} />
             </button>
 
-            {/* Left visual panel */}
-            <div className="relative hidden overflow-hidden bg-gradient-to-br from-[#1a0b2e] via-[#1c0f2e] to-black md:flex md:flex-col">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-[0.15]"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)',
-                  backgroundSize: '48px 48px',
-                }}
+{/* Left visual panel — full image, shown without cropping on all screens */}
+            <div className="relative order-first flex w-full items-center justify-center overflow-hidden bg-white md:min-h-[560px]">
+              <img
+                src={popupImage}
+                alt=""
+                className="h-auto max-h-[70vh] w-full object-contain md:max-h-none md:h-full md:object-contain"
+                loading="lazy"
               />
-              <div className="relative z-10 px-8 pt-8">
-                <p className="text-lg text-white/85">Get in touch with our</p>
-                <p className="font-display text-4xl font-bold uppercase leading-tight text-white">
-                  Learning Advisor
-                </p>
-              </div>
-
-              <div className="relative mt-auto flex flex-1 items-end">
-                <Sparkles
-                  size={34}
-                  className="absolute left-8 top-10 text-violet-400"
-                  fill="currentColor"
-                  strokeWidth={0}
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=800&auto=format&fit=crop"
-                  alt=""
-                  className="h-50 w-full object-cover object-top"
-                  loading="lazy"
-                />
-                <p className="absolute bottom-6 right-6 max-w-[10rem] text-right text-base font-medium leading-snug text-white">
-                  <span className="text-success-500">Enter</span> Your Info to Connect
-                </p>
-              </div>
             </div>
 
             {/* Right form panel */}

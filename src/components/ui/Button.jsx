@@ -37,9 +37,18 @@ const Button = forwardRef(function Button(
     );
   }
 
-  if (href) {
+if (href) {
+    // Internal anchor links (e.g. "#pricing") should scroll on the same page,
+    // not open a new tab. External links open in a new tab.
+    const isInternalAnchor = href.startsWith('#');
     return (
-      <a ref={ref} href={href} className={classes} target="_blank" rel="noopener noreferrer" {...props}>
+      <a
+        ref={ref}
+        href={href}
+        className={classes}
+        {...(isInternalAnchor ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+        {...props}
+      >
         {children}
       </a>
     );
