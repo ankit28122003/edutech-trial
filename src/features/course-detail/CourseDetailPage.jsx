@@ -77,12 +77,12 @@ const DEFAULT_HERO_STAT_BADGES = [
 const DEFAULT_KEY_FEATURES = [
   'Crack certification in 40 days',
   '1000+ practice questions with detailed explanations',
-  '11 full-length mock exams',
+  'Full-length mock exams',
   '35 hours of comprehensive live training',
   '100% money-back guarantee',
   'Application & eligibility support',
   'PMI-approved professional development units',
-  'Additional 2-day exam prep bootcamp sessions',
+  // 'Additional 2-day exam prep bootcamp sessions',
   'Golden Ticket: 200 simulated exam questions',
   'Doubt clarification and unlimited revision sessions',
 ];
@@ -107,8 +107,8 @@ const DEFAULT_PLAN_ROWS = [
   'Curated practice question bank',
   'Priority chat support',
   'Application & eligibility support',
-  '180 days of LMS access',
-  '1 year of live class access',
+  // '180 days of LMS access',
+  // '1 year of live class access',
   'Structured exam-pass study plan',
 ];
 
@@ -1041,7 +1041,7 @@ export default function CourseDetailPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <Button variant="outline" size="md" className = "bg-orange-400">
+          <Button variant="outline" size="md" className="bg-orange-400">
             View All Batches
           </Button>
         </div>
@@ -1178,9 +1178,11 @@ export default function CourseDetailPage() {
               <Accordion items={course.faqs.slice(0, Math.ceil(course.faqs.length / 3))} />
             </div>
             <div className="mt-3 text-center">
-              <Button variant="outline" size="md">
-                View All
-              </Button>
+              <a href="https://edutechskills.com/course/pmp-certification-training#section-faq">
+                <Button variant="outline" size="md">
+                  View All
+                </Button>
+              </a>
             </div>
 
             {course.faqs.length > 3 && (
@@ -1198,9 +1200,11 @@ export default function CourseDetailPage() {
                   />
                 </div>
                 <div className="mt-3 text-center">
-                  <Button variant="outline" size="md">
-                    View All
-                  </Button>
+                  <a href="https://edutechskills.com/course/pmp-certification-training#section-prerequisites">
+                    <Button variant="outline" size="md">
+                      View All
+                    </Button>
+                  </a>
                 </div>
 
                 <h3 className="mt-8 text-xl font-semibold text-ink">
@@ -1433,7 +1437,7 @@ export default function CourseDetailPage() {
           </div>
 
         </div>
-        <div className="bg-white p-8 ">
+        <div className="bg-white p-4 sm:p-8">
           <p className="mb-4 text-lg font-semibold text-ink">Drop a Query</p>
           <LeadForm course={course} />
         </div>

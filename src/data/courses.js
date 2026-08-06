@@ -98,11 +98,11 @@ export const COURSES = [
     shortDescription:
       'The gold-standard certification for project managers — globally recognized across every industry.',
     longDescription:
-      'The PMP certification is the most sought-after project management credential worldwide. This program covers the PMBOK Guide 7th Edition, agile and hybrid approaches, and prepares you to pass the PMP exam on your first attempt with confidence.',
+      'The PMP certification is the most sought-after project management credential worldwide. This program covers the PMBOK Guide 8th Edition, agile and hybrid approaches, and prepares you to pass the PMP exam on your first attempt with confidence.',
     whatYouWillLearn: [
       'Lead and manage projects across predictive, agile, and hybrid approaches',
       'Master people, process, and business environment domains',
-      'Navigate the full PMBOK Guide 7th Edition framework',
+      'Navigate the full PMBOK Guide 8th Edition framework',
       'Pass the PMP exam on your first attempt',
     ],
     curriculum: [
@@ -134,25 +134,25 @@ export const COURSES = [
       highlights: [
         'Globally recognized across 200+ countries',
         '35+ contact hours of project management education',
-        'Covers PMBOK Guide 7th Edition & Agile Practice Guide',
+        'Covers PMBOK Guide 8th Edition & Agile Practice Guide',
         '180-question exam with 230 minutes duration',
       ],
       details: [
         { label: 'Exam Format', value: 'Multiple choice, multiple response, matching, hotspot, & limited fill-in-the-blank' },
         { label: 'Number of Questions', value: '180 Questions' },
         { label: 'Exam Duration', value: '230 Minutes' },
-        { label: 'Eligibility', value: 'Secondary degree + 36 months of PM experience' },
+        { label: 'Eligibility', value: 'You need a secondary degree with 36 months of project risk management experience within the last 5 years, or a four-year degree with 24 months of risk management experience.' },
         { label: 'Cost', value: '$405 for PMI members / $555 for non-members' },
       ],
     },
     faqs: [
       { question: 'What is the PMP certification and why is it valuable?', answer: 'The Project Management Professional (PMP) certification is the most globally recognized credential for project managers. It demonstrates your ability to lead projects across predictive, agile, and hybrid approaches.' },
-      { question: 'Am I eligible for the PMP certification?', answer: 'You need a secondary degree with 60 months of project management experience, OR a four-year degree with 36 months of experience, OR a GAC-accredited degree with 24 months of experience.' },
-      { question: 'What is included in this PMP training program?', answer: 'Our program includes 35+ hours of instructor-led training covering all three PMP domains, PMBOK Guide 7th Edition materials, Agile Practice Guide, 5 full-length mock exams, 500+ practice questions, exam application assistance, and a dedicated mentor.' },
+      { question: 'Am I eligible for the PMP certification?', answer: 'You need a 4 degree with 60 months of project management experience, OR a four-year degree with 36 months of experience, OR a GAC-accredited degree with 24 months of experience.' },
+      { question: 'What is included in this PMP training program?', answer: 'Our program includes 35+ hours of instructor-led training covering all three PMP domains, PMBOK Guide 8th Edition materials. Agile Practice Guide,  full-length mock exams, practice questions, exam application assistance, and a dedicated mentor.' },
       { question: 'What is the PMP exam format?', answer: 'The PMP exam consists of 180 questions to be completed in 230 minutes. Questions include multiple choice, multiple responses, matching, hotspot, and limited fill-in-the-blank.' },
       { question: 'What happens if I don\'t pass the PMP exam on the first attempt?', answer: 'We offer comprehensive support including re-attempt strategy sessions, additional mock exams, and one-on-one mentoring to help you identify weak areas and improve.' },
       { question: 'Does Edutech Skills provide PMP exam application assistance?', answer: 'Yes, our team provides step-by-step guidance through the PMI application process, including helping you document your project management experience.' },
-      { question: 'Can I get a refund if I\'m not satisfied?', answer: 'Yes, we offer a 7-day full refund guarantee. If you\'ve completed less than 20% of the course content within 7 days of purchase, you can request a complete refund.' },
+      // { question: 'Can I get a refund if I\'m not satisfied?', answer: 'Yes, we offer a 7-day full refund guarantee. If you\'ve completed less than 20% of the course content within 7 days of purchase, you can request a complete refund.' },
     ],
   },
   {
@@ -300,7 +300,7 @@ export const COURSES = [
       { question: 'What is the SAFe Scrum Master certification?', answer: 'The SAFe Scrum Master (SSM) certification validates your ability to facilitate Scrum events, coach Agile teams, and drive continuous improvement within a SAFe organization.' },
       { question: 'Is AI knowledge required?', answer: 'No prior AI knowledge is required. The AI-augmented components are taught as part of the curriculum.' },
       { question: 'What is included?', answer: '16 hours of instructor-led training, SAFe 6.0 materials, practice exams, and AI tooling demonstrations.' },
-      { question: 'Can I get a refund?', answer: 'Yes, we offer a 7-day full refund guarantee.' },
+      // { question: 'Can I get a refund?', answer: 'Yes, we offer a 7-day full refund guarantee.' },
     ],
   },
   {

@@ -58,7 +58,7 @@ export default function CourseContactForm({ courseTitle }) {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="p-6 space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="p-2 space-y-4">
         <div>
           <div className="relative">
             <User
