@@ -122,7 +122,7 @@ const DEFAULT_BATCHES = [
     trainer: 'S. Singh',
     discount: '50% off',
     price: 24999,
-    originalPrice: 99999,
+    originalPrice: 49998,
   },
   {
     mode: 'Live Virtual Class',
@@ -133,7 +133,7 @@ const DEFAULT_BATCHES = [
     trainer: 'V. Raghavan',
     discount: '50% off',
     price: 24999,
-    originalPrice: 99999,
+    originalPrice: 49998,
   },
   {
     mode: 'Live Virtual Class',
@@ -144,7 +144,7 @@ const DEFAULT_BATCHES = [
     trainer: 'V. Raghavan',
     discount: '50% off',
     price: 24999,
-    originalPrice: 99999,
+    originalPrice: 49998,
   },
 ];
 

@@ -89,7 +89,7 @@ export const COURSES = [
     reviewCount: 2147,
     trending: true,
     priceINR: 24999,
-    originalPriceINR: 99999,
+    originalPriceINR: 49998,
     priceUSD: 899,
     originalPriceUSD: 1200,
     logo: '💎',
