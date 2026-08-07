@@ -121,8 +121,8 @@ const DEFAULT_BATCHES = [
     shift: 'Evening Batch',
     trainer: 'S. Singh',
     discount: '50% off',
-    price: 9999,
-    originalPrice: 19999,
+    price: 24999,
+    originalPrice: 99999,
   },
   {
     mode: 'Live Virtual Class',
@@ -132,8 +132,8 @@ const DEFAULT_BATCHES = [
     shift: 'Morning Batch',
     trainer: 'V. Raghavan',
     discount: '50% off',
-    price: 9999,
-    originalPrice: 19999,
+    price: 24999,
+    originalPrice: 99999,
   },
   {
     mode: 'Live Virtual Class',
@@ -143,8 +143,8 @@ const DEFAULT_BATCHES = [
     shift: 'Morning Batch',
     trainer: 'V. Raghavan',
     discount: '50% off',
-    price: 9999,
-    originalPrice: 19999,
+    price: 24999,
+    originalPrice: 99999,
   },
 ];
 
