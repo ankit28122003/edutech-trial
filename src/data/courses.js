@@ -135,7 +135,7 @@ export const COURSES = [
         'Globally recognized across 200+ countries',
         '35+ contact hours of project management education',
         'Covers PMBOK Guide 8th Edition & Agile Practice Guide',
-        '180-question exam with 230 minutes duration',
+        // '180-question exam with 230 minutes duration',
       ],
       details: [
         { label: 'Exam Format', value: 'Multiple choice, multiple response, matching, hotspot, & limited fill-in-the-blank' },
