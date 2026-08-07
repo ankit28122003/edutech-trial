@@ -79,7 +79,7 @@ const DEFAULT_KEY_FEATURES = [
   '1000+ practice questions with detailed explanations',
   'Full-length mock exams',
   '35 hours of comprehensive live training',
-  '100% money-back guarantee',
+  // '100% money-back guarantee',
   'Application & eligibility support',
   'PMI-approved professional development units',
   // 'Additional 2-day exam prep bootcamp sessions',
@@ -504,12 +504,15 @@ function BatchCard({ batch, format }) {
             {format(batch.originalPrice, batch.originalPrice)}
           </span>
         </div>
-        <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}</p>
-        <a href="https://edutechskills.com/contact">
-          <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600">
+        <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}
+
+        </p>
+        
+        
+          <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600" >
             Enroll Now
           </Button>
-        </a>
+        
       </div>
     </div>
   );
@@ -796,7 +799,7 @@ export default function CourseDetailPage() {
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 {course.moneyBackGuarantee !== false && (
                   <span className="flex items-center gap-1.5 rounded-full bg-success-50 px-3 py-1 text-xs font-semibold text-success-700">
-                    <ShieldCheck size={13} /> 100% Money Back Guarantee
+                    {/* <ShieldCheck size={13} /> 100% Money Back Guarantee */}
                   </span>
                 )}
                 {course.reviewCount && (
@@ -854,13 +857,13 @@ export default function CourseDetailPage() {
                 <Button variant="primary" size="md" className="w-full  shadow-[0_0_20px_0px] shadow-orange-400" onClick={openContact}>
                   <Download size={12} /> Download Brochure
                 </Button>
-                <Button as="a" href="#course-content" variant="outline" size="md" className="w-full">
+                <Button onClick={openContact} variant="outline" size="md" className="w-full">
                   View Schedules
                 </Button>
               </div>
               <p className="mt-3 text-xs text-ink-muted">
                 Looking for corporate training?{' '}
-                <a href="https://edutechskills.com/checkout/course/pmp-certification-training" className="font-semibold text-success-600 underline underline-offset-2" onClick={openContact}>
+                <a className="font-semibold text-success-600 underline underline-offset-2" onClick={openContact}>
                   Get a Quote
                 </a>
               </p>
@@ -917,11 +920,11 @@ export default function CourseDetailPage() {
           ))}
         </div>
         <div className="mt-2 text-center">
-          <a href="https://edutechskills.com/checkout/course/pmp-certification-training">
-            <Button as="a" href="https://edutechskills.com/checkout/course/pmp-certification-training" variant="primary" size="md">
-              Get Started <ArrowRight size={12} />
-            </Button>
-          </a>
+
+          <Button onClick={openContact} variant="primary" size="md">
+            Get Started <ArrowRight size={12} />
+          </Button>
+
         </div>
       </Section>
 
@@ -972,7 +975,7 @@ export default function CourseDetailPage() {
                 {course.curriculum.length} comprehensive modules • {course.duration} of expert-led training
               </p>
             </div>
-            <Button variant="primary" size="md">
+            <Button variant="primary" size="md" onClick={openContact}>
               Download Syllabus <Download size={15} />
             </Button>
           </div>
@@ -988,13 +991,13 @@ export default function CourseDetailPage() {
       <Section id="pricing" className="bg-surface-alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <a href="https://edutechskills.com/contact">
-              <Badge tone="accent">Enroll Now</Badge>
-            </a>
+            
+              <Badge tone="accent" onClick={openContact}>Enroll Now</Badge>
+            
             <h2 className=" text-xl font-semibold text-ink sm:text-3xl">Choose the plan that fits you best!</h2>
           </div>
           <span className="flex items-center gap-1 rounded-sm bg-success-600 px-2 py-1 text-xs font-semibold text-white">
-            <ShieldCheck size={13} /> 100% Money Back
+            {/* <ShieldCheck size={13} /> 100% Money Back */}
           </span>
         </div>
 
@@ -1030,7 +1033,7 @@ export default function CourseDetailPage() {
               Do you want to customize
               <br className="hidden sm:block" /> your batch request?
             </p>
-            <Button as="a" href="#pricing" variant="primary" size="md">
+            <Button onClick={openContact} variant="primary" size="md">
               Request a Batch
             </Button>
           </div>
@@ -1041,7 +1044,7 @@ export default function CourseDetailPage() {
         </div>
 
         <div className="mt-6 text-center">
-          <Button variant="outline" size="md" className="bg-orange-400">
+          <Button variant="outline" size="md" className="bg-orange-400" onClick={openContact}>
             View All Batches
           </Button>
         </div>
@@ -1288,7 +1291,7 @@ export default function CourseDetailPage() {
               built to boost productivity and improve workforce capabilities.
             </p>
           </div>
-          <Button variant="primary" size="md" className="w-full">
+          <Button variant="primary" size="md" className="w-full" onClick={openContact}>
             Skill Up Your Team <ArrowRight size={16} />
           </Button>
         </div>

@@ -100,7 +100,7 @@ export default function CoursePricingCard({ course }) {
             <BarChart3 size={15} className="text-primary-500" /> {course.level} level
           </li>
           <li className="flex items-center gap-2.5">
-            <ShieldCheck size={15} className="text-primary-500" /> 7-day refund guarantee
+            {/* <ShieldCheck size={15} className="text-primary-500" /> 7-day refund guarantee */}
           </li>
         </ul>
       </div>

@@ -50,7 +50,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Certification Aligned', desc: 'SAFe 6.0 curriculum' },
       { icon: 'Clock', label: '16 Hours Content', desc: 'Live + self-paced' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Become SAFe® Certified?',
@@ -80,7 +80,7 @@ export const COURSES = [
   {
     id: 'c2-pmp',
     slug: 'pmp-certification',
-    title: 'PMP® Project Management Professional',
+    title: 'PMP® Management Professional',
     category: 'Project Management',
     format: 'Program',
     duration: '35 Hours',
@@ -126,7 +126,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Exam Pass Guarantee', desc: '96% success rate' },
       { icon: 'Clock', label: '35 Hours Content', desc: 'Structured curriculum' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Live + recorded sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Get PMP® Certified?',
@@ -141,13 +141,13 @@ export const COURSES = [
         { label: 'Exam Format', value: 'Multiple choice, multiple response, matching, hotspot, & limited fill-in-the-blank' },
         { label: 'Number of Questions', value: '180 Questions' },
         { label: 'Exam Duration', value: '230 Minutes' },
-        { label: 'Eligibility', value: 'You need a secondary degree with 36 months of project risk management experience within the last 5 years, or a four-year degree with 24 months of risk management experience.' },
+        { label: 'Eligibility', value: 'A 4 year degree with at least 4,500 hours of project management experience or A secondary diploma and at least 7,500 hours of project management experience.' },
         { label: 'Cost', value: '$405 for PMI members / $555 for non-members' },
       ],
     },
     faqs: [
       { question: 'What is the PMP certification and why is it valuable?', answer: 'The Project Management Professional (PMP) certification is the most globally recognized credential for project managers. It demonstrates your ability to lead projects across predictive, agile, and hybrid approaches.' },
-      { question: 'Am I eligible for the PMP certification?', answer: 'You need a 4 degree with 60 months of project management experience, OR a four-year degree with 36 months of experience, OR a GAC-accredited degree with 24 months of experience.' },
+      { question: 'Am I eligible for the PMP certification?', answer: 'A 4 year degree with at least 4,500 hours of project management experience or A secondary diploma and at least 7,500 hours of project management experience.' },
       { question: 'What is included in this PMP training program?', answer: 'Our program includes 35+ hours of instructor-led training covering all three PMP domains, PMBOK Guide 8th Edition materials. Agile Practice Guide,  full-length mock exams, practice questions, exam application assistance, and a dedicated mentor.' },
       { question: 'What is the PMP exam format?', answer: 'The PMP exam consists of 180 questions to be completed in 230 minutes. Questions include multiple choice, multiple responses, matching, hotspot, and limited fill-in-the-blank.' },
       { question: 'What happens if I don\'t pass the PMP exam on the first attempt?', answer: 'We offer comprehensive support including re-attempt strategy sessions, additional mock exams, and one-on-one mentoring to help you identify weak areas and improve.' },
@@ -204,7 +204,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Exam Pass Guarantee', desc: '93% success rate' },
       { icon: 'Clock', label: '30 Hours Content', desc: 'Structured curriculum' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Live + recorded sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Get PMI-RMP® Certified?',
@@ -277,7 +277,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Certification Aligned', desc: 'SAFe Scrum Master' },
       { icon: 'Clock', label: '16 Hours Content', desc: 'Live + self-paced' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Become a SAFe Scrum Master?',
@@ -351,7 +351,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Exam Pass Guarantee', desc: '94% success rate' },
       { icon: 'Clock', label: '32 Hours Content', desc: 'Hands-on labs' },
       { icon: 'BookOpen', label: 'Case-Study Based', desc: 'Real architectures' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Become an Azure Solutions Architect?',
@@ -424,7 +424,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Exam Pass Guarantee', desc: '97% success rate' },
       { icon: 'Clock', label: '16 Hours Content', desc: 'Self-paced' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Get ITIL 4 Certified?',
@@ -498,7 +498,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Certification Aligned', desc: 'CRISC domains' },
       { icon: 'Clock', label: '24 Hours Content', desc: 'Structured program' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Get CRISC Certified?',
@@ -572,7 +572,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Exam Pass Guarantee', desc: '92% success rate' },
       { icon: 'Clock', label: '28 Hours Content', desc: 'Lab-first program' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Get CKA Certified?',
@@ -646,7 +646,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Project-Based', desc: 'Real datasets' },
       { icon: 'Clock', label: '20 Hours Content', desc: 'Hands-on training' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Learn Tableau?',
@@ -719,7 +719,7 @@ export const COURSES = [
       { icon: 'Award', label: 'Capstone Project', desc: 'Interview-ready portfolio' },
       { icon: 'Clock', label: '40 Hours Content', desc: 'Comprehensive program' },
       { icon: 'BookOpen', label: 'Instructor-Led', desc: 'Expert-led sessions' },
-      { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
+      // { icon: 'ShieldCheck', label: '7-Day Refund', desc: 'Full money-back guarantee' },
     ],
     aboutContent: {
       title: 'Why Learn Machine Learning?',
