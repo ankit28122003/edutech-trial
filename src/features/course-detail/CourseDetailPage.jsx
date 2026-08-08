@@ -76,14 +76,14 @@ const DEFAULT_HERO_STAT_BADGES = [
 
 const DEFAULT_KEY_FEATURES = [
   'Crack certification in 40 days',
-  '1000+ practice questions with detailed explanations',
+  'Practice questions with detailed explanations',
   'Full-length mock exams',
   '35 hours of comprehensive live training',
   // '100% money-back guarantee',
   'Application & eligibility support',
   'PMI-approved professional development units',
   // 'Additional 2-day exam prep bootcamp sessions',
-  'Golden Ticket: 200 simulated exam questions',
+  'Golden Ticket:  Simulated exam questions',
   'Doubt clarification and unlimited revision sessions',
 ];
 
@@ -115,7 +115,7 @@ const DEFAULT_PLAN_ROWS = [
 const DEFAULT_BATCHES = [
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Aug 10 – Aug 28',
+    dateRange: 'Aug 22 – Sep 13',
     time: 'IST: 07:30 PM – 09:50 PM',
     type: 'Weekday Batch · 15 Sessions',
     shift: 'Evening Batch',
@@ -126,7 +126,7 @@ const DEFAULT_BATCHES = [
   },
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Aug 22 – Sep 13',
+    dateRange: 'Sep 22 – Oct 13',
     time: 'IST: 07:00 AM – 11:30 AM',
     type: 'Weekend Batch · 8 Sessions',
     shift: 'Morning Batch',
@@ -137,11 +137,11 @@ const DEFAULT_BATCHES = [
   },
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Aug 24 – Sep 11',
-    time: 'IST: 06:00 AM – 08:20 AM',
-    type: 'Weekday Batch · 15 Sessions',
-    shift: 'Morning Batch',
-    trainer: 'V. Raghavan',
+    dateRange: ' Upcoming Batch',
+    // time: 'IST: 06:00 AM – 08:20 AM',
+    // type: 'Weekday Batch · 15 Sessions',
+    // shift: 'Morning Batch',
+    // trainer: 'V. Raghavan',
     discount: '50% off',
     price: 24999,
     originalPrice: 49998,
@@ -456,7 +456,7 @@ function PlanComparisonTable({ columns, rows }) {
 }
 
 /** One upcoming batch card with a cosmetic seat-quantity stepper. */
-function BatchCard({ batch, format }) {
+function BatchCard({ batch, format, index }) {
   const [qty, setQty] = useState(1);
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-blue-500 shadow-[0_8px_30px_-6px_rgba(59,130,246,0.5)] transition-shadow duration-300 hover:shadow-orange-500 hover:shadow-[0_8px_30px_-6px_rgba(249,115,22,0.5)] sm:flex-row sm:items-center sm:justify-between">
@@ -467,11 +467,13 @@ function BatchCard({ batch, format }) {
         <p className="mt-1.5 text-base font-semibold text-ink">{batch.dateRange}</p>
         <p className="text-xs text-ink-soft">{batch.time}</p>
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
-          <span className="flex items-center gap-1">
-            <CalendarClock size={12} /> {batch.type}
-          </span>
+          {index !== 2 && (
+            <span className="flex items-center gap-1">
+              <CalendarClock size={12} /> {batch.type}
+            </span>
+          )}
           <span>{batch.shift}</span>
-          <span>Trainer: {batch.trainer}</span>
+          {index !== 2 && <span>Trainer: {batch.trainer}</span>}
         </div>
       </div>
 
@@ -507,12 +509,12 @@ function BatchCard({ batch, format }) {
         <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}
 
         </p>
-        
-        
-          <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600" >
-            Enroll Now
-          </Button>
-        
+
+
+        <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600" >
+          Enroll Now
+        </Button>
+
       </div>
     </div>
   );
@@ -642,7 +644,7 @@ function LeadForm({ course, compact = false }) {
   }
 
   return (
-    <div className={cn('rounded-2xl bg-white p-5', compact ? 'shadow-card' : 'shadow-panel sm:p-6')}>
+    <div className={cn('rounded-2xl bg-white', compact ? 'shadow-card' : 'shadow-panel')}>
       {typeof CourseContactForm === 'function' ? (
         <CourseContactForm course={course} onSuccess={() => setSubmitted(true)} />
       ) : (
@@ -855,9 +857,20 @@ export default function CourseDetailPage() {
             <Reveal delay={0.2}>
               <div className="mt-3 w-full flex flex-wrap flex-col items-center gap-3">
                 <Button variant="primary" size="md" className="w-full  shadow-[0_0_20px_0px] shadow-orange-400" onClick={openContact}>
-                  <Download size={12} /> Download Brochure
+                  <Download size={12} /> Talk to career expert
                 </Button>
-                <Button onClick={openContact} variant="outline" size="md" className="w-full">
+                <Button
+                  variant="outline"
+                  size="md"
+                  className="w-full"
+                  onClick={() => {
+                    const el = document.getElementById('batches');
+                    if (el) {
+                      const top = el.getBoundingClientRect().top + window.scrollY - 84;
+                      window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                  }}
+                >
                   View Schedules
                 </Button>
               </div>
@@ -867,21 +880,6 @@ export default function CourseDetailPage() {
                   Get a Quote
                 </a>
               </p>
-            </Reveal>
-
-            <Reveal delay={0.22}>
-              <div className="mt-2 flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-white p-4">
-                <img
-                  src={course.instructor.avatar}
-                  alt=""
-                  className="h-11 w-11 rounded-full object-cover"
-                  loading="lazy"
-                />
-                <div>
-                  <p className="text-sm font-semibold text-ink">{course.instructor.name}</p>
-                  <p className="text-xs text-ink-muted">{course.instructor.title}</p>
-                </div>
-              </div>
             </Reveal>
           </div>
 
@@ -920,11 +918,9 @@ export default function CourseDetailPage() {
           ))}
         </div>
         <div className="mt-2 text-center">
-
-          <Button onClick={openContact} variant="primary" size="md">
-            Get Started <ArrowRight size={12} />
+          <Button href="https://wa.me/918882571026" variant="primary" size="md">
+            WhatsApp Now <ArrowRight size={12} />
           </Button>
-
         </div>
       </Section>
 
@@ -991,9 +987,9 @@ export default function CourseDetailPage() {
       <Section id="pricing" className="bg-surface-alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            
-              <Badge tone="accent" onClick={openContact}>Enroll Now</Badge>
-            
+
+            <Badge tone="accent" onClick={openContact}>Enroll Now</Badge>
+
             <h2 className=" text-xl font-semibold text-ink sm:text-3xl">Choose the plan that fits you best!</h2>
           </div>
           <span className="flex items-center gap-1 rounded-sm bg-success-600 px-2 py-1 text-xs font-semibold text-white">
@@ -1010,7 +1006,7 @@ export default function CourseDetailPage() {
       {/* ---------------------------------------------------------------- */}
       {/* Upcoming batches                                                  */}
       {/* ---------------------------------------------------------------- */}
-      <Section>
+      <Section id="batches">
         <div className="flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1.5 text-xs font-medium text-ink-muted">
             <Star size={13} className="text-[#4285F4]" fill="currentColor" /> 4.8/5 · 10,550 Reviews
@@ -1020,27 +1016,29 @@ export default function CourseDetailPage() {
           </span>
         </div>
         <h2 className="text-2xl font-semibold text-ink sm:text-3xl">
-          Upcoming {course.title} Training Batches
+          Upcoming {course.title}  Batches
         </h2>
 
         <div className="mt-4 space-y-4">
           {batches.slice(0, 2).map((batch, i) => (
-            <BatchCard key={i} batch={batch} format={format} />
+            <BatchCard key={i} batch={batch} format={format} index={i} />
           ))}
 
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 p-6 text-center sm:flex-row sm:text-left">
-            <p className="text-base font-semibold text-white">
-              Do you want to customize
-              <br className="hidden sm:block" /> your batch request?
-            </p>
-            <Button onClick={openContact} variant="primary" size="md">
-              Request a Batch
-            </Button>
-          </div>
+
 
           {batches.slice(2).map((batch, i) => (
-            <BatchCard key={`extra-${i}`} batch={batch} format={format} />
+            <BatchCard key={`extra-${i}`} batch={batch} format={format} index={i + 2} />
           ))}
+        </div>
+
+        <div className="flex mt-4 flex-col items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 p-6 text-center sm:flex-row sm:text-left">
+          <p className="text-base font-semibold text-white">
+            Do you want to customize
+            <br className="hidden sm:block" /> your batch request?
+          </p>
+          <Button onClick={openContact} variant="primary" size="md">
+            Request a Batch
+          </Button>
         </div>
 
         <div className="mt-6 text-center">
@@ -1065,9 +1063,11 @@ export default function CourseDetailPage() {
                 <p className="text-sm text-ink-muted">Your workforce is your asset — up-skill it with our programs.</p>
               </div>
             </div>
-            <Button variant="outline" size="md">
-              Contact Us <ArrowRight size={15} />
-            </Button>
+            <a href="/contact">
+              <Button variant="outline" size="md">
+                Contact Us <ArrowRight size={15} />
+              </Button>
+            </a>
           </div>
           <div className="mt-3 grid grid-cols-1 gap-3 rounded-xl bg-surface-alt p-5 sm:grid-cols-2">
             {DEFAULT_CORPORATE_POINTS.map((point) => (
@@ -1174,49 +1174,96 @@ export default function CourseDetailPage() {
             <div>
               <Badge tone="primary">Frequently Asked Questions</Badge>
               <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
-                {course.title} Training and Certification FAQ's
+                {course.title} and Certification FAQ's
               </h2>
             </div>
             <div className="mt-5">
               <Accordion items={course.faqs.slice(0, Math.ceil(course.faqs.length / 3))} />
             </div>
+            <div className="mt-4">
+              <Accordion
+                items={course.faqs.slice(
+                  Math.ceil(course.faqs.length / 3),
+                  Math.ceil((course.faqs.length * 2) / 3)
+                )}
+              />
+            </div>
             <div className="mt-3 text-center">
-              <a href="https://edutechskills.com/course/pmp-certification-training#section-faq">
-                <Button variant="outline" size="md">
-                  View All
-                </Button>
-              </a>
+              {/* <a href="https://edutechskills.com/course/pmp-certification-training#section-faq"> */}
+              <Button variant="outline" size="md">
+                View All
+              </Button>
+              {/* </a> */}
             </div>
 
             {course.faqs.length > 3 && (
               <>
-                <h3 className="mt-7 text-xl font-semibold text-ink">
+                {/* <h3 className="mt-7 text-xl font-semibold text-ink">
                   {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Training:
                   Eligibility, Prerequisites & Exam FAQs
-                </h3>
-                <div className="mt-4">
-                  <Accordion
-                    items={course.faqs.slice(
-                      Math.ceil(course.faqs.length / 3),
-                      Math.ceil((course.faqs.length * 2) / 3)
-                    )}
-                  />
-                </div>
-                <div className="mt-3 text-center">
+                </h3> */}
+
+                {/* <div className="mt-3 text-center">
                   <a href="https://edutechskills.com/course/pmp-certification-training#section-prerequisites">
                     <Button variant="outline" size="md">
                       View All
                     </Button>
                   </a>
-                </div>
+                </div> */}
 
-                <h3 className="mt-8 text-xl font-semibold text-ink">
-                  {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Course
-                  Additional FAQs
+                <h3 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl mb-4">
+                  {/* {course.title.split(' ').slice(0, -2).join(' ') || course.title} Certification Course
+                  Additional FAQs */}
+                  Who Can Do
                 </h3>
-                <div className="mt-3">
+                {/* <div className="mt-3">
                   <Accordion items={course.faqs.slice(Math.ceil((course.faqs.length * 2) / 3))} />
-                </div>
+                </div> */}
+                <ul className='border-2 border-black-600 rounded-lg p-3 list-none'>
+                  <h4 className='text-2xl font-semibold text-ink sm:text-3xl'>Ideal For</h4>
+                  <li className='m-4 flex items-center gap-3 font-semibold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Mid-Level Project Managers
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Senior Project Managers
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Project Coordinators
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Project Analysts
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Project Leaders
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Product Managers
+                  </li>
+                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                    </span>
+                    Program Managers
+                  </li>
+                </ul>
               </>
             )}
           </Container>
@@ -1423,12 +1470,12 @@ export default function CourseDetailPage() {
       {/* Stats + Drop a Query                                              */}
       {/* ---------------------------------------------------------------- */}
       <Section className="pb-12 sm:pb-16">
-        <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 shadow-panel lg:grid-cols-[1fr_420px]">
-          <div className="p-8 sm:p-12 flex flex-col items-center">
+        <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 shadow-panel ">
+          <div className="flex w-full flex-col items-center justify-center p-8 text-center sm:p-12 mx-auto ">
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">This course has served</h2>
-            <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div className="mt-5 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
               {servedStats.map(({ icon: Icon, value, label }) => (
-                <div key={label}>
+                <div key={label} className="flex flex-col items-center">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white">
                     <Icon size={18} />
                   </span>
@@ -1440,7 +1487,7 @@ export default function CourseDetailPage() {
           </div>
 
         </div>
-        <div className="bg-white p-4 sm:p-8">
+        <div className="bg-white">
           <p className="mb-4 text-lg font-semibold text-ink">Drop a Query</p>
           <LeadForm course={course} />
         </div>

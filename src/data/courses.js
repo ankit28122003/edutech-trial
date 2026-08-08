@@ -80,7 +80,7 @@ export const COURSES = [
   {
     id: 'c2-pmp',
     slug: 'pmp-certification',
-    title: 'PMP® Management Professional',
+    title: 'PMP® Certification Training',
     category: 'Project Management',
     format: 'Program',
     duration: '35 Hours',

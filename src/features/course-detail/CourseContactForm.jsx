@@ -58,9 +58,9 @@ export default function CourseContactForm({ courseTitle }) {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="p-2 space-y-4">
-        <div>
-          <div className="relative">
+<form onSubmit={handleSubmit} noValidate className="space-y-4 p-2">
+        <div >
+          <div className="relative p-2">
             <User
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none"
@@ -76,7 +76,7 @@ export default function CourseContactForm({ courseTitle }) {
         </div>
 
         <div>
-          <div className="relative">
+          <div className="relative p-2">
             <Mail
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none"
@@ -93,7 +93,7 @@ export default function CourseContactForm({ courseTitle }) {
         </div>
 
         <div>
-          <div className="relative">
+          <div className="relative p-2">
             <Phone
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none"
@@ -109,7 +109,7 @@ export default function CourseContactForm({ courseTitle }) {
         </div>
 
         <div>
-          <div className="relative">
+          <div className="relative p-2">
             <MessageSquare
               size={15}
               className="absolute left-3 top-3 text-ink-soft pointer-events-none"
@@ -128,7 +128,7 @@ export default function CourseContactForm({ courseTitle }) {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full"
+          className="w-full "
           size="lg"
           variant="accent"
         >
