@@ -418,15 +418,15 @@ function ProvenPath({ steps }) {
 function PlanComparisonTable({ columns, rows }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-ink/[0.06] bg-white shadow-card">
-      <table className="w-full min-w-[520px] border-collapse text-sm">
+      <table className="w-full table-fixed border-collapse text-xs sm:text-sm">
         <thead>
           <tr>
-            <th className="w-1/2 p-4 text-left text-ink-muted" />
+            <th className="w-[32%] p-2 text-left text-ink-muted sm:w-1/2 sm:p-4" />
             {columns.map((col, i) => (
               <th
                 key={col}
                 className={cn(
-                  'p-4 text-center text-sm font-semibold text-ink',
+                  'w-[34%] p-2 text-center text-xs font-semibold text-ink sm:w-1/4 sm:p-4 sm:text-sm',
                   i === columns.length - 1 && 'bg-accent-50'
                 )}
               >
@@ -438,13 +438,18 @@ function PlanComparisonTable({ columns, rows }) {
         <tbody>
           {rows.map((row, ri) => (
             <tr key={row} className={ri % 2 === 0 ? 'bg-surface-alt/60' : 'bg-white'}>
-              <td className="p-4 text-left text-sm text-ink-muted">{row}</td>
+              <td className="p-2 text-left text-[11px] leading-snug text-ink-muted sm:p-4 sm:text-sm">
+                {row}
+              </td>
               {columns.map((col, ci) => (
                 <td
                   key={col}
-                  className={cn('p-4 text-center', ci === columns.length - 1 && 'bg-accent-50/60')}
+                  className={cn(
+                    'p-2 text-center sm:p-4',
+                    ci === columns.length - 1 && 'bg-accent-50/60'
+                  )}
                 >
-                  <CheckCircle2 size={17} className="mx-auto text-green-600" />
+                  <CheckCircle2 size={15} className="mx-auto text-green-600 sm:size-[17px]" />
                 </td>
               ))}
             </tr>
