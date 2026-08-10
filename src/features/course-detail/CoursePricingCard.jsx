@@ -19,7 +19,7 @@ export default function CoursePricingCard({ course }) {
 
   async function handleEnroll() {
     if (!isAuthenticated) {
-      toast('Please log in to enroll in this course.');
+      // toast('Please log in to enroll in this course.');
       return;
     }
     setIsProcessing(true);
@@ -42,7 +42,7 @@ export default function CoursePricingCard({ course }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-ink/[0.06] bg-white shadow-panel">
-<div className="relative flex items-center justify-center px-6">
+      <div className="relative flex items-center justify-center px-6">
         <img
           src={course.heroImage}
           alt=""
@@ -75,12 +75,12 @@ export default function CoursePricingCard({ course }) {
               <span className="font-mono">{breakdown.subtotalLabel}</span>
             </div>
             <div className="flex justify-between text-ink-muted">
-              <span>{breakdown.taxRateLabel}</span>
-              <span className="font-mono">{breakdown.taxLabel}</span>
+              {/* <span>{breakdown.taxRateLabel}</span> */}
+              {/* <span className="font-mono">{breakdown.taxLabel}</span> */}
             </div>
             <div className="flex justify-between border-t border-ink/10 pt-1.5 font-semibold text-ink">
-              <span>Total payable</span>
-              <span className="font-mono">{breakdown.totalLabel}</span>
+              {/* <span>Total payable</span> */}
+              {/* <span className="font-mono">{breakdown.totalLabel}</span> */}
             </div>
           </div>
         )}
@@ -90,9 +90,11 @@ export default function CoursePricingCard({ course }) {
           {currencyCode === 'INR' ? 'Billed in India — 18% GST applies.' : 'Billed outside India — prices shown in USD, no GST.'}
         </p>
 
-        <Button onClick={handleEnroll} disabled={isProcessing} className="mt-5 w-full" size="lg" variant="accent">
-          {isProcessing ? <Spinner size={18} /> : 'Enroll Now'}
-        </Button>
+        <a href="https://www.edutechskills.com/checkout/course/pmp-certification-training">
+          <Button onClick={handleEnroll} disabled={isProcessing} className="mt-5 w-full" size="lg" variant="accent">
+            {isProcessing ? <Spinner size={18} /> : 'Enroll Now'}
+          </Button>
+        </a>
         <Button to="/contact" variant="outline" className="mt-2.5 w-full" size="lg">
           Talk to an Advisor
         </Button>

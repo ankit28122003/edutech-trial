@@ -1224,45 +1224,45 @@ export default function CourseDetailPage() {
                 {/* <div className="mt-3">
                   <Accordion items={course.faqs.slice(Math.ceil((course.faqs.length * 2) / 3))} />
                 </div> */}
-                <ul className='border-2 border-black-600 rounded-lg p-3 list-none'>
-                  <h4 className='text-2xl font-semibold text-ink sm:text-3xl'>Ideal For</h4>
-                  <li className='m-4 flex items-center gap-3 font-semibold text-md'>
+                <ul className=' border-1 border-blue-600 hover:border-2 hover:border-orange-500 transition-all transition-0.2  rounded-lg p-3 list-none shadow-sm shadow-blue-400 hover:shadow-orange-600'>
+                  <h4 className=' text-2xl font-semibold text-ink sm:text-3xl'>Ideal For</h4>
+                  <li className='m-4  flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Mid-Level Project Managers
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Senior Project Managers
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Project Coordinators
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Project Analysts
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Project Leaders
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
                     Product Managers
                   </li>
-                  <li className='m-4 flex items-center gap-3 font-bold text-md'>
+                  <li className='m-4 flex items-center gap-3 font-medium text-md'>
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
                       <CheckCircle2 size={14} />
                     </span>
@@ -1380,10 +1380,10 @@ export default function CourseDetailPage() {
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {DEFAULT_ENTERPRISE_POINTS.map(({ icon: Icon, label }) => (
             <div key={label} className="rounded-xl border border-ink/[0.06] bg-white p-5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-green-600">
-                <Icon size={17} />
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-green-800">
+                <Icon size={20} />
               </span>
-              <p className="mt-3 text-xs leading-relaxed text-ink-muted">{label}</p>
+              <p className="mt-3 text-sm leading-relaxed text-blue-950">{label}</p>
             </div>
           ))}
         </div>
