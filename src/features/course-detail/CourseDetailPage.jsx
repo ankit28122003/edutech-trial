@@ -124,9 +124,22 @@ const DEFAULT_BATCHES = [
     price: 24999,
     originalPrice: 49998,
   },
+
+   {
+    mode: 'Live Virtual Class',
+    dateRange: 'Sep 22 - Oct 13 ',
+    time: 'IST: 07:30 PM – 09:50 PM',
+    type: 'Weekday Batch · 15 Sessions',
+    shift: 'Evening Batch',
+    trainer: 'S. Singh',
+    discount: '50% off',
+    price: 24999,
+    originalPrice: 49998,
+  },
+  
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Sep 22 – Oct 13',
+    dateRange: 'Oct 22 – Nov 13',
     time: 'IST: 07:00 AM – 11:30 AM',
     type: 'Weekend Batch · 8 Sessions',
     shift: 'Morning Batch',
@@ -135,17 +148,18 @@ const DEFAULT_BATCHES = [
     price: 24999,
     originalPrice: 49998,
   },
-  {
-    mode: 'Live Virtual Class',
-    dateRange: ' Upcoming Batch',
-    // time: 'IST: 06:00 AM – 08:20 AM',
-    // type: 'Weekday Batch · 15 Sessions',
-    // shift: 'Morning Batch',
-    // trainer: 'V. Raghavan',
-    discount: '50% off',
-    price: 24999,
-    originalPrice: 49998,
-  },
+
+  // {
+  //   mode: 'Live Virtual Class',
+  //   dateRange: ' Upcoming Batch',
+  //   time: 'IST: 06:00 AM – 08:20 AM',
+  //   type: 'Weekday Batch · 15 Sessions',
+  //   shift: 'Morning Batch',
+  //   trainer: 'V. Raghavan',
+  //   discount: '50% off',
+  //   price: 24999,
+  //   originalPrice: 49998,
+  // },
 ];
 
 const DEFAULT_CORPORATE_POINTS = [
@@ -903,31 +917,31 @@ export default function CourseDetailPage() {
       </div>
 
 
-<div className="mt-4 space-y-6 border-y border-ink/[0.06] py-6">
-          <Marquee
-            items={enterpriseLogos}
-            renderItem={(logo) => (
-              <img
-                src={logo}
-                alt="Enterprise partner logo"
-                className="h-7 w-auto max-w-[110px] object-contain"
-                loading="lazy"
-              />
-            )}
-          />
-          <Marquee
-            reverse
-            items={enterpriseLogos}
-            renderItem={(logo) => (
-              <img
-                src={logo}
-                alt="Enterprise partner logo"
-                className="h-7 w-auto max-w-[110px] object-contain"
-                loading="lazy"
-              />
-            )}
-          />
-        </div>
+      <div className="mt-4 space-y-6 border-y border-ink/[0.06] py-6">
+        <Marquee
+          items={enterpriseLogos}
+          renderItem={(logo) => (
+            <img
+              src={logo}
+              alt="Enterprise partner logo"
+              className="h-7 w-auto max-w-[110px] object-contain"
+              loading="lazy"
+            />
+          )}
+        />
+        <Marquee
+          reverse
+          items={enterpriseLogos}
+          renderItem={(logo) => (
+            <img
+              src={logo}
+              alt="Enterprise partner logo"
+              className="h-7 w-auto max-w-[110px] object-contain"
+              loading="lazy"
+            />
+          )}
+        />
+      </div>
 
 
       <SubNav phone={course.supportPhone} />
@@ -1127,24 +1141,7 @@ export default function CourseDetailPage() {
         </Container>
       </Section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Distinctions & Achievements                                       */}
-      {/* ---------------------------------------------------------------- */}
-      <Section>
-        <div className="text-center">
-          <Badge tone="accent">Distinctions and Achievements</Badge>
-          <h2 className="mx-auto mt-4 max-w-xl text-2xl font-semibold leading-tight text-ink sm:text-3xl">
-            Explore the milestones of our journey!
-          </h2>
-        </div>
-        <StaggerGroup className="mx-auto mt-5 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
-          {achievements.map((achievement) => (
-            <motion.div key={achievement.title} variants={staggerItemVariants}>
-              <AchievementBadge achievement={achievement} />
-            </motion.div>
-          ))}
-        </StaggerGroup>
-      </Section>
+
 
       {/* ---------------------------------------------------------------- */}
       {/* Certificate                                                       */}
@@ -1359,9 +1356,28 @@ export default function CourseDetailPage() {
       )}
 
       {/* ---------------------------------------------------------------- */}
-      {/* Enterprise training strip                                         */}
+      {/* Distinctions & Achievements                                       */}
       {/* ---------------------------------------------------------------- */}
       <Section>
+        <div className="text-center">
+          <Badge tone="accent">Distinctions and Achievements</Badge>
+          <h2 className="mx-auto mt-4 max-w-xl text-2xl font-semibold leading-tight text-ink sm:text-3xl">
+            Explore the milestones of our journey!
+          </h2>
+        </div>
+        <StaggerGroup className="mx-auto mt-5 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+          {achievements.map((achievement) => (
+            <motion.div key={achievement.title} variants={staggerItemVariants}>
+              <AchievementBadge achievement={achievement} />
+            </motion.div>
+          ))}
+        </StaggerGroup>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Enterprise training strip                                         */}
+      {/* ---------------------------------------------------------------- */}
+      {/* <Section>
         <div className="flex flex-wrap items-center justify-between gap-4 w-full">
           <div className="max-w-xl">
             <Badge tone="accent">For Teams</Badge>
@@ -1393,7 +1409,7 @@ export default function CourseDetailPage() {
             </div>
           ))}
         </div>
-      </Section>
+      </Section> */}
 
       {/* ---------------------------------------------------------------- */}
       {/* Related courses                                                   */}
