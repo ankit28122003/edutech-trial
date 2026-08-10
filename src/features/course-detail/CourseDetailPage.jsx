@@ -902,6 +902,34 @@ export default function CourseDetailPage() {
         </Container>
       </div>
 
+
+<div className="mt-4 space-y-6 border-y border-ink/[0.06] py-6">
+          <Marquee
+            items={enterpriseLogos}
+            renderItem={(logo) => (
+              <img
+                src={logo}
+                alt="Enterprise partner logo"
+                className="h-7 w-auto max-w-[110px] object-contain"
+                loading="lazy"
+              />
+            )}
+          />
+          <Marquee
+            reverse
+            items={enterpriseLogos}
+            renderItem={(logo) => (
+              <img
+                src={logo}
+                alt="Enterprise partner logo"
+                className="h-7 w-auto max-w-[110px] object-contain"
+                loading="lazy"
+              />
+            )}
+          />
+        </div>
+
+
       <SubNav phone={course.supportPhone} />
 
       {/* ---------------------------------------------------------------- */}
@@ -989,7 +1017,7 @@ export default function CourseDetailPage() {
       {/* ---------------------------------------------------------------- */}
       {/* Pricing plans + pricing card                                      */}
       {/* ---------------------------------------------------------------- */}
-      <Section id="pricing" className="bg-surface-alt">
+      {/* <Section id="pricing" className="bg-surface-alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
 
@@ -999,14 +1027,14 @@ export default function CourseDetailPage() {
           </div>
           <span className="flex items-center gap-1 rounded-sm bg-success-600 px-2 py-1 text-xs font-semibold text-white">
             {/* <ShieldCheck size={13} /> 100% Money Back */}
-          </span>
-        </div>
+      {/* </span>
+        </div> */}
 
-        <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] lg:items-start">
+      {/* <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] lg:items-start">
           <PlanComparisonTable columns={planColumns} rows={planRows} />
           <CoursePricingCard course={course} />
         </div>
-      </Section>
+      </Section>  */}
 
       {/* ---------------------------------------------------------------- */}
       {/* Upcoming batches                                                  */}
@@ -1046,11 +1074,11 @@ export default function CourseDetailPage() {
           </Button>
         </div>
 
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <Button variant="outline" size="md" className="bg-orange-400" onClick={openContact}>
             View All Batches
           </Button>
-        </div>
+        </div> */}
       </Section>
 
       {/* ---------------------------------------------------------------- */}
@@ -1064,8 +1092,8 @@ export default function CourseDetailPage() {
                 <Building2 size={22} />
               </span>
               <div>
-                <p className="text-base font-semibold text-ink">Corporate Training</p>
-                <p className="text-sm text-ink-muted">Your workforce is your asset — up-skill it with our programs.</p>
+                {/* <p className="text-base font-semibold text-ink">Corporate Training</p> */}
+                <p className="text-md font-bold text-ink-muted">Your workforce is your asset — up-skill it with our programs.</p>
               </div>
             </div>
             <a href="/contact">
@@ -1097,6 +1125,25 @@ export default function CourseDetailPage() {
             {course.aboutContent?.description && <p className="mt-4">{course.aboutContent.description}</p>}
           </div>
         </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Distinctions & Achievements                                       */}
+      {/* ---------------------------------------------------------------- */}
+      <Section>
+        <div className="text-center">
+          <Badge tone="accent">Distinctions and Achievements</Badge>
+          <h2 className="mx-auto mt-4 max-w-xl text-2xl font-semibold leading-tight text-ink sm:text-3xl">
+            Explore the milestones of our journey!
+          </h2>
+        </div>
+        <StaggerGroup className="mx-auto mt-5 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+          {achievements.map((achievement) => (
+            <motion.div key={achievement.title} variants={staggerItemVariants}>
+              <AchievementBadge achievement={achievement} />
+            </motion.div>
+          ))}
+        </StaggerGroup>
       </Section>
 
       {/* ---------------------------------------------------------------- */}
@@ -1275,24 +1322,7 @@ export default function CourseDetailPage() {
         </Section>
       )}
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Distinctions & Achievements                                       */}
-      {/* ---------------------------------------------------------------- */}
-      <Section>
-        <div className="text-center">
-          <Badge tone="accent">Distinctions and Achievements</Badge>
-          <h2 className="mx-auto mt-4 max-w-xl text-2xl font-semibold leading-tight text-ink sm:text-3xl">
-            Explore the milestones of our journey!
-          </h2>
-        </div>
-        <StaggerGroup className="mx-auto mt-5 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
-          {achievements.map((achievement) => (
-            <motion.div key={achievement.title} variants={staggerItemVariants}>
-              <AchievementBadge achievement={achievement} />
-            </motion.div>
-          ))}
-        </StaggerGroup>
-      </Section>
+
 
       {/* ---------------------------------------------------------------- */}
       {/* About / benefits (reuses course.aboutContent if present)          */}
@@ -1348,31 +1378,7 @@ export default function CourseDetailPage() {
           </Button>
         </div>
 
-        <div className="mt-4 space-y-6 border-y border-ink/[0.06] py-6">
-          <Marquee
-            items={enterpriseLogos}
-            renderItem={(logo) => (
-              <img
-                src={logo}
-                alt="Enterprise partner logo"
-                className="h-7 w-auto max-w-[110px] object-contain"
-                loading="lazy"
-              />
-            )}
-          />
-          <Marquee
-            reverse
-            items={enterpriseLogos}
-            renderItem={(logo) => (
-              <img
-                src={logo}
-                alt="Enterprise partner logo"
-                className="h-7 w-auto max-w-[110px] object-contain"
-                loading="lazy"
-              />
-            )}
-          />
-        </div>
+        
 
         <p className="mt-5 text-center text-xs font-semibold uppercase tracking-widest text-ink-soft">
           Curriculum Designed to Fit Your Organization
