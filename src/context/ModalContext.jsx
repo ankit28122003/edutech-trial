@@ -9,6 +9,8 @@ export function ModalProvider({ children }) {
     // Auto-open on first visit per session
     return !sessionStorage.getItem(SESSION_KEY);
   });
+  const [contactVariant, setContactVariant] = useState('advisor');
+  const [contactMeta, setContactMeta] = useState(null);
 
   useEffect(() => {
     // Mark as shown once the component is mounted and modal is open
@@ -17,11 +19,24 @@ export function ModalProvider({ children }) {
     }
   }, [isContactOpen]);
 
-  const openContact = useCallback(() => setIsContactOpen(true), []);
+  const openContact = useCallback((opts) => {
+    if (typeof opts === 'string') {
+      setContactVariant(opts);
+      setContactMeta(null);
+    } else if (opts && typeof opts === 'object') {
+      setContactVariant(opts.variant || 'advisor');
+      setContactMeta(opts.meta || null);
+    } else {
+      setContactVariant('advisor');
+      setContactMeta(null);
+    }
+    setIsContactOpen(true);
+  }, []);
+
   const closeContact = useCallback(() => setIsContactOpen(false), []);
 
   return (
-    <ModalContext.Provider value={{ isContactOpen, openContact, closeContact }}>
+    <ModalContext.Provider value={{ isContactOpen, openContact, closeContact, contactVariant, contactMeta }}>
       {children}
     </ModalContext.Provider>
   );

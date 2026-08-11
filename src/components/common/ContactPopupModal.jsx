@@ -8,7 +8,7 @@ import { useModal } from '../../context/ModalContext';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
 import { FieldError } from '../ui/FormField';
-import { advisorPopupSchema, getFieldErrors } from '../../lib/validation';
+import { advisorPopupSchema, coursePopupSchema, getFieldErrors } from '../../lib/validation';
 import { ADVISOR_PURPOSES, COUNTRY_CODES } from '../../lib/constants';
 import { submitContactForm } from '../../services/contactService';
 
@@ -40,13 +40,15 @@ export default function ContactPopupModal() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isContactOpen, openContact, closeContact } = useModal();
+  const { contactVariant, contactMeta } = useModal();
   const [values, setValues] = useState(INITIAL_VALUES);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const hasShownAuto = useRef(false);
 
-// Use the PMP-specific image when the popup is shown on the PMP course page,
-  // otherwise fall back to the default contact popup image.
+  // Use the PMP-specific image when the popup is shown on the PMP course page,
+  // otherwise fall back to the default contact popup image. For the `course`
+  // variant we won't render the left image.
   const isPmpPage = location.pathname.includes('pmp-certification');
   const popupImage = isPmpPage
     ? '/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM.jpeg'
@@ -93,19 +95,33 @@ export default function ContactPopupModal() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const { errors: fieldErrors, data } = getFieldErrors(advisorPopupSchema, values);
+    const schema = contactVariant === 'course' ? coursePopupSchema : advisorPopupSchema;
+    const { errors: fieldErrors, data } = getFieldErrors(schema, values);
     setErrors(fieldErrors || {});
     if (fieldErrors) return;
 
     setIsSubmitting(true);
     try {
-      await submitContactForm({
-        name: data.name,
-        email: data.email,
-        phone: `${data.countryCode} ${data.phone}`,
-        message: `Advisor request — Purpose: ${data.purpose}`,
-      });
-      toast.success("Thanks! An advisor will reach out shortly.");
+      if (contactVariant === 'course') {
+        await submitContactForm({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          message: contactMeta?.title
+            ? `Interested in course: ${contactMeta.title}`
+            : 'Interested in a course',
+        });
+        toast.success("Thanks! We'll get back to you about this course soon.");
+      } else {
+        await submitContactForm({
+          name: data.name,
+          email: data.email,
+          phone: `${data.countryCode} ${data.phone}`,
+          message: `Advisor request — Purpose: ${data.purpose}`,
+        });
+        toast.success("Thanks! An advisor will reach out shortly.");
+      }
+
       setValues(INITIAL_VALUES);
       closeContact();
       navigate('/thankyou');
@@ -147,139 +163,197 @@ export default function ContactPopupModal() {
               <X size={18} />
             </button>
 
-{/* Left visual panel — full image, shown without cropping on all screens */}
-            <div className="relative order-first flex w-full items-center justify-center overflow-hidden bg-white md:min-h-[560px]">
-              <img
-                src={popupImage}
-                alt=""
-                className="h-auto max-h-[70vh] w-full object-contain md:max-h-none md:h-full md:object-contain"
-                loading="lazy"
-              />
-            </div>
+            {/* Left visual panel — full image, shown only on md+ screens */}
+            {contactVariant !== 'course' && (
+              <div className="hidden md:flex relative order-first w-full items-center justify-center overflow-hidden bg-white md:min-h-[560px]">
+                <img
+                  src={popupImage}
+                  alt=""
+                  className="h-auto max-h-[70vh] w-full object-contain md:max-h-none md:h-full md:object-contain"
+                  loading="lazy"
+                />
+              </div>
+            )}
 
             {/* Right form panel */}
             <div className="p-6 sm:p-10">
-              <h2 id="advisor-popup-heading" className="text-2xl font-semibold text-ink sm:text-3xl">
-                Talk to a Learning Advisor
-              </h2>
-              <p className="mt-2 text-sm text-ink-muted">Get in touch with a Learning Advisor</p>
+              {contactVariant === 'course' ? (
+                <>
+                  <h2 id="advisor-popup-heading" className="text-2xl font-semibold text-ink sm:text-3xl">
+                    Interested in this course?
+                  </h2>
+                  <p className="mt-2 text-sm text-ink-muted">Share your details and we'll get back to you.</p>
 
-              <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-5">
-                <div>
-                  <FloatingField label="Full Name" required>
-                    <input
-                      value={values.name}
-                      onChange={(e) => updateField('name', e.target.value)}
-                      className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                    />
-                  </FloatingField>
-                  <FieldError>{errors.name}</FieldError>
-                </div>
-
-                <div>
-                  <FloatingField label="Email Id" required>
-                    <input
-                      type="email"
-                      value={values.email}
-                      onChange={(e) => updateField('email', e.target.value)}
-                      className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                    />
-                  </FloatingField>
-                  <FieldError>{errors.email}</FieldError>
-                </div>
-
-                <div>
-                  <FloatingField label="Phone" required>
-                    <div className="flex h-14 items-center gap-2 rounded-xl border border-ink/15 pl-2 pr-4 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-100">
-                      <div className="relative">
-                        <select
-                          value={values.countryCode}
-                          onChange={(e) => updateField('countryCode', e.target.value)}
-                          className="h-10 appearance-none rounded-lg bg-transparent pl-2 pr-6 text-sm text-ink focus:outline-none"
-                        >
-                          {COUNTRY_CODES.map((c) => (
-                            <option key={c.code} value={c.code}>
-                              {c.label}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown
-                          size={14}
-                          className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 text-ink-soft"
+                  <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-5">
+                    <div>
+                      <FloatingField label="Full Name" required>
+                        <input
+                          value={values.name}
+                          onChange={(e) => updateField('name', e.target.value)}
+                          className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
                         />
-                      </div>
-                      <span className="h-6 w-px bg-ink/10" aria-hidden="true" />
-                      <input
-                        type="tel"
-                        value={values.phone}
-                        onChange={(e) => updateField('phone', e.target.value)}
-                        className="h-full flex-1 bg-transparent text-sm text-ink focus:outline-none"
-                      />
+                      </FloatingField>
+                      <FieldError>{errors.name}</FieldError>
                     </div>
-                  </FloatingField>
-                  <FieldError>{errors.phone}</FieldError>
-                </div>
 
-                <div>
-                  <FloatingField label="Purpose" required>
-                    <div className="relative">
-                      <select
-                        value={values.purpose}
-                        onChange={(e) => updateField('purpose', e.target.value)}
-                        className="h-14 w-full appearance-none rounded-xl border border-ink/15 px-4 pr-10 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                      >
-                        <option value="">Select an option</option>
-                        {ADVISOR_PURPOSES.map((purpose) => (
-                          <option key={purpose} value={purpose}>
-                            {purpose}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown
-                        size={16}
-                        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-soft"
-                      />
+                    <div>
+                      <FloatingField label="Email Id" required>
+                        <input
+                          type="email"
+                          value={values.email}
+                          onChange={(e) => updateField('email', e.target.value)}
+                          className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                        />
+                      </FloatingField>
+                      <FieldError>{errors.email}</FieldError>
                     </div>
-                  </FloatingField>
-                  <FieldError>{errors.purpose}</FieldError>
-                </div>
 
-                <div>
-                  <label className="flex items-start gap-2.5 text-sm text-ink-muted">
-                    <input
-                      type="checkbox"
-                      checked={values.agree}
-                      onChange={(e) => updateField('agree', e.target.checked)}
-                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/20 text-success-500 focus:ring-success-500/30"
-                    />
-                    <span>
-                      I agree to Edutech Skills's{' '}
-                      <Link to="/terms" target="_blank" className="font-medium text-ink underline hover:text-primary-600">
-                        Terms &amp; Conditions
-                      </Link>{' '}
-                      and{' '}
-                      <Link to="/privacy" target="_blank" className="font-medium text-ink underline hover:text-primary-600">
-                        Privacy Policy
-                      </Link>
-                      .
-                    </span>
-                  </label>
-                  <FieldError>{errors.agree}</FieldError>
-                </div>
+                    <div>
+                      <FloatingField label="Phone">
+                        <input
+                          type="tel"
+                          value={values.phone}
+                          onChange={(e) => updateField('phone', e.target.value)}
+                          className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                        />
+                      </FloatingField>
+                    </div>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-violet-600 hover:bg-violet-700"
-                  size="lg"
-                >
-                  {isSubmitting ? <Spinner size={18} /> : (
-                    <>
-                      Submit <span aria-hidden="true">→</span>
-                    </>
-                  )}
-                </Button>
-              </form>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-violet-600 hover:bg-violet-700"
+                      size="lg"
+                    >
+                      {isSubmitting ? <Spinner size={18} /> : 'Contact Me'}
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <h2 id="advisor-popup-heading" className="text-2xl font-semibold text-ink sm:text-3xl">
+                    Talk to a Learning Advisor
+                  </h2>
+                  <p className="mt-2 text-sm text-ink-muted">Get in touch with a Learning Advisor</p>
+
+                  <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-5">
+                    <div>
+                      <FloatingField label="Full Name" required>
+                        <input
+                          value={values.name}
+                          onChange={(e) => updateField('name', e.target.value)}
+                          className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                        />
+                      </FloatingField>
+                      <FieldError>{errors.name}</FieldError>
+                    </div>
+
+                    <div>
+                      <FloatingField label="Email Id" required>
+                        <input
+                          type="email"
+                          value={values.email}
+                          onChange={(e) => updateField('email', e.target.value)}
+                          className="h-14 w-full rounded-xl border border-ink/15 px-4 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                        />
+                      </FloatingField>
+                      <FieldError>{errors.email}</FieldError>
+                    </div>
+
+                    <div>
+                      <FloatingField label="Phone" required>
+                        <div className="flex h-14 items-center gap-2 rounded-xl border border-ink/15 pl-2 pr-4 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-100">
+                          <div className="relative">
+                            <select
+                              value={values.countryCode}
+                              onChange={(e) => updateField('countryCode', e.target.value)}
+                              className="h-10 appearance-none rounded-lg bg-transparent pl-2 pr-6 text-sm text-ink focus:outline-none"
+                            >
+                              {COUNTRY_CODES.map((c) => (
+                                <option key={c.code} value={c.code}>
+                                  {c.label}
+                                </option>
+                              ))}
+                            </select>
+                            <ChevronDown
+                              size={14}
+                              className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 text-ink-soft"
+                            />
+                          </div>
+                          <span className="h-6 w-px bg-ink/10" aria-hidden="true" />
+                          <input
+                            type="tel"
+                            value={values.phone}
+                            onChange={(e) => updateField('phone', e.target.value)}
+                            className="h-full flex-1 bg-transparent text-sm text-ink focus:outline-none"
+                          />
+                        </div>
+                      </FloatingField>
+                      <FieldError>{errors.phone}</FieldError>
+                    </div>
+
+                    <div>
+                      <FloatingField label="Purpose" required>
+                        <div className="relative">
+                          <select
+                            value={values.purpose}
+                            onChange={(e) => updateField('purpose', e.target.value)}
+                            className="h-14 w-full appearance-none rounded-xl border border-ink/15 px-4 pr-10 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                          >
+                            <option value="">Select an option</option>
+                            {ADVISOR_PURPOSES.map((purpose) => (
+                              <option key={purpose} value={purpose}>
+                                {purpose}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown
+                            size={16}
+                            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-soft"
+                          />
+                        </div>
+                      </FloatingField>
+                      <FieldError>{errors.purpose}</FieldError>
+                    </div>
+
+                    <div>
+                      <label className="flex items-start gap-2.5 text-sm text-ink-muted">
+                        <input
+                          type="checkbox"
+                          checked={values.agree}
+                          onChange={(e) => updateField('agree', e.target.checked)}
+                          className="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/20 text-success-500 focus:ring-success-500/30"
+                        />
+                        <span>
+                          I agree to Edutech Skills's{' '}
+                          <Link to="/terms" target="_blank" className="font-medium text-ink underline hover:text-primary-600">
+                            Terms &amp; Conditions
+                          </Link>{' '}
+                          and{' '}
+                          <Link to="/privacy" target="_blank" className="font-medium text-ink underline hover:text-primary-600">
+                            Privacy Policy
+                          </Link>
+                          .
+                        </span>
+                      </label>
+                      <FieldError>{errors.agree}</FieldError>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-violet-600 hover:bg-violet-700"
+                      size="lg"
+                    >
+                      {isSubmitting ? <Spinner size={18} /> : (
+                        <>
+                          Submit <span aria-hidden="true">→</span>
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </>
+              )}
             </div>
           </motion.div>
         </div>

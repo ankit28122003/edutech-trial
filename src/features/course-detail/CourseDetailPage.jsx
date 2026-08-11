@@ -875,7 +875,12 @@ export default function CourseDetailPage() {
 
             <Reveal delay={0.2}>
               <div className="mt-3 w-full flex flex-wrap flex-col items-center gap-3">
-                <Button variant="primary" size="md" className="w-full  shadow-[0_0_20px_0px] shadow-orange-400" onClick={openContact}>
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="w-full  shadow-[0_0_20px_0px] shadow-orange-400"
+                  onClick={() => openContact({ variant: 'course', meta: { title: course.title } })}
+                >
                   <Download size={12} /> Talk to career expert
                 </Button>
                 <Button
@@ -895,7 +900,10 @@ export default function CourseDetailPage() {
               </div>
               <p className="mt-3 text-xs text-ink-muted">
                 Looking for corporate training?{' '}
-                <a className="font-semibold text-success-600 underline underline-offset-2" onClick={openContact}>
+                <a
+                  className="font-semibold text-success-600 underline underline-offset-2"
+                  onClick={() => openContact({ variant: 'course', meta: { title: course.title } })}
+                >
                   Get a Quote
                 </a>
               </p>
@@ -903,12 +911,12 @@ export default function CourseDetailPage() {
           </div>
 
           {/* Right column: course intro poster */}
-          <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
+          <div className="flex  flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
             <div className="relative overflow-hidden rounded-xl border border-ink/[0.06] bg-white">
               <img
                 src="/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM%20(1).jpeg"
                 alt={`${course.title} course intro poster`}
-                className="h-auto w-full object-cover"
+                className="h-auto w-full object-cover hidden"
                 loading="lazy"
               />
             </div>
@@ -982,7 +990,12 @@ export default function CourseDetailPage() {
           <Reveal delay={0.08}>
             <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-ink/[0.06] bg-white p-6 text-center shadow-card">
               <p className="text-sm font-semibold text-ink">Explore the Complete Course Brochure</p>
-              <Button variant="outline" size="md" className="mt-2" onClick={openContact}>
+              <Button
+                variant="outline"
+                size="md"
+                className="mt-2"
+                onClick={() => openContact({ variant: 'course', meta: { title: course.title } })}
+              >
                 Download Brochure <Download size={15} />
               </Button>
             </div>
@@ -1018,7 +1031,11 @@ export default function CourseDetailPage() {
                 {course.curriculum.length} comprehensive modules • {course.duration} of expert-led training
               </p>
             </div>
-            <Button variant="primary" size="md" onClick={openContact}>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => openContact({ variant: 'course', meta: { title: course.title } })}
+            >
               Download Syllabus <Download size={15} />
             </Button>
           </div>
@@ -1083,7 +1100,11 @@ export default function CourseDetailPage() {
             Do you want to customize
             <br className="hidden sm:block" /> your batch request?
           </p>
-          <Button onClick={openContact} variant="primary" size="md">
+          <Button
+            onClick={() => openContact({ variant: 'course', meta: { title: course.title } })}
+            variant="primary"
+            size="md"
+          >
             Request a Batch
           </Button>
         </div>
