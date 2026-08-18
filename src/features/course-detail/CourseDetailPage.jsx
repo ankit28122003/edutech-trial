@@ -516,21 +516,22 @@ function BatchCard({ batch, format, index }) {
         </button>
       </div>
 
-      <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1.5">
-        <div className="flex items-center gap-2">
-          <span className="rounded-md bg-orange-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+      <div className="flex items-center gap-4 flex-nowrap sm:flex-col sm:items-end sm:gap-1.5">
+        <div className="flex items-center gap-2 whitespace-nowrap">
+          <span className="rounded-md bg-orange-500 px-2 py-0.5 text-xs sm:text-sm font-bold text-white">
             {batch.discount}
           </span>
           <span className="font-mono text-xs text-ink-soft line-through">
             {format(batch.originalPrice, batch.originalPrice)}
           </span>
         </div>
-        <p className="font-mono text-lg font-bold text-ink">{format(batch.price, batch.price)}
+        <p className="font-mono text-base sm:text-lg font-bold text-ink whitespace-nowrap">{format(batch.price, batch.price)}</p>
 
-        </p>
-
-
-        <Button variant="outline" size="sm" className="bg-orange-500 text-white hover:bg-orange-600" >
+        <Button
+          variant="outline"
+          size="xs"
+          className=" p-2 bg-orange-500 text-white hover:bg-orange-600 whitespace-nowrap text-xs sm:text-sm"
+        >
           Enroll Now
         </Button>
 
@@ -859,13 +860,13 @@ export default function CourseDetailPage() {
             </Reveal>
 
             <Reveal delay={0.16}>
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-2 border-blue-600 p-4 rounded-lg hover:borer-2 hover:border-orange-600">
+              <div className="mt-10 flex  items-center justify-between gap-3 border-2 border-blue-600 p-4 rounded-lg hover:borer-2 hover:border-orange-600">
                 {DEFAULT_TRUST_BADGES.map((badge) => (
                   <span
                     key={badge.label}
-                    className="flex items-center gap-2 rounded-lg border border-ink/[0.06] bg-white px-3 py-3 text-md"
+                    className="flex items-center gap-2 rounded-lg border border-ink/[0.06] bg-white px-1 py-3 text-md"
                   >
-                    <Star size={20} className={cn(badge.tone)} fill="currentColor" />
+                    <Star size={10} className={cn(badge.tone)} fill="currentColor" />
                     <span className="font-medium text-ink-muted">{badge.label}</span>
                     <span className="font-semibold text-ink">{badge.rating}</span>
                   </span>
