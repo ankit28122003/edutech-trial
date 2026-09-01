@@ -113,19 +113,8 @@ const DEFAULT_PLAN_ROWS = [
 ];
 
 const DEFAULT_BATCHES = [
-  {
-    mode: 'Live Virtual Class',
-    dateRange: 'Aug 22 – Sep 13',
-    time: 'IST: 07:30 PM – 09:50 PM',
-    type: 'Weekday Batch · 15 Sessions',
-    shift: 'Evening Batch',
-    trainer: 'S. Singh',
-    discount: '50% off',
-    price: 24999,
-    originalPrice: 49998,
-  },
 
-   {
+  {
     mode: 'Live Virtual Class',
     dateRange: 'Sep 22 - Oct 13 ',
     time: 'IST: 07:30 PM – 09:50 PM',
@@ -136,12 +125,12 @@ const DEFAULT_BATCHES = [
     price: 24999,
     originalPrice: 49998,
   },
-  
+
   {
     mode: 'Live Virtual Class',
     dateRange: 'Oct 22 – Nov 13',
     time: 'IST: 07:00 AM – 11:30 AM',
-    type: 'Weekend Batch · 8 Sessions',
+    type: 'Weekday Batch · 8 Sessions',
     shift: 'Morning Batch',
     trainer: 'V. Raghavan',
     discount: '50% off',
@@ -149,18 +138,21 @@ const DEFAULT_BATCHES = [
     originalPrice: 49998,
   },
 
-  // {
-  //   mode: 'Live Virtual Class',
-  //   dateRange: ' Upcoming Batch',
-  //   time: 'IST: 06:00 AM – 08:20 AM',
-  //   type: 'Weekday Batch · 15 Sessions',
-  //   shift: 'Morning Batch',
-  //   trainer: 'V. Raghavan',
-  //   discount: '50% off',
-  //   price: 24999,
-  //   originalPrice: 49998,
-  // },
-];
+
+
+
+  {
+    mode: 'Live Virtual Class',
+    dateRange: 'Nov 20 - Dec 4',
+    time: 'IST: 06:00 AM – 08:20 AM',
+    type: 'Weekend Batch · 15 Sessions',
+    shift: 'Morning Batch',
+    trainer: 'V. Raghavan',
+    discount: '50% off',
+    price: 24999,
+    originalPrice: 49998,
+  },
+]
 
 const DEFAULT_CORPORATE_POINTS = [
   'Unleash in-demand skills across the enterprise',
@@ -226,9 +218,9 @@ const DEFAULT_CITIES = [
 ];
 
 const DEFAULT_SERVED_STATS = [
-  { icon: Users, value: '3,00,000+', label: 'Professionals Trained' },
-  { icon: Trophy, value: '100%', label: 'Success Rate' },
-  { icon: Globe2, value: '100+', label: 'Countries' },
+  { icon: Users, value: '10,000+', label: 'Professionals Trained' },
+  { icon: Trophy, value: '90%', label: 'Success Rate' },
+  { icon: Globe2, value: '5+', label: 'Countries' },
 ];
 
 const SUB_NAV = [
@@ -348,7 +340,7 @@ function HeroPortrait({ instructor, statBadges }) {
   );
 }
 
-/** Video intro banner — shows a styled cover until played, then hands off to native controls. */
+/** Video intro banner — keep the original layout and sizing, only swap the person image. */
 function VideoIntroBanner({ course }) {
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -373,10 +365,12 @@ function VideoIntroBanner({ course }) {
       </video>
 
       {!playing && (
-        <button
-          type="button"
-          onClick={handlePlay}
+        <a
+          href="https://www.youtube.com/shorts/fNgZOHQhwnE"
+          target="_blank"
+          rel="noreferrer"
           className="absolute inset-0 flex flex-col justify-between p-6 text-left sm:p-8"
+          aria-label="Play testimonial video"
         >
           <span className="w-fit rounded-lg bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-ink backdrop-blur-sm">
             Quick Introduction
@@ -393,17 +387,17 @@ function VideoIntroBanner({ course }) {
               <Play size={24} fill="currentColor" />
             </span>
           </div>
-        </button>
+        </a>
       )}
 
-      {!playing && course.instructor?.avatar && (
+      {!playing && (
         <img
-          src={course.instructor.avatar}
+          src="/WhatsApp%20Image%202026-08-30%20at%206.37.16%20PM.jpeg"
           alt=""
           className="pointer-events-none absolute bottom-0 right-2 hidden h-[92%] w-auto object-contain sm:block"
         />
       )}
-    </div>
+    </div >
   );
 }
 
@@ -475,24 +469,23 @@ function PlanComparisonTable({ columns, rows }) {
 }
 
 /** One upcoming batch card with a cosmetic seat-quantity stepper. */
-function BatchCard({ batch, format, index }) {
+function BatchCard({ batch, format, index, course }) {
+  const { openContact } = useModal();
   const [qty, setQty] = useState(1);
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 shadow-blue-500 shadow-[0_8px_30px_-6px_rgba(59,130,246,0.5)] transition-shadow duration-300 hover:shadow-orange-500 hover:shadow-[0_8px_30px_-6px_rgba(249,115,22,0.5)] sm:flex-row sm:items-center sm:justify-between">
-      <div>
+      <div className="min-w-0 flex-1">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-300 px-2.5 py-1 text-xs font-semibold text-green-600">
           <Globe2 size={13} /> {batch.mode}
         </span>
         <p className="mt-1.5 text-base font-semibold text-ink">{batch.dateRange}</p>
         <p className="text-xs text-ink-soft">{batch.time}</p>
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
-          {index !== 2 && (
-            <span className="flex items-center gap-1">
-              <CalendarClock size={12} /> {batch.type}
-            </span>
-          )}
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
+          <span className="flex items-center gap-1">
+            <CalendarClock size={12} /> {batch.type}
+          </span>
           <span>{batch.shift}</span>
-          {index !== 2 && <span>Trainer: {batch.trainer}</span>}
+          <span>Trainer: {batch.trainer}</span>
         </div>
       </div>
 
@@ -516,7 +509,7 @@ function BatchCard({ batch, format, index }) {
         </button>
       </div>
 
-      <div className="flex items-center gap-4 flex-nowrap sm:flex-col sm:items-end sm:gap-1.5">
+      <div className="flex flex-wrap items-center justify-end gap-3 sm:flex-col sm:items-end">
         <div className="flex items-center gap-2 whitespace-nowrap">
           <span className="rounded-md bg-orange-500 px-2 py-0.5 text-xs sm:text-sm font-bold text-white">
             {batch.discount}
@@ -530,48 +523,54 @@ function BatchCard({ batch, format, index }) {
         <Button
           variant="outline"
           size="xs"
-          className=" p-2 bg-orange-500 text-white hover:bg-orange-600 whitespace-nowrap text-xs sm:text-sm"
-        >
+          className="bg-orange-500 p-2 text-white hover:bg-orange-600 whitespace-nowrap text-xs sm:text-sm"
+         onClick = {() => openContact({ variant: 'course', meta: { title: course.title } })}>
           Enroll Now
         </Button>
-
       </div>
     </div>
   );
 }
 
-/** Video-style testimonial card (thumbnail + play affordance), reusing existing testimonial data. */
-function VideoTestimonialCard({ testimonial }) {
-  const [playing, setPlaying] = useState(false);
+/** Infinite marquee testimonial cards matching the provided reference style. */
+function InfiniteTestimonialCarousel() {
+  const items = [...TESTIMONIALS, ...TESTIMONIALS];
+
   return (
-    <div className="overflow-hidden rounded-xl border border-ink/[0.06] bg-white shadow-card">
-      <div className="relative aspect-video bg-ink">
-        {playing ? (
-          <video
-            controls
-            autoPlay
-            className="h-full w-full object-cover"
-            src={testimonial.videoUrl || `/videos/testimonials/${testimonial.name?.toLowerCase().replace(/\s+/g, '-')}.mp4`}
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setPlaying(true)}
-            className="group relative flex h-full w-full items-center justify-center"
-          >
-            <img
-              src={testimonial.avatar}
-              alt=""
-              className="h-full w-full object-cover opacity-80"
-              loading="lazy"
-            />
-            <span className="absolute flex h-11 w-11 items-center justify-center rounded-full bg-primary-600 text-white shadow-panel transition-transform group-hover:scale-105">
-              <Play size={18} fill="currentColor" />
-            </span>
-          </button>
-        )}
+    <div className="mt-8 rounded-[32px] bg-[#020d1d] px-4 py-6 sm:px-6 md:px-10 md:py-8">
+      <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl">
+        Learner Stories from Real Career Transitions
+      </h2>
+
+      <div className="relative mt-6 overflow-hidden rounded-[36px]">
+        <div className="flex min-w-max animate-[testimonial-marquee_24s_linear_infinite] gap-4 md:gap-6">
+          {items.map((testimonial, index) => (
+            <article
+              key={`${testimonial.name}-${index}`}
+              className="flex w-[82vw] shrink-0 flex-col justify-between rounded-[30px] bg-[#f5f5f5] p-5 text-left shadow-card md:w-[32vw] md:p-7"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  className="h-14 w-14 rounded-full object-cover ring-2 ring-white shadow-sm"
+                  loading="lazy"
+                />
+                <div>
+                  <p className="text-2xl font-semibold text-ink">{testimonial.name}</p>
+                  <p className="text-lg text-ink-muted">{testimonial.role}</p>
+                </div>
+              </div>
+
+              <div className="mt-8 flex-1">
+                <p className="text-xl leading-relaxed text-ink md:text-2xl">
+                  “{testimonial.quote}”
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
-      <p className="px-3 py-2.5 text-center text-xs font-semibold text-ink">{testimonial.name}</p>
     </div>
   );
 }
@@ -717,7 +716,8 @@ function LeadForm({ course, compact = false }) {
 /* -------------------------------------------------------------------------- */
 
 export default function CourseDetailPage() {
-  const { slug } = useParams();
+  const { slug: routeSlug } = useParams();
+  const slug = routeSlug || 'pmp-certification';
   const { format, currencyCode } = useCurrency();
   const { openContact } = useModal();
   const [course, setCourse] = useState(null);
@@ -1086,13 +1086,13 @@ export default function CourseDetailPage() {
 
         <div className="mt-4 space-y-4">
           {batches.slice(0, 2).map((batch, i) => (
-            <BatchCard key={i} batch={batch} format={format} index={i} />
+            <BatchCard key={i} batch={batch} format={format} index={i} course={course} />
           ))}
 
 
 
           {batches.slice(2).map((batch, i) => (
-            <BatchCard key={`extra-${i}`} batch={batch} format={format} index={i + 2} />
+            <BatchCard key={`extra-${i}`} batch={batch} format={format} index={i + 2} course={course} />
           ))}
         </div>
 
@@ -1179,62 +1179,40 @@ export default function CourseDetailPage() {
       </Section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Video testimonials                                                */}
+      {/* Testimonials                                                       */}
       {/* ---------------------------------------------------------------- */}
       <Section id="testimonials" className="bg-surface-alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <Badge tone="primary">Testimonials</Badge>
             <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
-              Hear It From Our Certified Professionals
+              What Learners Are Saying
             </h2>
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-muted hover:text-ink"
-              aria-label="Previous"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-muted hover:text-ink"
-              aria-label="Next"
-            >
-              <ChevronRight size={16} />
-            </button>
           </div>
         </div>
 
-        <StaggerGroup className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {TESTIMONIALS.map((testimonial) => (
-            <motion.div key={testimonial.name} variants={staggerItemVariants}>
-              <VideoTestimonialCard testimonial={testimonial} />
-            </motion.div>
-          ))}
-        </StaggerGroup>
+        <InfiniteTestimonialCarousel />
       </Section>
 
       {/* ---------------------------------------------------------------- */}
       {/* Written course reviews                                           */}
       {/* ---------------------------------------------------------------- */}
-      <Section id="reviews">
+      {/* <Section id="reviews">
         <Container className="max-w-3xl px-0">
           <Badge tone="accent">Course Reviews</Badge>
-          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">What Learners Are Saying</h2>
+          <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl"></h2>
           <div className="mt-5 rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card sm:p-8">
             {reviews.map((review) => (
               <ReviewCard key={review.name} review={review} />
             ))}
-          </div>
-          <div className="mt-3 text-center">
+          </div> */}
+      {/* <div className="mt-3 text-center">
             <Button variant="outline" size="md">
               View All Reviews
             </Button>
-          </div>
-        </Container>
-      </Section>
+          </div> */}
+      {/* </Container>
+      </Section> */}
 
       {/* ---------------------------------------------------------------- */}
       {/* FAQs — three themed groups, matching the reference layout         */}

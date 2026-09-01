@@ -35,7 +35,7 @@ export default function App() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<CourseDetail />} />
           <Route path="/courses" element={<CourseListing />} />
           <Route path="/course/:slug" element={<CourseDetail />} />
           <Route path="/login" element={<Login />} />

@@ -20,17 +20,17 @@ export default function SuccessStatsSection() {
     const stats = [
         {
             icon: Users,
-            value: "3,00,000+",
+            value: "10,000+",
             label: "Professionals Trained",
         },
         {
             icon: BadgeCheck,
-            value: "100%",
+            value: "90%",
             label: "Success Rate",
         },
         {
             icon: Globe,
-            value: "100+",
+            value: "5+",
             label: "Countries",
         },
     ];

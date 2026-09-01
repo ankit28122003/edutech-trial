@@ -50,14 +50,17 @@ export default function ContactPopupModal() {
   // otherwise fall back to the default contact popup image. For the `course`
   // variant we won't render the left image.
   const isPmpPage = location.pathname.includes('pmp-certification');
-  const popupImage = isPmpPage
+  const defaultPopupImage = isPmpPage
     ? '/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM.jpeg'
     : '/WhatsApp%20Image%202026-08-05%20at%202.32.06%20PM%20(1).jpeg';
+  const [popupImage, setPopupImage] = useState(defaultPopupImage);
 
-// Auto-show once per session — handled by ModalContext initial state
+  useEffect(() => {
+    setPopupImage(defaultPopupImage);
+  }, [defaultPopupImage]);
+
   useEffect(() => {
     hasShownAuto.current = true;
-    // No need to call openContact() here; context handles it on mount.
   }, []);
 
   // Always show the popup when the user is on the PMP course page so the
@@ -168,6 +171,7 @@ export default function ContactPopupModal() {
               <div className="hidden md:flex relative order-first w-full items-center justify-center overflow-hidden bg-white md:min-h-[560px]">
                 <img
                   src={popupImage}
+                  onError={() => setPopupImage('/WhatsApp%20Image%202026-08-05%20at%202.32.04%20PM.jpeg')}
                   alt=""
                   className="h-auto max-h-[70vh] w-full object-contain md:max-h-none md:h-full md:object-contain"
                   loading="lazy"

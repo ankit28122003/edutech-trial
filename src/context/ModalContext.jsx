@@ -6,15 +6,14 @@ const ModalContext = createContext(null);
 
 export function ModalProvider({ children }) {
   const [isContactOpen, setIsContactOpen] = useState(() => {
-    // Auto-open on first visit per session
+    if (typeof window === 'undefined') return true;
     return !sessionStorage.getItem(SESSION_KEY);
   });
   const [contactVariant, setContactVariant] = useState('advisor');
   const [contactMeta, setContactMeta] = useState(null);
 
   useEffect(() => {
-    // Mark as shown once the component is mounted and modal is open
-    if (isContactOpen) {
+    if (isContactOpen && typeof window !== 'undefined') {
       sessionStorage.setItem(SESSION_KEY, 'true');
     }
   }, [isContactOpen]);
