@@ -116,7 +116,7 @@ const DEFAULT_BATCHES = [
 
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Sep 22 - Oct 13 ',
+    dateRange: 'Sep 21 - Oct 01 ',
     time: 'IST: 07:30 PM – 09:50 PM',
     type: 'Weekday Batch · 15 Sessions',
     shift: 'Evening Batch',
@@ -128,7 +128,7 @@ const DEFAULT_BATCHES = [
 
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Oct 22 – Nov 13',
+    dateRange: 'Sep 26 – Oct 24',
     time: 'IST: 07:00 AM – 11:30 AM',
     type: 'Weekday Batch · 8 Sessions',
     shift: 'Morning Batch',
@@ -143,7 +143,20 @@ const DEFAULT_BATCHES = [
 
   {
     mode: 'Live Virtual Class',
-    dateRange: 'Nov 20 - Dec 4',
+    dateRange: 'Oct 24 - Nov 21',
+    time: 'IST: 06:00 AM – 08:20 AM',
+    type: 'Weekend Batch · 15 Sessions',
+    shift: 'Morning Batch',
+    trainer: 'V. Raghavan',
+    discount: '50% off',
+    price: 24999,
+    originalPrice: 49998,
+  },
+
+
+  {
+    mode: 'Live Virtual Class',
+    dateRange: 'Nov 7 - Dec 5',
     time: 'IST: 06:00 AM – 08:20 AM',
     type: 'Weekend Batch · 15 Sessions',
     shift: 'Morning Batch',
